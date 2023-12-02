@@ -6,15 +6,8 @@ Project Description
 
 ### Todo
 
-- Install NextUI library.  
-- Set up Routes.  
-- ~~  
-- [ ] Set up Firebase project.  
-- [ ] Set up data in Realtime Database (data structure).  
-- Pets  
-- Tasks  
-- [ ] Configure Firebase Authentication.  
 - [ ] Create login and registration forms.  
+- [ ] Configure Firebase Authentication.  
 - [ ] Implement user registration and login using Firebase Authentication.  
 - [ ] Test and debug registration/login.  
 - ~~  
@@ -82,9 +75,16 @@ Project Description
 
 ### In Progress
 
+- [ ] Set up Firebase project.  
+- Tasks  
+- Pets  
+- [ ] Set up data in Realtime Database (data structure).  
 
 ### Done ✓
 
+- ~~  
+- Set up Routes.  
+- Install NextUI library.  
 - Configure project structure, files and folders. (look up on figma)  
 - Set up a new React project.  
 
