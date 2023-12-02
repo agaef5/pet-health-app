@@ -6,7 +6,6 @@ Project Description
 
 ### Todo
 
-- Configure project structure, files and folders. (look up on figma)  
 - Install NextUI library.  
 - Set up Routes.  
 - ~~  
@@ -86,5 +85,6 @@ Project Description
 
 ### Done ✓
 
+- Configure project structure, files and folders. (look up on figma)  
 - Set up a new React project.  
 
