@@ -4,6 +4,7 @@ import { auth } from "../../../firebase-config";
 import NavigationBar from "../../components/Navigation Bar/NavigationBar";
 import PetTile from "../../components/Dashboard/PetTile";
 import AddNewPetTile from "../../components/Dashboard/AddNewPetTile";
+import TaskTile from "../../components/Dashboard/TaskTile";
 
 function Dashboard() {
   function hangleLogOut() {
@@ -20,8 +21,10 @@ function Dashboard() {
         <PetTile />
         <AddNewPetTile />
       </section>
-
-      <h2>your tasks:</h2>
+      <section>
+        <h2>Your tasks:</h2>
+        <TaskTile />
+      </section>
 
       <Button onClick={hangleLogOut}>Sign out</Button>
       <NavigationBar />
