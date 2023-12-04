@@ -1,12 +1,4 @@
-import {
-  Accordion,
-  AccordionItem,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Checkbox,
-} from "@nextui-org/react";
+import { Accordion, AccordionItem, Card, Checkbox } from "@nextui-org/react";
 
 function TaskTile() {
   return (
