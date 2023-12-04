@@ -2,6 +2,8 @@ import { Button } from "@nextui-org/react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase-config";
 import NavigationBar from "../../components/Navigation Bar/NavigationBar";
+import PetTile from "../../components/Dashboard/PetTile";
+import AddNewPetTile from "../../components/Dashboard/AddNewPetTile";
 
 function Dashboard() {
   function hangleLogOut() {
@@ -12,11 +14,18 @@ function Dashboard() {
     window.location.href = "/";
   }
   return (
-    <div>
-      Here is the dashobard:D
+    <>
+      <section>
+        <h2>Your pets:</h2>
+        <PetTile />
+        <AddNewPetTile />
+      </section>
+
+      <h2>your tasks:</h2>
+
       <Button onClick={hangleLogOut}>Sign out</Button>
       <NavigationBar />
-    </div>
+    </>
   );
 }
 
