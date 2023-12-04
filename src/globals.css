@@ -3,3 +3,6 @@
 @tailwind utilities;
 
 
+main {
+  height: 100vh;
+}

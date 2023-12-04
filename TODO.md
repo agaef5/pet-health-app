@@ -6,7 +6,6 @@ Project Description
 
 ### Todo
 
-- [ ] Create login and registration forms.  
 - [ ] Configure Firebase Authentication.  
 - [ ] Implement user registration and login using Firebase Authentication.  
 - [ ] Test and debug registration/login.  
@@ -79,6 +78,7 @@ Project Description
 - Tasks  
 - Pets  
 - [ ] Set up data in Realtime Database (data structure).  
+- [ ] Create log in and register forms  
 
 ### Done ✓
 

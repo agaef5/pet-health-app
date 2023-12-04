@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -10,7 +11,11 @@ const firebaseConfig = {
   storageBucket: "gogreen-9326c.appspot.com",
   messagingSenderId: "514721905752",
   appId: "1:514721905752:web:21fa76da416638346b5e2d",
+  databaseURL:
+    "https://gogreen-9326c-default-rtdb.europe-west1.firebasedatabase.app",
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
+export const db = getDatabase(app);
