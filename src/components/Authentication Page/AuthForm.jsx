@@ -8,8 +8,8 @@ import {
   signInWithEmailAndPassword,
   signInWithRedirect,
 } from "firebase/auth";
-import { ref, set } from "firebase/database";
 import PropTypes from "prop-types";
+import { doc, setDoc } from "firebase/firestore";
 
 const AuthForm = ({ isLogin }) => {
   const [email, setEmail] = useState("");
@@ -48,7 +48,9 @@ const AuthForm = ({ isLogin }) => {
   };
 
   async function saveUser(userID, email) {
-    set(ref(db, "users/" + userID), {
+    const userRef = doc(db, "users", userID);
+
+    await setDoc(userRef, {
       email: email,
     });
   }
