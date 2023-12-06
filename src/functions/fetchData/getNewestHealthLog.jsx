@@ -12,6 +12,8 @@ export default async function getNewestHealthLog(petID, logType) {
   let date; // Declare date variable outside the if-else blocks
   if (logType === "medications") {
     date = "prescribed";
+  } else if (logType === "vaccinations") {
+    date = "dosageDate";
   } else {
     date = "date";
   }
