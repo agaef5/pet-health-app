@@ -50,8 +50,8 @@ export default function PetDetailsPage() {
 
       <PetDataContext.Provider value={{ petID }}>
         <LogOverviewTile logType="appointments" />
-        {/* <LogOverviewTile logType="medication" />
-        <LogOverviewTile logType="vaccinations" />
+        <LogOverviewTile logType="medication" />
+        {/* <LogOverviewTile logType="vaccinations" />
         <LogOverviewTile logType="Weight" />
         <LogOverviewTile logType="Documents" /> */}
       </PetDataContext.Provider>
