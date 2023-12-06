@@ -1,9 +1,9 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 
-function PetTile() {
+function PetTile({ petData }) {
   const navigate = useNavigate();
-
+  const petName = petData.name;
   function handlePetDetailsClick() {
     navigate("/petdetails");
   }
@@ -11,7 +11,7 @@ function PetTile() {
     <Card is isPressable onClick={handlePetDetailsClick}>
       <CardBody></CardBody>
       <CardHeader>
-        <h2>PetNem</h2>
+        <h2>{petName}</h2>
       </CardHeader>
     </Card>
   );

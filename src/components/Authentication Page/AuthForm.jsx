@@ -25,16 +25,17 @@ const AuthForm = ({ isLogin }) => {
     if (isLogin) {
       signInWithEmailAndPassword(auth, email, password).then(
         (userCredential) => {
-          navigate("/home");
           localStorage.setItem("currentUserUID", userCredential.user.uid);
+          navigate("/home");
         }
       );
     } else {
       createUserWithEmailAndPassword(auth, email, password).then(
         (userCredential) => {
           saveUser(userCredential.user.uid, email);
-          navigate("/home");
+
           localStorage.setItem("currentUserUID", userCredential.user.uid);
+          navigate("/home");
         }
       );
     }
@@ -42,7 +43,9 @@ const AuthForm = ({ isLogin }) => {
 
   const handleProviderSignIn = () => {
     signInWithRedirect(auth, provider);
-    getRedirectResult(auth).then(() => {
+    getRedirectResult(auth).then((result) => {
+      const user = result.user;
+      localStorage.setItem("currentUserUID", user.uid);
       navigate("/home");
     });
   };

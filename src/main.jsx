@@ -17,10 +17,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Routes>
             <Route path="/" element={<AuthenticationPage />} />
             <Route path="/home" element={<Dashboard />} />
-            <Route path="/pets" element={<YourPetsPage />}>
-              <Route path=":petID" element={<PetDetailsPage />} />
-              <Route path=":logType" />
-            </Route>
+            <Route path="/pets" element={<YourPetsPage />} />
+            <Route path="/pets/:petID" element={<PetDetailsPage />} />
 
             <Route path="/tasks" element={<YourTasksPage />} />
           </Routes>
