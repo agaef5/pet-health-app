@@ -24,8 +24,6 @@ export default function PetDetailsPage() {
     return <p>Loading...</p>;
   }
 
-  console.log(petData);
-
   return (
     <section>
       <img src="" alt="pet image" />
@@ -47,15 +45,15 @@ export default function PetDetailsPage() {
         <p>gdxvbnghdbxfgnbdnxgdzbzdf</p>
         <Divider />
         <p>chip reference</p>
-        <p>3408789542b</p>
+        <p>{petID}</p>
       </Card>
 
-      <PetDataContext.Provider value={petID}>
-        <LogOverviewTile logType="Appointments" />
-        <LogOverviewTile logType="Medication" />
-        <LogOverviewTile logType="Vaccinations" />
+      <PetDataContext.Provider value={{ petID }}>
+        <LogOverviewTile logType="appointments" />
+        {/* <LogOverviewTile logType="medication" />
+        <LogOverviewTile logType="vaccinations" />
         <LogOverviewTile logType="Weight" />
-        <LogOverviewTile logType="Documents" />
+        <LogOverviewTile logType="Documents" /> */}
       </PetDataContext.Provider>
     </section>
   );
