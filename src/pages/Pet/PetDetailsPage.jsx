@@ -52,8 +52,7 @@ export default function PetDetailsPage() {
         <LogOverviewTile logType="appointments" />
         <LogOverviewTile logType="medications" />
         <LogOverviewTile logType="vaccinations" />
-        {/* <LogOverviewTile logType="Weight" />
-        <LogOverviewTile logType="Documents" /> */}
+        <LogOverviewTile logType="weights" />
       </PetDataContext.Provider>
     </section>
   );
