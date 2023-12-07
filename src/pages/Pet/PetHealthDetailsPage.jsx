@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getPetByID from "../../functions/fetchData/getPetByID";
 import getHealthData from "../../functions/fetchData/getHealthData";
-import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import DetailedAppointmentLog from "../../components/Pets/logs/Appointments/DetailedAppointmentLog";
+import DetailedMedicationLog from "../../components/Pets/logs/Medications/DetailedMedicationLog";
+import DetailedVaccinationLog from "../../components/Pets/logs/Vaccinations/DetailedVaccinationLog";
+import DetailedWeightsLog from "../../components/Pets/logs/Weights/DetailedWeightsLog";
 
 export default function PetHealthDetailsdPage() {
   const { logType } = useParams();
@@ -41,50 +45,40 @@ export default function PetHealthDetailsdPage() {
       <h1>
         {petData.name}'s {logType}
       </h1>
-      {petHealthData.map((document) => (
-        <PetHealthBigCard
-          key={document.id}
-          logType={logType}
-          documentData={document}
-        />
-      ))}
+      {petHealthData.map((document) => {
+        switch (logType) {
+          case "appointments":
+            return (
+              <DetailedAppointmentLog
+                key={document.id}
+                apptDetails={document}
+              />
+            );
+          case "medications":
+            return (
+              <DetailedMedicationLog
+                key={document.id}
+                mediDetails={document}
+                petID={petID}
+              />
+            );
+          case "vaccinations":
+            return (
+              <DetailedVaccinationLog
+                key={document.id}
+                vaccDetails={document}
+              />
+            );
+          case "weights":
+            return (
+              <DetailedWeightsLog key={document.id} kgDetails={document} />
+            );
+          default:
+            return null;
+        }
+      })}
+
+      <Button></Button>
     </section>
-  );
-}
-
-function PetHealthBigCard({ logType, documentData }) {
-  console.log(logType, documentData);
-
-  const { title, date, veterinarian, notes } = documentData;
-
-  // Convert Firebase timestamp to JavaScript Date object
-  const jsDate = date.toDate();
-
-  // Format the date in "Day month year" format
-  const formattedDate = jsDate.toLocaleDateString("en-GB", {
-    year: "numeric",
-    day: "numeric",
-    month: "long",
-  });
-  return (
-    <Card>
-      {logType === "appointments" && (
-        <>
-          <CardHeader>
-            <h2>{title}</h2>
-          </CardHeader>
-          <Divider />
-          <CardBody>
-            <p>{formattedDate}</p>
-            <p>{veterinarian}</p>
-            <Divider />
-            <p>
-              <span>Notes:</span> {notes}
-            </p>
-          </CardBody>
-        </>
-      )}
-      <Divider />
-    </Card>
   );
 }
