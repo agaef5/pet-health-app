@@ -9,8 +9,6 @@ export default async function getLogsbyMedicineID(petID, medicineID) {
     return null;
   }
 
-  console.log(user.uid, petID, medicineID);
-
   const medicineLogsRef = collection(
     db,
     "users",

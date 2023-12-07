@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
+  const userID = localStorage.getItem("currentUserUID");
 
   function handleNavigation(path) {
     setTimeout(() => {
       //for asthetics (to make the button look like it's being pressed)
-      navigate(path);
+      navigate(`${path}`);
     }, 400);
   }
 
@@ -15,19 +16,19 @@ const NavigationBar = () => {
     <nav>
       <ButtonGroup>
         <Button
-          onClick={() => handleNavigation("/home")}
+          onClick={() => handleNavigation("")}
           aria-label="Navigate to Home"
         >
           Home
         </Button>
         <Button
-          onClick={() => handleNavigation("/pets")}
+          onClick={() => handleNavigation("pets")}
           aria-label="Navigate to Pets"
         >
           Pets
         </Button>
         <Button
-          onClick={() => handleNavigation("/tasks")}
+          onClick={() => handleNavigation("tasks")}
           aria-label="Navigate to Tasks"
         >
           Tasks

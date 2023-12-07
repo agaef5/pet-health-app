@@ -26,7 +26,8 @@ const AuthForm = ({ isLogin }) => {
       signInWithEmailAndPassword(auth, email, password).then(
         (userCredential) => {
           localStorage.setItem("currentUserUID", userCredential.user.uid);
-          navigate("/home");
+          const userID = userCredential.user.uid;
+          navigate(`/${userID}`);
         }
       );
     } else {
@@ -35,7 +36,8 @@ const AuthForm = ({ isLogin }) => {
           saveUser(userCredential.user.uid, email);
 
           localStorage.setItem("currentUserUID", userCredential.user.uid);
-          navigate("/home");
+          const userID = userCredential.user.uid;
+          navigate(`/${userID}`);
         }
       );
     }
@@ -45,8 +47,9 @@ const AuthForm = ({ isLogin }) => {
     signInWithRedirect(auth, provider);
     getRedirectResult(auth).then((result) => {
       const user = result.user;
-      localStorage.setItem("currentUserUID", user.uid);
-      navigate("/home");
+      const userID = user.uid;
+      localStorage.setItem("currentUserUID", userID);
+      navigate(`/${userID}`);
     });
   };
 

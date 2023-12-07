@@ -9,6 +9,7 @@ import DetailedAppointmentLog from "../../components/Pets/logs/Appointments/Deta
 import DetailedMedicationLog from "../../components/Pets/logs/Medications/DetailedMedicationLog";
 import DetailedVaccinationLog from "../../components/Pets/logs/Vaccinations/DetailedVaccinationLog";
 import DetailedWeightsLog from "../../components/Pets/logs/Weights/DetailedWeightsLog";
+import NavigationBar from "../../components/Navigation Bar/NavigationBar";
 
 export default function PetHealthDetailsdPage() {
   const { logType } = useParams();

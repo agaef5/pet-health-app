@@ -6,16 +6,20 @@ export default async function getHealthData(petID, logType) {
 
   // If there is no current user, check local storage
   if (!user) {
-    const currentUserUID = localStorage.getItem("currentUserUID");
+    console.log("No user found. Redirecting to /");
+    window.location.href = "/";
+    return null;
 
-    if (currentUserUID) {
-      user = { uid: currentUserUID };
-    } else {
-      // Redirect to "/" if there is no user
-      console.log("No user found. Redirecting to /");
-      window.location.href = "/";
-      return null;
-    }
+    // const currentUserUID = localStorage.getItem("currentUserUID");
+
+    // if (currentUserUID) {
+    //   user = { uid: currentUserUID };
+    // } else {
+    //   // Redirect to "/" if there is no user
+    //   console.log("No user found. Redirecting to /");
+    //   window.location.href = "/";
+    //   return null;
+    // }
   }
 
   console.log(user.uid, petID, logType);

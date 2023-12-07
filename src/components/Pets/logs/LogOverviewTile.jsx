@@ -30,7 +30,7 @@ export default function LogOverviewTile({ logType }) {
   }, [logType, petID]);
 
   function handleOverviewClick() {
-    navigate(`/pets/${petID}/${logType}`);
+    navigate(`${logType}`);
   }
 
   if (!isDataFetched) {

@@ -11,7 +11,7 @@ function PetsTileDetailed({ petData }) {
   function handlePetDetailsClick() {
     setTimeout(() => {
       //for asthetics (to make the button look like it's being pressed)
-      navigate(`/pets/${petData.id}`);
+      navigate(`${petData.id}`);
     }, 400);
   }
 

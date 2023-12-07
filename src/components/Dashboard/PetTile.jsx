@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 
