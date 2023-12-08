@@ -3,7 +3,7 @@ import LogOverviewTile from "../../components/Pets/logs/LogOverviewTile";
 import { createContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getPetByID from "../../functions/fetchData/getPetByID";
-import NavigationBar from "../../components/Navigation Bar/NavigationBar";
+import FormPopup from "../../components/CreateNewData/FormPopUp";
 
 export const PetDataContext = createContext();
 
@@ -24,6 +24,8 @@ export default function PetDetailsPage() {
   if (!petData) {
     return <p>Loading...</p>;
   }
+
+  console.log(petID);
 
   return (
     <section>
@@ -54,9 +56,8 @@ export default function PetDetailsPage() {
         <LogOverviewTile logType="medications" />
         <LogOverviewTile logType="vaccinations" />
         <LogOverviewTile logType="weights" />
+        <FormPopup petID={petID} />
       </PetDataContext.Provider>
-
-      <NavigationBar />
     </section>
   );
 }

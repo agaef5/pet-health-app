@@ -23,8 +23,8 @@ export default function AppointmentLog({ apptDetails }) {
       </CardHeader>
       <Divider />
       <CardBody>
-        <p>{formattedDate}</p>
-        <p>{veterinarian}</p>
+        {formattedDate ? <p>{formattedDate}</p> : null}
+        {veterinarian ? <p>{veterinarian}</p> : null}
       </CardBody>
     </Card>
   );

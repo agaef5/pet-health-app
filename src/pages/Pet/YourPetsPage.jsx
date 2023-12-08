@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import NavigationBar from "../../components/Navigation Bar/NavigationBar";
 import AddNewPetTile from "../../components/Pets/AddNewPetTile";
 import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
 import getPets from "../../functions/fetchData/getPets";
@@ -21,8 +20,6 @@ function YourPetsPage() {
         <PetsTileDetailed key={pet.id} petData={pet} />
       ))}
       <AddNewPetTile />
-
-      <NavigationBar />
     </div>
   );
 }
