@@ -22,6 +22,7 @@ export default function MedicationForm({ onFormChange, isFormSubmitted }) {
     petID: selectedPet,
     name: "",
     dosage: "",
+    dosagesAmount: "",
     frequencyCount: "",
     frequencyPeriod: "",
     prescribed: "",
@@ -41,7 +42,7 @@ export default function MedicationForm({ onFormChange, isFormSubmitted }) {
     onFormChange(formData);
   }, [formData, onFormChange]);
 
-  const frequencyTimes = ["daily", "weekly", "monthly"];
+  const frequencyTimes = ["day", "week", "month", "year"];
 
   const handlePetSelectionChange = (e) => {
     const selectedPetValue = e.target.value;
@@ -124,17 +125,26 @@ export default function MedicationForm({ onFormChange, isFormSubmitted }) {
         value={formData.dosage}
         onChange={(e) => handleInputChange("dosage", e.target.value)}
       />
-      <p>How often do you have to dose the medicine?</p>
+
+      <Input
+        label="Dosages (how many pills)"
+        placeholder="e.g. 8"
+        value={formData.dosagesAmount}
+        type="number"
+        onChange={(e) => handleInputChange("dosagesAmount", e.target.value)}
+      />
+
+      <p>How often do you have to dose the medicine? E.g. 3 times per week</p>
       <div>
         <Input
           label="Frequency (amount)"
           placeholder="e.g. 3"
+          type="number"
           value={formData.frequencyCount}
           onChange={(e) => handleInputChange("frequencyCount", e.target.value)}
         />
         <Select
           label="Frequency (time)"
-          aria-label="Select frequency time"
           value={formData.frequencyPeriod}
           onChange={handleSelectionChange}
         >

@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@nextui-org/react": "^2.2.9",
+    "date-fns": "^2.30.0",
     "firebase": "^10.7.0",
     "framer-motion": "^10.16.12",
     "prop-types": "^15.8.1",

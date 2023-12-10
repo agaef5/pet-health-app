@@ -13,6 +13,10 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import addPetData from "../../functions/addData/addPetData";
+import addMedicationData from "../../functions/addData/addMedicationData";
+import addAppointmentData from "../../functions/addData/addAppointmentData";
+import addVaccinationData from "../../functions/addData/addVaccinationData";
+import addWeightData from "../../functions/addData/addWeightData";
 
 // Use lazy to import the components lazily (only when needed)
 const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
@@ -33,7 +37,7 @@ const logComponents = {
 const FormPopup = ({ logType, noPet }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState(null);
-  const [selectedLogType, setSelectedLogType] = useState(logType || null);
+  const [selectedLogType, setSelectedLogType] = useState(logType || "");
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
@@ -79,18 +83,18 @@ const FormPopup = ({ logType, noPet }) => {
         )
       ) {
         switch (selectedLogType) {
-          // case "Medication":
-          //   confirm = await uploadMedication(formData);
-          //   break;
-          // case "Appointment":
-          //   confirm = await uploadAppointment(formData);
-          //   break;
-          // case "Vaccine":
-          //   confirm = await uploadVaccine(formData);
-          //   break;
-          // case "Weight":
-          //   confirm = await uploadWeight(formData);
-          //   break;
+          case "Medication":
+            confirm = await addMedicationData(formData);
+            break;
+          case "Appointment":
+            confirm = await addAppointmentData(formData);
+            break;
+          case "Vaccine":
+            confirm = await addVaccinationData(formData);
+            break;
+          case "Weight":
+            confirm = await addWeightData(formData);
+            break;
           case "Pet":
             console.log("Pet form submitted");
             confirm = await addPetData(formData);
@@ -141,7 +145,9 @@ const FormPopup = ({ logType, noPet }) => {
                       <Select
                         label="Add new..."
                         value={selectedLogType}
-                        defaultSelectedKeys={[selectedLogType]}
+                        defaultSelectedKeys={
+                          selectedLogType !== "" ? [selectedLogType] : []
+                        }
                         onChange={handleLogTypeChange}
                       >
                         {options.map((option) => (
@@ -170,7 +176,7 @@ const FormPopup = ({ logType, noPet }) => {
                         onClose();
                         setIsFormSubmitted(false);
                         setDisableSaveButton(false);
-                        setSelectedLogType(null);
+                        setSelectedLogType("");
                       }}
                     >
                       Close
