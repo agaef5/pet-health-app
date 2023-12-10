@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import AddNewPetTile from "../../components/Pets/AddNewPetTile";
 import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
+import AddNewPetTile from "../../components/CreateNewData/AddNewPet/AddNewPetTile";
 import getPets from "../../functions/fetchData/getPets";
 
 function YourPetsPage() {

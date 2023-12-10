@@ -6,7 +6,10 @@ function PetTile({ petData }) {
   const navigate = useNavigate();
   const petName = petData.name;
   function handlePetDetailsClick() {
-    navigate("/petdetails");
+    setTimeout(() => {
+      //for asthetics (to make the button look like it's being pressed)
+      navigate(`pets/${petData.id}`);
+    }, 400);
   }
   return (
     <Card is isPressable onClick={handlePetDetailsClick}>

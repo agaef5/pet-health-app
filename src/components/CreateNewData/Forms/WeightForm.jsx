@@ -5,7 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
 
 export default function Weight({ onFormChange, isFormSubmitted }) {
-  const { petID } = useContext(PetDataContext);
+  const petDataContext = useContext(PetDataContext);
+  const petID = petDataContext ? petDataContext.petID : "";
   const [pets, setPets] = useState([]);
   const [selectedPet, setSelectedPet] = useState(petID || "");
 

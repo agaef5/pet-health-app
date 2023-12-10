@@ -25,8 +25,6 @@ export default function PetDetailsPage() {
     return <p>Loading...</p>;
   }
 
-  console.log(petID);
-
   return (
     <section>
       <img src="" alt="pet image" />
@@ -56,7 +54,7 @@ export default function PetDetailsPage() {
         <LogOverviewTile logType="medications" />
         <LogOverviewTile logType="vaccinations" />
         <LogOverviewTile logType="weights" />
-        <FormPopup petID={petID} />
+        <FormPopup logType={null} noPet={true} />
       </PetDataContext.Provider>
     </section>
   );

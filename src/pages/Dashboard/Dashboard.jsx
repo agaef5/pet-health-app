@@ -2,10 +2,10 @@ import { Button } from "@nextui-org/react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase-config";
 import PetTile from "../../components/Dashboard/PetTile";
-import AddNewPetTile from "../../components/Dashboard/AddNewPetTile";
 import TaskTile from "../../components/Dashboard/TaskTile";
 import getPets from "../../functions/fetchData/getPets";
 import { useEffect, useState } from "react";
+import AddNewPetTile from "../../components/CreateNewData/AddNewPet/AddNewPetTile";
 
 function Dashboard() {
   function hangleLogOut() {
