@@ -33,8 +33,8 @@ export default function PetDetailsPage() {
         <p>birth date</p>
         <p>fgd</p>
         <Divider />
-        <p>gender</p>
-        <p>{petData.gender}</p>
+        <p>sex</p>
+        <p>{petData.sex}</p>
         <Divider />
         <p>species</p>
         <p>{petData.species}</p>

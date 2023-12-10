@@ -110,7 +110,7 @@ export default function PetForm({ onFormChange, isFormSubmitted }) {
       <Input
         isRequired
         label="Name"
-        placeholder="e.g. 5.5 kg"
+        placeholder="e.g. Azor"
         isInvalid={isFormSubmitted && !isRequiredFieldValid(formData.name)}
         errorMessage={
           isFormSubmitted && !isRequiredFieldValid(formData.name)
@@ -163,6 +163,20 @@ export default function PetForm({ onFormChange, isFormSubmitted }) {
         placeholder="e.g. Cat"
         value={formData.species}
         onChange={(e) => handleInputChange("species", e.target.value)}
+      />
+
+      <Input
+        label="Breed"
+        placeholder="e.g. Common Shorthair"
+        value={formData.breed}
+        onChange={(e) => handleInputChange("breed", e.target.value)}
+      />
+
+      <Input
+        label="Color/markings"
+        placeholder="e.g. Black and white"
+        value={formData.color}
+        onChange={(e) => handleInputChange("color", e.target.value)}
       />
     </div>
   );

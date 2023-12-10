@@ -12,6 +12,7 @@ import {
   Spinner,
   useDisclosure,
 } from "@nextui-org/react";
+import addPetData from "../../functions/addData/addPetData";
 
 // Use lazy to import the components lazily (only when needed)
 const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
@@ -36,6 +37,8 @@ const FormPopup = ({ logType, noPet }) => {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
+  console.log("FormPopup: ", logType);
+
   const handleLogTypeChange = (event) => {
     setFormData(null);
     setIsFormSubmitted(false);
@@ -55,41 +58,53 @@ const FormPopup = ({ logType, noPet }) => {
     return fields.some((value) => value && value.trim() !== "");
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     setIsFormSubmitted(true);
 
     if (formData) {
+      let confirm = false;
+      console.log(isValidDate(formData.birthday));
+
       if (
         (isValidDate(formData.prescribed) ||
           isValidDate(formData.date) ||
           isValidDate(formData.dosageDate) ||
           isValidDate(formData.birthday)) &&
-        isRequiredFieldValid(formData.name, formData.title, formData.weight) &&
-        isRequiredFieldValid(formData.petID)
+        isRequiredFieldValid(
+          formData.name,
+          formData.title,
+          formData.weight,
+          logType !== "Pet" ? formData.petID : null
+        )
       ) {
         switch (selectedLogType) {
           // case "Medication":
-          //   uploadMedication(formData);
+          //   confirm = await uploadMedication(formData);
           //   break;
           // case "Appointment":
-          //   uploadAppointment(formData);
+          //   confirm = await uploadAppointment(formData);
           //   break;
           // case "Vaccine":
-          //   uploadVaccine(formData);
+          //   confirm = await uploadVaccine(formData);
           //   break;
           // case "Weight":
-          //   uploadWeight(formData);
+          //   confirm = await uploadWeight(formData);
           //   break;
           case "Pet":
-            uploadPetData(formData);
+            console.log("Pet form submitted");
+            confirm = await addPetData(formData);
             break;
           default:
-            null;
+            break;
         }
 
-        setSelectedLogType("Confirm");
-        setDisableSaveButton(true);
+        if (confirm) {
+          setSelectedLogType("Confirm");
+          setDisableSaveButton(true);
+        } else {
+          console.log("Form validation failed");
+        }
       } else {
         console.log("Form validation failed");
       }
