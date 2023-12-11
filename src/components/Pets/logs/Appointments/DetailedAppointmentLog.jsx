@@ -5,10 +5,6 @@ import {
   CardBody,
   CardHeader,
   Divider,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Modal,
 } from "@nextui-org/react";
 import { doc, deleteDoc } from "firebase/firestore";
@@ -49,31 +45,12 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
         <CardHeader>
           <h2>{title}</h2>
 
-          <Dropdown showArrow>
-            <DropdownTrigger>
-              <Button>...</Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              variant="faded"
-              aria-label="Dropdown menu with description"
-            >
-              <DropdownItem key="edit">
-                <FormPopup
-                  logType={"appointments"}
-                  editMode={true}
-                  existingData={apptDetails}
-                />
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => handleDelete(petID, id)}
-                key="delete"
-                className="text-danger"
-                color="danger"
-              >
-                Delete appointment
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <FormPopup
+            logType={"appointments"}
+            editMode={true}
+            existingData={apptDetails}
+          />
+          <Button onClick={() => handleDelete(petID, id)}>Delete</Button>
         </CardHeader>
         <CardBody>
           <Divider />

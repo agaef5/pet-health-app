@@ -42,6 +42,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData }) => {
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
   console.log("FormPopup: ", logType);
+
   useEffect(() => {
     if (editMode && existingData) {
       setFormData(existingData);
@@ -129,6 +130,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData }) => {
     ...(noPet == true ? [] : [{ value: "Pet" }]), // Conditionally include "Pet" option
   ];
 
+  console.log("EditMode: ", editMode);
   return (
     <>
       <Button onClick={onOpen}>+</Button>
@@ -136,33 +138,39 @@ const FormPopup = ({ logType, noPet, editMode, existingData }) => {
       <Suspense fallback={<Spinner color="default" />}>
         <Modal
           isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          classNames={{
-            closeButton: "hidden",
+          onClose={() => {
+            onOpenChange();
+            setIsFormSubmitted(false);
+            setDisableSaveButton(false);
+            setSelectedLogType("");
           }}
+          classNames={{ closeButton: "hidden" }}
         >
           <ModalContent>
             {(onClose) => (
               <>
                 <>
                   <ModalHeader>
-                    {" "}
-                    {!disableSaveButton ? (
-                      <Select
-                        label="Add new..."
-                        value={selectedLogType}
-                        defaultSelectedKeys={
-                          selectedLogType !== "" ? [selectedLogType] : []
-                        }
-                        onChange={handleLogTypeChange}
-                      >
-                        {options.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </Select>
-                    ) : null}
+                    {editMode !== true ? (
+                      !disableSaveButton || editMode !== true ? (
+                        <Select
+                          label="Add new..."
+                          value={selectedLogType}
+                          defaultSelectedKeys={
+                            selectedLogType !== "" ? [selectedLogType] : []
+                          }
+                          onChange={handleLogTypeChange}
+                        >
+                          {options.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                      ) : null
+                    ) : (
+                      <h2>Edit {logType}</h2>
+                    )}
                   </ModalHeader>
 
                   <ModalBody>
@@ -172,6 +180,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData }) => {
                         createElement(logComponents[selectedLogType], {
                           onFormChange: setFormData,
                           isFormSubmitted: isFormSubmitted,
+                          existingData: existingData,
                         })}
                     </Suspense>
                   </ModalBody>

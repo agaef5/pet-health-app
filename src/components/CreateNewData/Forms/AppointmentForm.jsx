@@ -10,7 +10,11 @@ import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
 
-export default function AppointmentForm({ onFormChange, isFormSubmitted }) {
+export default function AppointmentForm({
+  onFormChange,
+  isFormSubmitted,
+  existingData,
+}) {
   const petDataContext = useContext(PetDataContext);
   const petID = petDataContext ? petDataContext.petID : "";
   const [pets, setPets] = useState([]);
@@ -25,6 +29,22 @@ export default function AppointmentForm({ onFormChange, isFormSubmitted }) {
     veterinarian: "",
     notes: "",
   });
+
+  useEffect(() => {
+    if (existingData) {
+      // If there is existing data, populate the form fields
+      const { petID, purpose, title, date, veterinarian, notes } = existingData;
+      setSelectedPet(petID || "");
+      setFormData({
+        petID: petID || "",
+        purpose: purpose || "",
+        title: title || "",
+        date: date || "",
+        veterinarian: veterinarian || "",
+        notes: notes || "",
+      });
+    }
+  }, [existingData]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getPetByID from "../../functions/fetchData/getPetByID";
 import getHealthData from "../../functions/fetchData/getHealthData";
-import { Button } from "@nextui-org/react";
 import DetailedAppointmentLog from "../../components/Pets/logs/Appointments/DetailedAppointmentLog";
 import DetailedMedicationLog from "../../components/Pets/logs/Medications/DetailedMedicationLog";
 import DetailedVaccinationLog from "../../components/Pets/logs/Vaccinations/DetailedVaccinationLog";
