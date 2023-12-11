@@ -19,6 +19,7 @@ import addVaccinationData from "../../functions/addData/addVaccinationData";
 import addWeightData from "../../functions/addData/addWeightData";
 import updateAppointmentData from "../../functions/updateData/updateAppointments";
 import updateMedicationData from "../../functions/updateData/updateMedicationData";
+import updateVaccinationData from "../../functions/updateData/updateVaccinationData";
 
 // Use lazy to import the components lazily (only when needed)
 const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
@@ -108,7 +109,11 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
             }
             break;
           case "vaccinations":
-            confirm = await addVaccinationData(formData);
+            if (editMode) {
+              confirm = await updateVaccinationData(formData);
+            } else {
+              confirm = await addVaccinationData(formData);
+            }
             break;
           case "weights":
             confirm = await addWeightData(formData);

@@ -10,11 +10,16 @@ import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
 
-export default function VaccineForm({ onFormChange, isFormSubmitted }) {
+export default function VaccineForm({
+  onFormChange,
+  isFormSubmitted,
+  existingData,
+  propPetID,
+}) {
   const petDataContext = useContext(PetDataContext);
   const petID = petDataContext ? petDataContext.petID : "";
   const [pets, setPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(petID || "");
+  const [selectedPet, setSelectedPet] = useState(petID || propPetID || "");
 
   const [formData, setFormData] = useState({
     petID: selectedPet,
@@ -23,6 +28,28 @@ export default function VaccineForm({ onFormChange, isFormSubmitted }) {
     veterinarian: "",
     notes: "",
   });
+
+  useEffect(() => {
+    if (existingData) {
+      // If there is existing data, populate the form fields
+      const { id, name, dosageDate, veterinarian, notes } = existingData;
+
+      // Convert Firebase Timestamp to Date object
+      const formattedDate = dosageDate
+        ? new Date(dosageDate.seconds * 1000)
+        : null;
+
+      setSelectedPet(propPetID);
+      setFormData({
+        docID: id,
+        petID: propPetID,
+        name: name,
+        dosageDate: formattedDate ? formattedDate.toLocaleDateString() : "",
+        veterinarian: veterinarian || "",
+        notes: notes || "",
+      });
+    }
+  }, [existingData, propPetID]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,6 +97,7 @@ export default function VaccineForm({ onFormChange, isFormSubmitted }) {
   return (
     <div>
       <Select
+        isDisabled={existingData && Object.keys(existingData).length > 0}
         isRequired
         label="Pet"
         aria-label="Select your pet"
