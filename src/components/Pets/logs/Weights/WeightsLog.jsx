@@ -30,9 +30,7 @@ export default function WeightsLog({ kgDetails }) {
       <CardHeader>
         <h2>{weight} kg</h2>
       </CardHeader>
-      <CardBody>
-        <p>{weightDate}</p>
-      </CardBody>
+      <CardBody>{weightDate ? <p>weightDate</p> : null}</CardBody>
     </Card>
   );
 }

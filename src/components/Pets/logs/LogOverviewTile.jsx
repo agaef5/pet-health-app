@@ -50,7 +50,7 @@ export default function LogOverviewTile({ logType }) {
       </CardHeader>
       <Divider />
       {logType === "appointments" ? (
-        <AppointmentLog apptDetails={newestLog} />
+        <AppointmentLog apptDetails={newestLog} petID={petID} />
       ) : null}
       {logType === "medications" ? (
         <MedicationLog mediDetails={newestLog} petID={petID} />
@@ -58,7 +58,9 @@ export default function LogOverviewTile({ logType }) {
       {logType === "vaccinations" ? (
         <VaccinationLog vaccDetails={newestLog} />
       ) : null}
-      {logType === "weights" ? <WeightsLog kgDetails={newestLog} /> : null}
+      {logType === "weights" ? (
+        <WeightsLog kgDetails={newestLog} petID={petID} />
+      ) : null}
     </Card>
   );
 }

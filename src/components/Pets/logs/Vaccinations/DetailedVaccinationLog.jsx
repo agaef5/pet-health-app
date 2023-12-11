@@ -22,7 +22,9 @@ export default function VaccinationLog({ vaccDetails }) {
   }
 
   const { name, dosageDate, veterinarian, notes } = vaccDetails;
-  const date = new Date(dosageDate.seconds * 1000).toLocaleDateString();
+  const date = dosageDate
+    ? new Date(dosageDate.seconds * 1000).toLocaleDateString()
+    : "";
 
   return (
     <Card>
@@ -33,7 +35,7 @@ export default function VaccinationLog({ vaccDetails }) {
         <p>{date}</p>
         <p>{veterinarian ? veterinarian : null}</p>
         <Divider />
-        <p>Notes: {notes ? notes : null}</p>
+        {notes ? <p>Notes:{notes}</p> : null}
       </CardBody>
     </Card>
   );

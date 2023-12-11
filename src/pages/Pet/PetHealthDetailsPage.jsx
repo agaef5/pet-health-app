@@ -52,6 +52,7 @@ export default function PetHealthDetailsdPage() {
               <DetailedAppointmentLog
                 key={document.id}
                 apptDetails={document}
+                petID={petID}
               />
             );
           case "medications":
@@ -67,11 +68,16 @@ export default function PetHealthDetailsdPage() {
               <DetailedVaccinationLog
                 key={document.id}
                 vaccDetails={document}
+                petID={petID}
               />
             );
           case "weights":
             return (
-              <DetailedWeightsLog key={document.id} kgDetails={document} />
+              <DetailedWeightsLog
+                key={document.id}
+                kgDetails={document}
+                petID={petID}
+              />
             );
           default:
             return null;

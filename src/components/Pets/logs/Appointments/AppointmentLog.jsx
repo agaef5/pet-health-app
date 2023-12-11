@@ -14,7 +14,9 @@ export default function AppointmentLog({ apptDetails }) {
   }
 
   const { title, date, veterinarian } = apptDetails[0];
-  const formattedDate = new Date(date.seconds * 1000).toLocaleDateString();
+  const formattedDate = date
+    ? new Date(date.seconds * 1000).toLocaleDateString()
+    : "";
 
   return (
     <Card>

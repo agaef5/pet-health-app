@@ -34,9 +34,9 @@ export default function DetailedMedicationLog({ mediDetails, petID }) {
     veterinarian,
     notes,
   } = mediDetails;
-  const prescribedDate = new Date(
-    prescribed.seconds * 1000
-  ).toLocaleDateString();
+  const prescribedDate = prescribed
+    ? new Date(prescribed.seconds * 1000).toLocaleDateString()
+    : "";
 
   useEffect(() => {
     async function fetchData() {

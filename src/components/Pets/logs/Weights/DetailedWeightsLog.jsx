@@ -23,16 +23,16 @@ export default function WeightsLog({ kgDetails }) {
 
   const { date, weight } = kgDetails;
 
-  const weightDate = new Date(date.seconds * 1000).toLocaleDateString();
+  const weightDate = date
+    ? new Date(date.seconds * 1000).toLocaleDateString()
+    : null;
 
   return (
     <Card>
       <CardHeader>
         <h2>{weight} kg</h2>
       </CardHeader>
-      <CardBody>
-        <p>{weightDate}</p>
-      </CardBody>
+      <CardBody>{weightDate ? <p>weightDate</p> : null}</CardBody>
     </Card>
   );
 }
