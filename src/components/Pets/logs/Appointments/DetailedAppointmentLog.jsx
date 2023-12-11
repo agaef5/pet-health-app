@@ -49,6 +49,7 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
             logType={"appointments"}
             editMode={true}
             existingData={apptDetails}
+            petID={petID}
           />
           <Button onClick={() => handleDelete(petID, id)}>Delete</Button>
         </CardHeader>

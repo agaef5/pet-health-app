@@ -14,12 +14,16 @@ export default function AppointmentForm({
   onFormChange,
   isFormSubmitted,
   existingData,
+  propPetID,
 }) {
   const petDataContext = useContext(PetDataContext);
   const petID = petDataContext ? petDataContext.petID : "";
   const [pets, setPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(petID || "");
+  const [selectedPet, setSelectedPet] = useState(petID || propPetID || "");
   const purposeTypes = ["routine", "non-routine"];
+
+  console.log("propPetID", propPetID);
+  console.log("existingData", existingData);
 
   const [formData, setFormData] = useState({
     docID: "",
@@ -34,16 +38,15 @@ export default function AppointmentForm({
   useEffect(() => {
     if (existingData) {
       // If there is existing data, populate the form fields
-      const { id, petID, purpose, title, date, veterinarian, notes } =
-        existingData;
+      const { id, purpose, title, date, veterinarian, notes } = existingData;
 
       // Convert Firebase Timestamp to Date object
       const formattedDate = date ? new Date(date.seconds * 1000) : null;
 
-      setSelectedPet(petID || "");
+      setSelectedPet(propPetID);
       setFormData({
         docID: id,
-        petID: petID || "",
+        petID: propPetID,
         purpose: purpose || "",
         title: title || "",
         date: formattedDate ? formattedDate.toLocaleDateString() : "",
@@ -51,7 +54,7 @@ export default function AppointmentForm({
         notes: notes || "",
       });
     }
-  }, [existingData]);
+  }, [existingData, propPetID]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,6 +110,7 @@ export default function AppointmentForm({
   return (
     <div>
       <Select
+        isDisabled={existingData && Object.keys(existingData).length > 0}
         isRequired
         label="Pet"
         aria-label="Select your pet"

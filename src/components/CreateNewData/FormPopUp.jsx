@@ -36,7 +36,7 @@ const logComponents = {
   Confirm: Spinner,
 };
 
-const FormPopup = ({ logType, noPet, editMode, existingData }) => {
+const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState(null);
   const [selectedLogType, setSelectedLogType] = useState(logType || "");
@@ -191,6 +191,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData }) => {
                           onFormChange: setFormData,
                           isFormSubmitted: isFormSubmitted,
                           existingData: existingData,
+                          propPetID: petID ? petID : null,
                         })}
                     </Suspense>
                   </ModalBody>
