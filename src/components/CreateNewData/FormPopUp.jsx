@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createElement, lazy, Suspense, useState } from "react";
+import { createElement, lazy, Suspense, useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -26,15 +26,15 @@ const LazyWeightForm = lazy(() => import("./Forms/WeightForm"));
 const LazyPetForm = lazy(() => import("./Forms/PetForm"));
 
 const logComponents = {
-  Medication: LazyMedicationForm,
-  Appointment: LazyAppointmentForm,
-  Vaccine: LazyVaccineForm,
-  Weight: LazyWeightForm,
+  medications: LazyMedicationForm,
+  appointments: LazyAppointmentForm,
+  vaccinations: LazyVaccineForm,
+  weights: LazyWeightForm,
   Pet: LazyPetForm,
   Confirm: Spinner,
 };
 
-const FormPopup = ({ logType, noPet }) => {
+const FormPopup = ({ logType, noPet, editMode, existingData }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState(null);
   const [selectedLogType, setSelectedLogType] = useState(logType || "");
@@ -42,6 +42,13 @@ const FormPopup = ({ logType, noPet }) => {
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
   console.log("FormPopup: ", logType);
+  useEffect(() => {
+    if (editMode && existingData) {
+      setFormData(existingData);
+    } else {
+      setFormData(null);
+    }
+  }, [editMode, existingData]);
 
   const handleLogTypeChange = (event) => {
     setFormData(null);
@@ -83,20 +90,19 @@ const FormPopup = ({ logType, noPet }) => {
         )
       ) {
         switch (selectedLogType) {
-          case "Medication":
+          case "medications":
             confirm = await addMedicationData(formData);
             break;
-          case "Appointment":
+          case "appointments":
             confirm = await addAppointmentData(formData);
             break;
-          case "Vaccine":
+          case "vaccinations":
             confirm = await addVaccinationData(formData);
             break;
-          case "Weight":
+          case "weights":
             confirm = await addWeightData(formData);
             break;
           case "Pet":
-            console.log("Pet form submitted");
             confirm = await addPetData(formData);
             break;
           default:
@@ -116,10 +122,10 @@ const FormPopup = ({ logType, noPet }) => {
   };
 
   const options = [
-    { value: "Medication" },
-    { value: "Appointment" },
-    { value: "Vaccine" },
-    { value: "Weight" },
+    { value: "appointments", label: "Appointment" },
+    { value: "medications", label: "Medication" },
+    { value: "vaccinations", label: "Vaccine" },
+    { value: "weights", label: "Weight" },
     ...(noPet == true ? [] : [{ value: "Pet" }]), // Conditionally include "Pet" option
   ];
 
@@ -152,7 +158,7 @@ const FormPopup = ({ logType, noPet }) => {
                       >
                         {options.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
-                            {option.value}
+                            {option.label}
                           </SelectItem>
                         ))}
                       </Select>

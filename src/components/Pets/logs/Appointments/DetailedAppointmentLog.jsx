@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../../../../firebase-config";
+import FormPopup from "../../../CreateNewData/FormPopUp";
 
 async function handleDelete(petID, id) {
   console.log("handleDelete: ", id);
@@ -56,7 +57,13 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
               variant="faded"
               aria-label="Dropdown menu with description"
             >
-              <DropdownItem key="edit">Edit appointment</DropdownItem>
+              <DropdownItem key="edit">
+                <FormPopup
+                  logType={"appointments"}
+                  editMode={true}
+                  existingData={apptDetails}
+                />
+              </DropdownItem>
               <DropdownItem
                 onClick={() => handleDelete(petID, id)}
                 key="delete"

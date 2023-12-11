@@ -9,6 +9,7 @@ import DetailedAppointmentLog from "../../components/Pets/logs/Appointments/Deta
 import DetailedMedicationLog from "../../components/Pets/logs/Medications/DetailedMedicationLog";
 import DetailedVaccinationLog from "../../components/Pets/logs/Vaccinations/DetailedVaccinationLog";
 import DetailedWeightsLog from "../../components/Pets/logs/Weights/DetailedWeightsLog";
+import FormPopup from "../../components/CreateNewData/FormPopUp";
 
 export default function PetHealthDetailsdPage() {
   const { logType } = useParams();
@@ -84,7 +85,7 @@ export default function PetHealthDetailsdPage() {
         }
       })}
 
-      <Button></Button>
+      <FormPopup logType={logType} noPet={true} />
     </section>
   );
 }
