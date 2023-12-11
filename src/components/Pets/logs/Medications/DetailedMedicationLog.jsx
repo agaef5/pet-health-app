@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -10,6 +11,8 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import getLogsbyMedicineID from "../../../../functions/fetchData/getLogsByMedicineID";
+import FormPopup from "../../../CreateNewData/FormPopUp";
+import deleteHealthLog from "../../../../functions/Delete Data/DeleteHealthLog";
 
 export default function DetailedMedicationLog({ mediDetails, petID }) {
   const [logData, setLogData] = useState([]);
@@ -50,6 +53,18 @@ export default function DetailedMedicationLog({ mediDetails, petID }) {
     <Card>
       <CardHeader>
         <h2>{name}</h2>
+
+        <FormPopup
+          logType={"medications"}
+          editMode={true}
+          existingData={mediDetails}
+          petID={petID}
+        />
+        <Button
+          onClick={() => deleteHealthLog({ petID, id, logType: "medications" })}
+        >
+          Delete
+        </Button>
       </CardHeader>
       <CardBody>
         <p>

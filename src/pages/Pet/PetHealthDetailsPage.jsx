@@ -84,7 +84,7 @@ export default function PetHealthDetailsdPage() {
         }
       })}
 
-      <FormPopup logType={logType} noPet={true} />
+      <FormPopup logType={logType} noPet={true} petID={petID} />
     </section>
   );
 }

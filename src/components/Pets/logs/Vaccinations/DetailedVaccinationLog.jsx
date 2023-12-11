@@ -1,14 +1,17 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
   Checkbox,
   Divider,
 } from "@nextui-org/react";
+import FormPopup from "../../../CreateNewData/FormPopUp";
+import deleteHealthLog from "../../../../functions/Delete Data/DeleteHealthLog";
 
-export default function VaccinationLog({ vaccDetails }) {
+export default function VaccinationLog({ vaccDetails, petID }) {
   console.log(vaccDetails);
   // Check if apptDetails is null or undefined
   if (!vaccDetails || vaccDetails.length === 0) {
@@ -21,7 +24,7 @@ export default function VaccinationLog({ vaccDetails }) {
     );
   }
 
-  const { name, dosageDate, veterinarian, notes } = vaccDetails;
+  const { id, name, dosageDate, veterinarian, notes } = vaccDetails;
   const date = dosageDate
     ? new Date(dosageDate.seconds * 1000).toLocaleDateString()
     : "";
@@ -30,6 +33,20 @@ export default function VaccinationLog({ vaccDetails }) {
     <Card>
       <CardHeader>
         <h2>{name}</h2>
+
+        <FormPopup
+          logType={"vaccinations"}
+          editMode={true}
+          existingData={vaccDetails}
+          petID={petID}
+        />
+        <Button
+          onClick={() =>
+            deleteHealthLog({ petID, id, logType: "vaccinations" })
+          }
+        >
+          Delete
+        </Button>
       </CardHeader>
       <CardBody>
         <p>{date}</p>

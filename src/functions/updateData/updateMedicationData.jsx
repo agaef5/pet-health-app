@@ -1,4 +1,4 @@
-import { Timestamp, collection, updateDoc } from "firebase/firestore";
+import { Timestamp, doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
 
 export default async function updateMedicationData(formData) {
@@ -11,22 +11,42 @@ export default async function updateMedicationData(formData) {
       throw new Error("No user found.");
     }
 
-    const { docID, petID, title, purpose, date, veterinarian, notes } =
-      formData;
+    const {
+      docID,
+      petID,
+      name,
+      prescribed,
+      dosage,
+      dosagesAmount,
+      frequencyCount,
+      frequencyPeriod,
+      veterinarian,
+      notes,
+    } = formData;
 
     const petData = {
-      title: title,
+      name: name,
     };
 
     // Add birthday if it exists
-    if (date) {
-      const [day, month, year] = date.split("/");
-      petData.date = Timestamp.fromDate(new Date(`${year}-${month}-${day}`));
+    if (prescribed) {
+      const [day, month, year] = prescribed.split("/");
+      petData.prescribed = Timestamp.fromDate(
+        new Date(`${year}-${month}-${day}`)
+      );
     }
 
     // Add optional fields if they exist
-    if (purpose) {
-      petData.purpose = purpose;
+    if (dosage) {
+      petData.dosage = dosage;
+    }
+
+    if (frequencyCount) {
+      petData.frequencyCount = frequencyCount;
+    }
+
+    if (frequencyPeriod) {
+      petData.frequencyPeriod = frequencyPeriod;
     }
 
     if (veterinarian) {
@@ -37,17 +57,17 @@ export default async function updateMedicationData(formData) {
       petData.notes = notes;
     }
 
-    const appointmentRef = collection(
+    const medicationRef = doc(
       db,
       "users",
       user.uid,
       "pets",
       petID,
-      "appointments",
+      "medications",
       docID
     );
 
-    await updateDoc(appointmentRef, petData);
+    await updateDoc(medicationRef, petData);
 
     console.log("Medicine data added successfully!");
     return true;
