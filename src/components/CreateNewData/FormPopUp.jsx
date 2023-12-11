@@ -20,6 +20,8 @@ import addWeightData from "../../functions/addData/addWeightData";
 import updateAppointmentData from "../../functions/updateData/updateAppointments";
 import updateMedicationData from "../../functions/updateData/updateMedicationData";
 import updateVaccinationData from "../../functions/updateData/updateVaccinationData";
+import updateWeightData from "../../functions/updateData/updateWeightData";
+import updatePetData from "../../functions/updateData/updatePetData";
 
 // Use lazy to import the components lazily (only when needed)
 const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
@@ -116,10 +118,19 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
             }
             break;
           case "weights":
-            confirm = await addWeightData(formData);
+            if (editMode) {
+              confirm = await updateWeightData(formData);
+            } else {
+              confirm = await addWeightData(formData);
+            }
+
             break;
           case "Pet":
-            confirm = await addPetData(formData);
+            if (editMode) {
+              confirm = await updatePetData(formData);
+            } else {
+              confirm = await addPetData(formData);
+            }
             break;
           default:
             break;
@@ -142,7 +153,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
     { value: "medications", label: "Medication" },
     { value: "vaccinations", label: "Vaccine" },
     { value: "weights", label: "Weight" },
-    ...(noPet == true ? [] : [{ value: "Pet" }]), // Conditionally include "Pet" option
+    ...(noPet == true ? [] : [{ value: "Pet", label: "Pet" }]), // Conditionally include "Pet" option
   ];
 
   console.log("EditMode: ", editMode);

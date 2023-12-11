@@ -1,14 +1,17 @@
 /* eslint-disable react/prop-types */
 import { Input, Select, SelectItem } from "@nextui-org/react";
-import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
 
-export default function PetForm({ onFormChange, isFormSubmitted }) {
+export default function PetForm({
+  onFormChange,
+  isFormSubmitted,
+  existingData,
+  propPetID,
+}) {
   const petDataContext = useContext(PetDataContext);
   const petID = petDataContext ? petDataContext.petID : "";
-  const [pets, setPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(petID || "");
+  const [selectedPet, setSelectedPet] = useState(petID || propPetID || "");
   const sexTypeOptions = ["female", "male"];
   const isNeuteredOptions = ["yes", "no"];
 
@@ -24,25 +27,31 @@ export default function PetForm({ onFormChange, isFormSubmitted }) {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const petsData = await getPets();
-      setPets(petsData);
-    };
-    fetchData();
-  }, []);
+    if (existingData) {
+      // If there is existing data, populate the form fields
+      const { name, birthday, sex, neutered, species, breed, color } =
+        existingData;
+
+      // Convert Firebase Timestamp to Date object
+      const formattedDate = birthday ? new Date(birthday.seconds * 1000) : null;
+
+      setSelectedPet(propPetID);
+      setFormData({
+        petID: propPetID,
+        name: name,
+        birthday: formattedDate ? formattedDate.toLocaleDateString() : "",
+        sex: sex || "",
+        neutered: neutered === true ? "yes" : "no",
+        species: species || "",
+        breed: breed || "",
+        color: color || "",
+      });
+    }
+  }, [existingData, propPetID]);
 
   useEffect(() => {
     onFormChange(formData);
   }, [formData, onFormChange]);
-
-  const handlePetSelectionChange = (e) => {
-    const selectedPetValue = e.target.value;
-    setSelectedPet(selectedPetValue);
-    setFormData((prevData) => ({
-      ...prevData,
-      petID: selectedPetValue,
-    }));
-  };
 
   const handleSelectionChange = (name, value) => {
     let selectedValue;
@@ -84,28 +93,6 @@ export default function PetForm({ onFormChange, isFormSubmitted }) {
 
   return (
     <div>
-      {selectedPet !== "" ? (
-        <Select
-          isRequired
-          label="Pet"
-          aria-label="Select your pet"
-          isInvalid={isFormSubmitted && !isRequiredFieldValid(formData.petID)}
-          errorMessage={
-            isFormSubmitted && !isRequiredFieldValid(formData.petID)
-              ? "This field is required"
-              : null
-          }
-          defaultSelectedKeys={[selectedPet]}
-          value={selectedPet}
-          onChange={handlePetSelectionChange}
-        >
-          {pets.map((pet) => (
-            <SelectItem key={pet.id} value={pet.id}>
-              {pet.name}
-            </SelectItem>
-          ))}
-        </Select>
-      ) : null}
       <p>Pet basic information</p>
       <Input
         isRequired

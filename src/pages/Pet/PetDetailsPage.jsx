@@ -29,6 +29,13 @@ export default function PetDetailsPage() {
     <section>
       <img src="" alt="pet image" />
       <h2>{petData.name}</h2>
+
+      <FormPopup
+        logType={"Pet"}
+        editMode={true}
+        existingData={petData}
+        petID={petID}
+      />
       <Card>
         <p>birth date</p>
         <p>fgd</p>

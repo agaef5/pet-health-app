@@ -4,17 +4,40 @@ import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
 
-export default function Weight({ onFormChange, isFormSubmitted }) {
+export default function Weight({
+  onFormChange,
+  isFormSubmitted,
+  existingData,
+  propPetID,
+}) {
   const petDataContext = useContext(PetDataContext);
   const petID = petDataContext ? petDataContext.petID : "";
   const [pets, setPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(petID || "");
+  const [selectedPet, setSelectedPet] = useState(petID || propPetID || "");
 
   const [formData, setFormData] = useState({
     petID: selectedPet,
     date: "",
     weight: "",
   });
+
+  useEffect(() => {
+    if (existingData) {
+      // If there is existing data, populate the form fields
+      const { id, weight, date } = existingData;
+
+      // Convert Firebase Timestamp to Date object
+      const formattedDate = date ? new Date(date.seconds * 1000) : null;
+
+      setSelectedPet(propPetID);
+      setFormData({
+        docID: id,
+        petID: propPetID,
+        weight: weight,
+        date: formattedDate ? formattedDate.toLocaleDateString() : "",
+      });
+    }
+  }, [existingData, propPetID]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +85,7 @@ export default function Weight({ onFormChange, isFormSubmitted }) {
   return (
     <div>
       <Select
+        isDisabled={existingData && Object.keys(existingData).length > 0}
         isRequired
         label="Pet"
         aria-label="Select your pet"
@@ -86,6 +110,7 @@ export default function Weight({ onFormChange, isFormSubmitted }) {
         isRequired
         label="Weight"
         placeholder="e.g. 5.5 kg"
+        type="number"
         isInvalid={isFormSubmitted && !isRequiredFieldValid(formData.weight)}
         errorMessage={
           isFormSubmitted && !isRequiredFieldValid(formData.weight)
