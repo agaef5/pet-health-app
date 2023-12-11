@@ -22,6 +22,7 @@ export default function AppointmentForm({
   const purposeTypes = ["routine", "non-routine"];
 
   const [formData, setFormData] = useState({
+    docID: "",
     petID: selectedPet,
     purpose: "",
     title: "",
@@ -33,13 +34,19 @@ export default function AppointmentForm({
   useEffect(() => {
     if (existingData) {
       // If there is existing data, populate the form fields
-      const { petID, purpose, title, date, veterinarian, notes } = existingData;
+      const { id, petID, purpose, title, date, veterinarian, notes } =
+        existingData;
+
+      // Convert Firebase Timestamp to Date object
+      const formattedDate = date ? new Date(date.seconds * 1000) : null;
+
       setSelectedPet(petID || "");
       setFormData({
+        docID: id,
         petID: petID || "",
         purpose: purpose || "",
         title: title || "",
-        date: date || "",
+        date: formattedDate ? formattedDate.toLocaleDateString() : "",
         veterinarian: veterinarian || "",
         notes: notes || "",
       });

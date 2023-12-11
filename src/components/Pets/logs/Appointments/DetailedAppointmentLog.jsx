@@ -55,7 +55,7 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
         <CardBody>
           <Divider />
           <p>{formattedDate}</p>
-          {veterinarian ? <p>veterinarian</p> : null}
+          {veterinarian ? <p>{veterinarian}</p> : null}
           {notes ? (
             <>
               <Divider /> <p>Notes:{notes}</p>

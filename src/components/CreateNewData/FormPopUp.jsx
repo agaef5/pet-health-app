@@ -17,6 +17,8 @@ import addMedicationData from "../../functions/addData/addMedicationData";
 import addAppointmentData from "../../functions/addData/addAppointmentData";
 import addVaccinationData from "../../functions/addData/addVaccinationData";
 import addWeightData from "../../functions/addData/addWeightData";
+import updateAppointmentData from "../../functions/updateData/updateAppointments";
+import updateMedicationData from "../../functions/updateData/updateMedicationData";
 
 // Use lazy to import the components lazily (only when needed)
 const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
@@ -92,10 +94,18 @@ const FormPopup = ({ logType, noPet, editMode, existingData }) => {
       ) {
         switch (selectedLogType) {
           case "medications":
-            confirm = await addMedicationData(formData);
+            if (editMode) {
+              confirm = await updateMedicationData(formData);
+            } else {
+              confirm = await addMedicationData(formData);
+            }
             break;
           case "appointments":
-            confirm = await addAppointmentData(formData);
+            if (editMode) {
+              confirm = await updateAppointmentData(formData);
+            } else {
+              confirm = await addAppointmentData(formData);
+            }
             break;
           case "vaccinations":
             confirm = await addVaccinationData(formData);
@@ -152,7 +162,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData }) => {
                 <>
                   <ModalHeader>
                     {editMode !== true ? (
-                      !disableSaveButton || editMode !== true ? (
+                      !disableSaveButton ? (
                         <Select
                           label="Add new..."
                           value={selectedLogType}

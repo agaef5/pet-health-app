@@ -83,49 +83,49 @@ export default async function addMedicationData(formData) {
     });
     console.log(result);
 
-    // const petData = {
-    //   name: name,
-    // };
+    const petData = {
+      name: name,
+    };
 
-    // // Add birthday if it exists
-    // if (prescribed) {
-    //   const [day, month, year] = prescribed.split("/");
-    //   petData.prescribed = Timestamp.fromDate(
-    //     new Date(`${year}-${month}-${day}`)
-    //   );
-    // }
+    // Add birthday if it exists
+    if (prescribed) {
+      const [day, month, year] = prescribed.split("/");
+      petData.prescribed = Timestamp.fromDate(
+        new Date(`${year}-${month}-${day}`)
+      );
+    }
 
-    // // Add optional fields if they exist
-    // if (dosage) {
-    //   petData.dosage = dosage;
-    // }
+    // Add optional fields if they exist
+    if (dosage) {
+      petData.dosage = dosage;
+    }
 
-    // if (frequencyCount) {
-    //   petData.frequencyCount = frequencyCount;
-    // }
+    if (frequencyCount) {
+      petData.frequencyCount = frequencyCount;
+    }
 
-    // if (frequencyPeriod) {
-    //   petData.frequencyPeriod = frequencyPeriod;
-    // }
+    if (frequencyPeriod) {
+      petData.frequencyPeriod = frequencyPeriod;
+    }
 
-    // if (veterinarian) {
-    //   petData.veterinarian = veterinarian;
-    // }
+    if (veterinarian) {
+      petData.veterinarian = veterinarian;
+    }
 
-    // if (notes) {
-    //   petData.notes = notes;
-    // }
+    if (notes) {
+      petData.notes = notes;
+    }
 
-    // const medicationRef = collection(
-    //   db,
-    //   "users",
-    //   user.uid,
-    //   "pets",
-    //   petID,
-    //   "medications"
-    // );
+    const medicationRef = collection(
+      db,
+      "users",
+      user.uid,
+      "pets",
+      petID,
+      "medications"
+    );
 
-    // await addDoc(medicationRef, petData);
+    await addDoc(medicationRef, petData);
 
     console.log("Medicine data added successfully!");
     return true;
