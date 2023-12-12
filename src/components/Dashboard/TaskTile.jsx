@@ -4,10 +4,10 @@ import { doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
 import { useState } from "react";
 
-export default function TaskTile({ taskID, taskData }) {
-  const { task, date, notes, isDone } = taskData;
+export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
+  const { task, date, notes } = taskData;
+  const [isDone, setIsDone] = useState(taskData.isDone);
 
-  const [done, setDone] = useState(isDone);
   // Convert timestamp to DD/MM/YYYY format
   const timestampInSeconds = date.seconds;
   const formattedDate = new Date(timestampInSeconds * 1000).toLocaleDateString(
@@ -20,8 +20,11 @@ export default function TaskTile({ taskID, taskData }) {
     const user = auth.currentUser;
 
     const tasksRef = doc(db, "users", user.uid, "tasks", taskID);
-    await updateDoc(tasksRef, { isDone: !done }); // Use !done to toggle the value
-    setDone(!done); // Update the state after the database update
+    await updateDoc(tasksRef, { isDone: !isDone }); // Use !done to toggle the value
+    setIsDone(!isDone); // Update the state after the database update
+    if (onTaskUpdate) {
+      onTaskUpdate();
+    }
   }
 
   return (
@@ -39,7 +42,7 @@ export default function TaskTile({ taskID, taskData }) {
         radius="full"
         size="lg"
         color="success"
-        isSelected={done}
+        isSelected={isDone}
         onChange={handleDoneCheckboxChange}
       ></Checkbox>
     </Card>
