@@ -11,10 +11,11 @@ export default async function addTask(formData) {
       throw new Error("No user found.");
     }
 
-    const { task, date } = formData;
+    const { task, date, notes } = formData;
 
     const taskData = {
       task: task,
+      notes: notes,
       isDone: false,
     };
 

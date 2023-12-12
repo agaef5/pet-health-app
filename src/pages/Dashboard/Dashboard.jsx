@@ -5,7 +5,6 @@ import PetTile from "../../components/Dashboard/PetTile";
 import TaskTile from "../../components/Dashboard/TaskTile";
 import getPets from "../../functions/fetchData/getPets";
 import { useEffect, useState } from "react";
-import AddNewPetTile from "../../components/CreateNewData/AddNewPet/AddNewPetTile";
 
 function Dashboard() {
   function hangleLogOut() {
@@ -33,7 +32,6 @@ function Dashboard() {
         {pets.map((pet) => (
           <PetTile key={pet.id} petData={pet} />
         ))}
-        <AddNewPetTile />
       </div>
       <div>
         <h2>Your tasks:</h2>

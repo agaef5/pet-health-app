@@ -1,11 +1,37 @@
+/* eslint-disable react/prop-types */
 import { Accordion, AccordionItem, Card, Checkbox } from "@nextui-org/react";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../../../firebase-config";
+import { useState } from "react";
 
-function TaskTile() {
+export default function TaskTile({ taskID, taskData }) {
+  const { task, date, notes, isDone } = taskData;
+
+  const [done, setDone] = useState(isDone);
+  // Convert timestamp to DD/MM/YYYY format
+  const timestampInSeconds = date.seconds;
+  const formattedDate = new Date(timestampInSeconds * 1000).toLocaleDateString(
+    "en-GB"
+  );
+
+  console.log("Task data:", taskID);
+
+  async function handleDoneCheckboxChange() {
+    const user = auth.currentUser;
+
+    const tasksRef = doc(db, "users", user.uid, "tasks", taskID);
+    await updateDoc(tasksRef, { isDone: !done }); // Use !done to toggle the value
+    setDone(!done); // Update the state after the database update
+  }
+
   return (
-    <Card className=" grid grid-cols-6 justify-stretch">
+    <Card className="grid grid-cols-6 justify-stretch">
       <Accordion className="col-span-5">
-        <AccordionItem title="Task Name" subtitle="duedate">
-          <p className="">task descriptipn</p>
+        <AccordionItem
+          title={task}
+          subtitle={formattedDate ? formattedDate : null}
+        >
+          {notes ? <p className="">{notes}</p> : null}
         </AccordionItem>
       </Accordion>
       <Checkbox
@@ -13,9 +39,9 @@ function TaskTile() {
         radius="full"
         size="lg"
         color="success"
+        isSelected={done}
+        onChange={handleDoneCheckboxChange}
       ></Checkbox>
     </Card>
   );
 }
-
-export default TaskTile;

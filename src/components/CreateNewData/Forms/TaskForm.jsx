@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Input } from "@nextui-org/react";
+import { Input, Textarea } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 export default function Weight({
@@ -10,13 +10,14 @@ export default function Weight({
   const [formData, setFormData] = useState({
     date: "",
     task: "",
+    notes: "",
     isDone: false,
   });
 
   useEffect(() => {
     if (existingData) {
       // If there is existing data, populate the form fields
-      const { id, task, date, isDone } = existingData;
+      const { id, task, date, notes, isDone } = existingData;
 
       // Convert Firebase Timestamp to Date object
       const formattedDate = date ? new Date(date.seconds * 1000) : null;
@@ -24,6 +25,7 @@ export default function Weight({
       setFormData({
         docID: id,
         task: task,
+        notes: notes,
         date: formattedDate ? formattedDate.toLocaleDateString() : "",
         isDone: isDone,
       });
@@ -84,6 +86,13 @@ export default function Weight({
         }
         value={formData.date}
         onChange={(e) => handleInputChange("date", e.target.value)}
+      />
+
+      <Textarea
+        label="Notes"
+        placeholder="e.g. call the vet"
+        value={formData.notes}
+        onChange={(e) => handleInputChange("notes", e.target.value)}
       />
     </div>
   );
