@@ -22,6 +22,7 @@ import updateMedicationData from "../../functions/updateData/updateMedicationDat
 import updateVaccinationData from "../../functions/updateData/updateVaccinationData";
 import updateWeightData from "../../functions/updateData/updateWeightData";
 import updatePetData from "../../functions/updateData/updatePetData";
+import addTask from "../../functions/addData/addTask";
 
 // Use lazy to import the components lazily (only when needed)
 const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
@@ -29,12 +30,14 @@ const LazyAppointmentForm = lazy(() => import("./Forms/AppointmentForm"));
 const LazyVaccineForm = lazy(() => import("./Forms/VaccineForm"));
 const LazyWeightForm = lazy(() => import("./Forms/WeightForm"));
 const LazyPetForm = lazy(() => import("./Forms/PetForm"));
+const LazyTaskForm = lazy(() => import("./Forms/TaskForm"));
 
 const logComponents = {
   medications: LazyMedicationForm,
   appointments: LazyAppointmentForm,
   vaccinations: LazyVaccineForm,
   weights: LazyWeightForm,
+  tasks: LazyTaskForm,
   Pet: LazyPetForm,
   Confirm: Spinner,
 };
@@ -92,6 +95,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
           formData.name,
           formData.title,
           formData.weight,
+          formData.task,
           logType !== "Pet" ? formData.petID : null
         )
       ) {
@@ -132,6 +136,13 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
               confirm = await addPetData(formData);
             }
             break;
+          case "tasks":
+            if (editMode) {
+              confirm = await updatePetData(formData);
+            } else {
+              confirm = await addTask(formData);
+            }
+            break;
           default:
             break;
         }
@@ -153,6 +164,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
     { value: "medications", label: "Medication" },
     { value: "vaccinations", label: "Vaccine" },
     { value: "weights", label: "Weight" },
+    { value: "tasks", label: "Task" },
     ...(noPet == true ? [] : [{ value: "Pet", label: "Pet" }]), // Conditionally include "Pet" option
   ];
 
