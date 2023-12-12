@@ -4,17 +4,27 @@ import { createContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getPetByID from "../../functions/fetchData/getPetByID";
 import FormPopup from "../../components/CreateNewData/FormPopUp";
+import { auth, storage } from "../../../firebase-config";
+import { getDownloadURL, ref } from "firebase/storage";
 
 export const PetDataContext = createContext();
 
 export default function PetDetailsPage() {
   const { petID } = useParams();
   const [petData, setPetData] = useState(null);
+  const [petPhotoUrl, setPetPhotoUrl] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getPetByID(petID);
       setPetData(data);
+      let user = auth.currentUser;
+      // Set the pet photo URL
+      const photoPath = `users/${user.uid}/${petID}.jpg`;
+      console.log("PHOTOURL:", photoPath);
+
+      const photoUrl = await getDownloadURL(ref(storage, photoPath));
+      setPetPhotoUrl(photoUrl);
     };
 
     fetchData();
@@ -27,7 +37,8 @@ export default function PetDetailsPage() {
 
   return (
     <section>
-      <img src="" alt="pet image" />
+      {petPhotoUrl && <img src={petPhotoUrl} alt="pet image" />}
+
       <h2>{petData.name}</h2>
 
       <FormPopup

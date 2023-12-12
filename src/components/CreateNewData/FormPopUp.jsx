@@ -67,6 +67,12 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
     setSelectedLogType(event.target.value);
   };
 
+  const handleImageChange = (file) => {
+    if (selectedLogType === "Pet") {
+      setFormData({ ...formData, profilePicture: file });
+    }
+  };
+
   const isValidDate = (dateString) => {
     if (dateString === "") {
       return true;
@@ -221,6 +227,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
                           isFormSubmitted: isFormSubmitted,
                           existingData: existingData,
                           propPetID: petID ? petID : null,
+                          handleImageChange: handleImageChange,
                         })}
                     </Suspense>
                   </ModalBody>

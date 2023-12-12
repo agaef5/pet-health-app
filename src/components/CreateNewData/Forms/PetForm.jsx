@@ -24,12 +24,15 @@ export default function PetForm({
     species: "",
     breed: "",
     color: "",
+    photo: null,
   });
+
+  const [profilePicture, setProfilePicture] = useState(null);
 
   useEffect(() => {
     if (existingData) {
       // If there is existing data, populate the form fields
-      const { name, birthday, sex, neutered, species, breed, color } =
+      const { name, birthday, sex, neutered, species, breed, color, photo } =
         existingData;
 
       // Convert Firebase Timestamp to Date object
@@ -45,6 +48,7 @@ export default function PetForm({
         species: species || "",
         breed: breed || "",
         color: color || "",
+        photo: photo || null,
       });
     }
   }, [existingData, propPetID]);
@@ -53,9 +57,12 @@ export default function PetForm({
     onFormChange(formData);
   }, [formData, onFormChange]);
 
+  const handleImageChange = (file) => {
+    setProfilePicture(file);
+  };
+
   const handleSelectionChange = (name, value) => {
     let selectedValue;
-
     // Map selected value to boolean if applicable
     if (name === "neutered") {
       selectedValue = value === "yes";
@@ -106,6 +113,13 @@ export default function PetForm({
         }
         value={formData.name}
         onChange={(e) => handleInputChange("name", e.target.value)}
+      />
+
+      <Input
+        label="Profile picture"
+        type="file"
+        accept="image/*"
+        onChange={(e) => handleInputChange("photo", e.target.files[0])}
       />
 
       <Input

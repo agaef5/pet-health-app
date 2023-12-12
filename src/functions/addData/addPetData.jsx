@@ -1,5 +1,6 @@
-import { Timestamp, addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../../../firebase-config";
+import { Timestamp, addDoc, collection, doc } from "firebase/firestore";
+import { auth, db, storage } from "../../../firebase-config";
+import { ref, uploadBytes } from "firebase/storage";
 
 export default async function addPetData(formData) {
   console.log(formData);
@@ -11,7 +12,8 @@ export default async function addPetData(formData) {
       throw new Error("No user found.");
     }
 
-    const { name, birthday, sex, neutered, species, breed, color } = formData;
+    const { name, birthday, sex, neutered, species, breed, color, photo } =
+      formData;
     const petData = {
       name: name,
     };
@@ -46,8 +48,13 @@ export default async function addPetData(formData) {
     }
 
     const petRef = collection(db, "users", user.uid, "pets");
+    const docRef = await addDoc(petRef, petData);
+    console.log(docRef.id);
 
-    await addDoc(petRef, petData);
+    if (photo) {
+      const storageRef = ref(storage, `users/${user.uid}/${docRef.id}.jpg`);
+      await uploadBytes(storageRef, photo);
+    }
 
     console.log("Pet data added successfully!");
     return true;

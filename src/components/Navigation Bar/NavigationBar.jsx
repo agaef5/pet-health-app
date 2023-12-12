@@ -66,11 +66,15 @@ const NavigationBar = () => {
   console.log("userID: ", `/${userID}/`);
 
   return (
-    <nav>
+    <nav className="fixed bottom-5 left-1/2 -translate-x-1/2">
       <Tabs
         aria-label="Navigation Tabs"
         selectedKey={pathname}
+        size="lg"
         onSelectionChange={(path) => handleNavigation(path)}
+        classNames={{
+          tabList: "w-[90vw]",
+        }}
       >
         <Tab key={`/${userID}/`} path={""} title="Home" />
         <Tab key={`/${userID}/pets`} path={"pets"} title="Pets" />

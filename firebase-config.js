@@ -6,6 +6,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -26,5 +27,6 @@ const provider = new GoogleAuthProvider();
 setPersistence(auth, browserLocalPersistence);
 
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-export { auth, provider, db };
+export { auth, provider, db, storage };
