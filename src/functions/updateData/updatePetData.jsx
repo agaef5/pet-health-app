@@ -1,5 +1,6 @@
 import { Timestamp, doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../../firebase-config";
+import { auth, db, storage } from "../../../firebase-config";
+import { ref, uploadBytes } from "firebase/storage";
 
 export default async function updatePetData(formData) {
   console.log(formData);
@@ -11,8 +12,17 @@ export default async function updatePetData(formData) {
       throw new Error("No user found.");
     }
 
-    const { petID, name, birthday, sex, neutered, species, breed, color } =
-      formData;
+    const {
+      petID,
+      name,
+      birthday,
+      sex,
+      neutered,
+      species,
+      breed,
+      color,
+      photo,
+    } = formData;
 
     const petData = {
       name: name,
@@ -50,6 +60,11 @@ export default async function updatePetData(formData) {
     const petRef = doc(db, "users", user.uid, "pets", petID);
 
     await updateDoc(petRef, petData);
+
+    if (photo) {
+      const storageRef = ref(storage, `users/${user.uid}/${petID}.jpg`);
+      await uploadBytes(storageRef, photo);
+    }
 
     console.log("Appointment data updated successfully!");
     return true;

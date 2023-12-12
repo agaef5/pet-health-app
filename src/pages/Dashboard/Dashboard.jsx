@@ -2,11 +2,11 @@
 import { Button, Skeleton } from "@nextui-org/react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase-config";
-import PetTile from "../../components/Dashboard/PetTile";
 import TaskTile from "../../components/Dashboard/TaskTile";
 import getPets from "../../functions/fetchData/getPets";
 import { useEffect, useState } from "react";
 import getTodayTasks from "../../functions/fetchData/getOnlyTodayTasks";
+import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
 
 function Dashboard() {
   function hangleLogOut() {
@@ -48,7 +48,7 @@ function Dashboard() {
         <h2>Your pets:</h2>
         <Skeleton isLoaded={isLoaded} className="rounded-lg">
           {pets.map((pet) => (
-            <PetTile key={pet.id} petData={pet} />
+            <PetsTileDetailed key={pet.id} petData={pet} minimal={true} />
           ))}
         </Skeleton>
       </div>
