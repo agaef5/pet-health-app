@@ -1,8 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Accordion, AccordionItem, Card, Checkbox } from "@nextui-org/react";
+import {
+  Accordion,
+  AccordionItem,
+  Card,
+  Checkbox,
+  Divider,
+} from "@nextui-org/react";
 import { doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
 import { useState } from "react";
+import FormPopup from "../CreateNewData/FormPopUp";
 
 export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
   const { task, date, notes } = taskData;
@@ -35,6 +42,8 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
           subtitle={formattedDate ? formattedDate : null}
         >
           {notes ? <p className="">{notes}</p> : null}
+          <Divider />
+          <FormPopup logType="tasks" editMode={true} existingData={taskData} />
         </AccordionItem>
       </Accordion>
       <Checkbox

@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
 
 export default async function getHealthData(petID, logType) {
@@ -9,23 +9,22 @@ export default async function getHealthData(petID, logType) {
     console.log("No user found. Redirecting to /");
     window.location.href = "/";
     return null;
+  }
 
-    // const currentUserUID = localStorage.getItem("currentUserUID");
-
-    // if (currentUserUID) {
-    //   user = { uid: currentUserUID };
-    // } else {
-    //   // Redirect to "/" if there is no user
-    //   console.log("No user found. Redirecting to /");
-    //   window.location.href = "/";
-    //   return null;
-    // }
+  let date; // Declare date variable outside the if-else blocks
+  if (logType === "medications") {
+    date = "prescribed";
+  } else if (logType === "vaccinations") {
+    date = "dosageDate";
+  } else {
+    date = "date";
   }
 
   console.log(user.uid, petID, logType);
 
   const petsRef = collection(db, "users", user.uid, "pets", petID, logType);
-  const dataSnapshot = await getDocs(petsRef);
+  const q = query(petsRef, orderBy(date, "desc"));
+  const dataSnapshot = await getDocs(q);
 
   const healthDataArray = [];
 

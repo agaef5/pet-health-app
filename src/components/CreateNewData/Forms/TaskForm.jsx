@@ -23,7 +23,7 @@ export default function Weight({
       const formattedDate = date ? new Date(date.seconds * 1000) : null;
 
       setFormData({
-        docID: id,
+        taskID: id,
         task: task,
         notes: notes,
         date: formattedDate ? formattedDate.toLocaleDateString() : "",
@@ -60,7 +60,7 @@ export default function Weight({
 
   return (
     <div>
-      <h2>Create new task</h2>
+      {existingData ? null : <h2>Create new task</h2>}
       <Input
         isRequired
         label="Task"

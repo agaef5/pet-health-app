@@ -1,8 +1,9 @@
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
 
-export default async function addTask(formData) {
+export default async function updateTask(formData) {
   console.log(formData);
+
   try {
     const user = auth.currentUser;
 
@@ -11,7 +12,7 @@ export default async function addTask(formData) {
       throw new Error("No user found.");
     }
 
-    const { task, date, notes } = formData;
+    const { taskID, task, date, notes } = formData;
 
     const taskData = {
       task: task,
@@ -23,14 +24,13 @@ export default async function addTask(formData) {
       const [day, month, year] = date.split("/");
       taskData.date = Timestamp.fromDate(new Date(`${year}-${month}-${day}`));
     }
-
     if (notes) {
       taskData.notes = notes;
     }
 
-    const weightRef = collection(db, "users", user.uid, "tasks");
+    const weightRef = doc(db, "users", user.uid, "tasks", taskID);
 
-    await addDoc(weightRef, taskData);
+    await updateDoc(weightRef, taskData);
 
     console.log("Task data added successfully!");
     return true;

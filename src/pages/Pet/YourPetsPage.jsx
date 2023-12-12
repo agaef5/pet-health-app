@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
 import AddNewPetTile from "../../components/CreateNewData/AddNewPet/AddNewPetTile";
 import getPets from "../../functions/fetchData/getPets";
+import { Skeleton } from "@nextui-org/react";
 
 function YourPetsPage() {
   const [pets, setPets] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoaded(false);
       const petsData = await getPets();
       setPets(petsData);
+      setIsLoaded(true);
     };
     fetchData();
   }, []);
@@ -16,9 +20,11 @@ function YourPetsPage() {
   return (
     <div>
       <h1>Your Pets</h1>
-      {pets.map((pet) => (
-        <PetsTileDetailed key={pet.id} petData={pet} />
-      ))}
+      <Skeleton isLoaded={isLoaded} className="rounded-lg">
+        {pets.map((pet) => (
+          <PetsTileDetailed key={pet.id} petData={pet} />
+        ))}
+      </Skeleton>
       <AddNewPetTile />
     </div>
   );
