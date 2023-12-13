@@ -23,8 +23,6 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
     "en-GB"
   );
 
-  console.log("Task data:", taskID);
-
   async function handleDoneCheckboxChange() {
     setIsVisible(false);
     const user = auth.currentUser;
@@ -35,11 +33,9 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
       setIsDone(!isDone);
       if (onTaskUpdate) {
         onTaskUpdate();
+        setIsVisible(true);
       }
     }, 100);
-
-    // Use !done to toggle the value
-    // Update the state after the database update
   }
 
   return (

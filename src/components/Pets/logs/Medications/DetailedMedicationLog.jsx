@@ -1,7 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
+  Accordion,
+  AccordionItem,
   Button,
   Card,
   CardBody,
@@ -9,19 +12,50 @@ import {
   Checkbox,
   Divider,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import getLogsbyMedicineID from "../../../../functions/fetchData/getLogsByMedicineID";
 import FormPopup from "../../../CreateNewData/FormPopUp";
 import DeleteData from "../../../DeleteData/DeleteButtonAndModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { db } from "../../../../../firebase-config";
+import { doc, updateDoc } from "firebase/firestore";
+import { is } from "date-fns/locale";
 
-export default function DetailedMedicationLog({ mediDetails, petID }) {
+export default function DetailedMedicationLog({
+  mediDetails,
+  petID,
+  onLogUpdate,
+}) {
   const [logData, setLogData] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDosed, setIsDosed] = useState(logData.isDosed);
+
+  const [isVisible, setIsVisible] = useState(true);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [menuRef]);
+
   console.log(mediDetails);
   if (!mediDetails || mediDetails.length === 0) {
     return (
       <Card>
         <CardBody>
-          <p>No data</p>
+          <p>It's empty here.</p>
+          <p>Add something!</p>
+          <FormPopup logType={"medications"} petID={petID} />
         </CardBody>
       </Card>
     );
@@ -49,51 +83,120 @@ export default function DetailedMedicationLog({ mediDetails, petID }) {
     fetchData();
   }, [petID]);
 
+  async function handleDosedCheckboxChange({ logID }) {
+    const userID = localStorage.getItem("currentUserUID");
+    const logRef = doc(
+      db,
+      "users",
+      userID,
+      "pets",
+      petID,
+      "medications",
+      mediDetails.id,
+      "Logs",
+      logID
+    );
+
+    const updatedLogData = logData.map((log) =>
+      log.id === logID ? { ...log, isDosed: !log.isDosed } : log
+    );
+
+    await updateDoc(logRef, { isDosed: !isDosed });
+
+    setIsDosed(!isDosed); // This line updates the state for all logs, which may not be what you want
+    setLogData(updatedLogData);
+    if (onLogUpdate) {
+      onLogUpdate();
+    }
+  }
+
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-row justify-between items-center px-4 pb-0">
         <h2>{name}</h2>
 
-        <FormPopup
-          logType={"medications"}
-          editMode={true}
-          existingData={mediDetails}
-          petID={petID}
-        />
-        <DeleteData petID={petID} logType={"medications"} docID={id} />
+        <div className="relative" ref={menuRef}>
+          <Button onClick={() => setIsMenuOpen(!isMenuOpen)} variant="light">
+            <FontAwesomeIcon icon={faEllipsisVertical} />
+          </Button>
+
+          {isMenuOpen && (
+            <Card className=" flex flex-row items-baseline bg-background absolute right-0 px-5 py-5">
+              <DeleteData petID={petID} logType={"medications"} docID={id} />
+              <FormPopup
+                logType={"medications"}
+                editMode={true}
+                existingData={mediDetails}
+                petID={petID}
+              />
+            </Card>
+          )}
+        </div>
       </CardHeader>
       <CardBody>
-        <p>
-          Dosage: {dosage ? dosage : null}{" "}
-          {frequencyCount && frequencyPeriod
-            ? `x${frequencyCount} 
-          ${frequencyPeriod}`
-            : null}
-        </p>
-        <p>
-          Prescribed: {prescribed ? prescribedDate : null}{" "}
-          {veterinarian ? `by ${veterinarian}` : null}
-        </p>
-        {notes ? <p>Notes: {notes}</p> : null}
-        <Divider />
-        <p>Dosage log:</p>
-        {logData.length > 0 ? (
-          logData.map((log) => {
-            return (
-              <Card key={log.id}>
+        {!frequencyCount && !frequencyPeriod && !dosage ? null : (
+          <div className="w-full p-0 m-0">
+            <Divider />
+            <div className="w-full flex flex-row justify-between py-4">
+              {" "}
+              {dosage ? (
                 <p>
-                  {new Date(log.dosageDate.seconds * 1000).toLocaleDateString()}
+                  Dosage: {dosage}{" "}
+                  {frequencyCount && frequencyPeriod
+                    ? `x${frequencyCount} ${frequencyPeriod}`
+                    : null}
                 </p>
-                <Checkbox
-                  color="success"
-                  isSelected={log.isDosed === true ? true : false}
-                />
-              </Card>
-            );
-          })
-        ) : (
-          <p>No dosage log availa so this is it ble</p>
+              ) : null}
+            </div>
+          </div>
         )}
+
+        {!prescribed && !veterinarian ? null : (
+          <div className="w-full flex flex-row justify-between py-4">
+            {" "}
+            {prescribed ? (
+              <p>
+                Prescribed: {prescribed ? prescribedDate : null}{" "}
+                {veterinarian ? `by ${veterinarian}` : null}
+              </p>
+            ) : null}
+          </div>
+        )}
+
+        {notes ? <p className="py-4">Notes: {notes}</p> : null}
+        <Divider />
+        <Accordion isCompact>
+          <AccordionItem title="Dosage log">
+            <div className="flex flex-col gap-4">
+              {logData.length > 0 ? (
+                logData.map((log) => {
+                  return (
+                    <Card
+                      className="bg-black flex flex-row justify-between p-4 ${isDosed ? 'opacity-50' : 'opacity-100'}"
+                      key={log.id}
+                    >
+                      <p>
+                        {new Date(
+                          log.dosageDate.seconds * 1000
+                        ).toLocaleDateString()}
+                      </p>
+                      <Checkbox
+                        className=""
+                        color="success"
+                        isSelected={log.isDosed}
+                        onChange={() =>
+                          handleDosedCheckboxChange({ log, logID: log.id })
+                        }
+                      />
+                    </Card>
+                  );
+                })
+              ) : (
+                <p>No dosage log availa so this is it ble</p>
+              )}
+            </div>
+          </AccordionItem>
+        </Accordion>
       </CardBody>
     </Card>
   );
