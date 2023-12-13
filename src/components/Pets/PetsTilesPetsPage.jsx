@@ -23,11 +23,11 @@ function PetsTileDetailed({ petData, minimal }) {
       setPetPhotoUrl(photoUrl);
 
       if (petData.birthday) {
-        console.log(petData.birthday.seconds);
         const birthDate = petData.birthday
           ? new Date(petData.birthday.seconds * 1000)
           : null;
 
+        console.log(birthDate);
         // const birthDate = fromUnixTime(petData.birthdate.seconds);
         const currentDate = new Date();
         const age = differenceInYears(currentDate, birthDate);
