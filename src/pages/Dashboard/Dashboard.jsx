@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Button } from "@nextui-org/react";
+import { Button, ScrollShadow } from "@nextui-org/react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase-config";
 import TaskTile from "../../components/Dashboard/TaskTile";
@@ -54,14 +54,18 @@ function Dashboard() {
     <section
       className={`transition-opacity duration-1000 ease-in-out ${
         isLoaded ? "opacity-100" : "opacity-0"
-      }`}
+      } relative h-[88vh] p-4`}
     >
-      <div>
-        <h2>Your pets:</h2>
-        {pets.map((pet) => (
-          <PetsTileDetailed key={pet.id} petData={pet} minimal={true} />
-        ))}
-      </div>
+      <h2>Your pets:</h2>
+
+      <ScrollShadow orientation="horizontal">
+        <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-3">
+          {pets.map((pet) => (
+            <PetsTileDetailed key={pet.id} petData={pet} minimal={true} />
+          ))}
+        </div>
+      </ScrollShadow>
+
       <div>
         <h2>Your tasks due today:</h2>
         {todayTasks.length > 0 ? (

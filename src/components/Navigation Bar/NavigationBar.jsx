@@ -25,9 +25,11 @@ const NavigationBar = () => {
         aria-label="Navigation Tabs"
         selectedKey={pathname}
         size="lg"
+        radius="full"
         onSelectionChange={(path) => handleNavigation(path)}
         classNames={{
-          tabList: "w-[90vw]",
+          tabList: "h-16 w-[90vw] shadow-2xl",
+          tab: "h-full w-full",
         }}
       >
         <Tab key={`/${userID}/`} path={""} title="Home" />

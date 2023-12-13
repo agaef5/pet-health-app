@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
 import getPets from "../../functions/fetchData/getPets";
-import { Skeleton } from "@nextui-org/react";
+import { ScrollShadow } from "@nextui-org/react";
 import FormPopup from "../../components/CreateNewData/FormPopUp";
 
 function YourPetsPage() {
@@ -31,15 +31,22 @@ function YourPetsPage() {
     <div
       className={`transition-opacity duration-1000 ease-in-out ${
         isLoaded ? "opacity-100" : "opacity-0"
-      }`}
+      } relative h-[88vh] p-4`}
     >
       <h1>Your Pets</h1>
-      <Skeleton isLoaded={isLoaded} className="rounded-lg">
-        {pets.map((pet) => (
-          <PetsTileDetailed key={pet.id} petData={pet} />
-        ))}
-      </Skeleton>
-      <FormPopup logType={"Pet"} setRefreshPage={setRefreshPage} />
+
+      <ScrollShadow orientation="vertical" size={100} className="h-[88vh]">
+        <div className="grid w-full items-center justify-center gap-4 pt-4 pb-32">
+          {pets.map((pet) => (
+            <PetsTileDetailed key={pet.id} petData={pet} />
+          ))}
+        </div>
+      </ScrollShadow>
+      <FormPopup
+        classButtonName={"absolute bottom-0 right-8"}
+        logType={"Pet"}
+        setRefreshPage={setRefreshPage}
+      />
     </div>
   );
 }
