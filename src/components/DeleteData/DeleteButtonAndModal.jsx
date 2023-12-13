@@ -13,6 +13,7 @@ import deleteHealthLog from "../../functions/Delete Data/deleteHealthLog";
 import deletePet from "../../functions/Delete Data/deletePet";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../../firebase-config";
+import deleteTask from "../../functions/Delete Data/DeleteTask";
 
 export default function DeleteData({ logType, petID, docID }) {
   const navigate = useNavigate();
@@ -25,10 +26,14 @@ export default function DeleteData({ logType, petID, docID }) {
     try {
       let confirm = false;
 
+      console.log("Delete data:", logType, petID, docID);
       if (logType && petID && docID) {
         confirm = await deleteHealthLog({ logType, petID, id: docID });
       } else if (petID && !docID && !logType) {
         confirm = await deletePet({ petID });
+      } else if (docID && !petID && !logType) {
+        console.log("Delete task");
+        confirm = await deleteTask({ id: docID });
       } else {
         console.log("Delete failed");
       }

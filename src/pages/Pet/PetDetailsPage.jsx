@@ -25,7 +25,9 @@ export default function PetDetailsPage() {
       // Set the pet photo URL
       const photoUrl = await getPhoto(`users/${user.uid}/${petID}.jpg`);
       setPetPhotoUrl(photoUrl);
-      setIsLoaded(true);
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 250);
     };
 
     fetchData();

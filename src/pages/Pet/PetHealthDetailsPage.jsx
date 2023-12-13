@@ -16,12 +16,17 @@ export default function PetHealthDetailsdPage() {
 
   const [petData, setPetData] = useState(null);
   const [petHealthData, setPetHealthData] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
   console.log(petHealthData);
 
   useEffect(() => {
     async function fetchPetData() {
       const data = await getPetByID(petID);
       setPetData(data);
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 250);
     }
     fetchPetData();
   }, [petID]);
@@ -30,6 +35,9 @@ export default function PetHealthDetailsdPage() {
     async function fetchHealthData() {
       const fetchedData = await getHealthData(petID, logType);
       setPetHealthData(fetchedData);
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 250);
     }
     fetchHealthData();
   }, [logType, petID]);
@@ -41,7 +49,11 @@ export default function PetHealthDetailsdPage() {
   }
 
   return (
-    <section>
+    <section
+      className={`transition-opacity duration-1000 ease-in-out ${
+        isLoaded ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <h1>
         {petData.name}'s {logType}
       </h1>

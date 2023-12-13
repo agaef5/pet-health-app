@@ -13,7 +13,9 @@ function YourTasksPage() {
       setIsLoaded(false);
       const fetchedTasks = await getTasks();
       setTasks(fetchedTasks);
-      setIsLoaded(true);
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 250);
     };
     fetchData();
   }, []);
@@ -28,7 +30,11 @@ function YourTasksPage() {
   const doneTasks = tasks.filter((task) => task.isDone);
 
   return (
-    <div>
+    <div
+      className={`transition-opacity duration-1000 ease-in-out ${
+        isLoaded ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <h1>Your tasks</h1>
       <Skeleton isLoaded={isLoaded} className="rounded-lg">
         <h2>Incoming</h2>

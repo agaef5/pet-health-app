@@ -10,6 +10,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
 import { useState } from "react";
 import FormPopup from "../CreateNewData/FormPopUp";
+import DeleteData from "../DeleteData/DeleteButtonAndModal";
 
 export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
   const { task, date, notes } = taskData;
@@ -44,6 +45,7 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
           {notes ? <p className="">{notes}</p> : null}
           <Divider />
           <FormPopup logType="tasks" editMode={true} existingData={taskData} />
+          <DeleteData docID={taskID} />
         </AccordionItem>
       </Accordion>
       <Checkbox

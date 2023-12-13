@@ -36,7 +36,9 @@ function Dashboard() {
       setIsLoaded(false);
       await fetchPets();
       await fetchTodayTasks();
-      setIsLoaded(true);
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 250);
     };
 
     fetchData();
