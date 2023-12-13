@@ -43,7 +43,11 @@ function Dashboard() {
   }, []);
 
   return (
-    <section>
+    <section
+      className={`transition-opacity duration-1000 ease-in-out ${
+        isLoaded ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <div>
         <h2>Your pets:</h2>
         <Skeleton isLoaded={isLoaded} className="rounded-lg">

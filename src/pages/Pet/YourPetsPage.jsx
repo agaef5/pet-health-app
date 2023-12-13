@@ -18,7 +18,11 @@ function YourPetsPage() {
   }, []);
 
   return (
-    <div>
+    <div
+      className={`transition-opacity duration-1000 ease-in-out ${
+        isLoaded ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <h1>Your Pets</h1>
       <Skeleton isLoaded={isLoaded} className="rounded-lg">
         {pets.map((pet) => (

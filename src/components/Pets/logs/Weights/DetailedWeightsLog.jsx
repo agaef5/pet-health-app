@@ -9,7 +9,7 @@ import {
   Divider,
 } from "@nextui-org/react";
 import FormPopup from "../../../CreateNewData/FormPopUp";
-import deleteHealthLog from "../../../../functions/Delete Data/DeleteHealthLog";
+import DeleteData from "../../../DeleteData/DeleteButtonAndModal";
 
 export default function WeightsLog({ kgDetails, petID }) {
   console.log(kgDetails);
@@ -43,9 +43,7 @@ export default function WeightsLog({ kgDetails, petID }) {
           existingData={kgDetails}
           petID={petID}
         />
-        <Button
-          onClick={() => deleteHealthLog({ petID, id, logType: "weights" })}
-        ></Button>
+        <DeleteData petID={petID} logType={"weights"} docID={id} />
       </CardHeader>
       <CardBody>{weightDate ? <p>weightDate</p> : null}</CardBody>
     </Card>

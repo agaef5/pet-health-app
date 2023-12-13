@@ -93,6 +93,9 @@ export default async function addMedicationData(formData) {
       petData.prescribed = Timestamp.fromDate(
         new Date(`${year}-${month}-${day}`)
       );
+    } else {
+      // If date does not exist, add today's date
+      petData.prescribed = Timestamp.fromDate(new Date());
     }
 
     // Add optional fields if they exist

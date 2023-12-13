@@ -37,7 +37,11 @@ export default function PetDetailsPage() {
   }
 
   return (
-    <section>
+    <section
+      className={`transition-opacity duration-1000 ease-in-out ${
+        isLoaded ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <FormPopup
         logType={"Pet"}
         editMode={true}

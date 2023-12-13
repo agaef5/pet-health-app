@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import getLogsbyMedicineID from "../../../../functions/fetchData/getLogsByMedicineID";
 import FormPopup from "../../../CreateNewData/FormPopUp";
-import deleteHealthLog from "../../../../functions/Delete Data/DeleteHealthLog";
+import DeleteData from "../../../DeleteData/DeleteButtonAndModal";
 
 export default function DetailedMedicationLog({ mediDetails, petID }) {
   const [logData, setLogData] = useState([]);
@@ -60,11 +60,7 @@ export default function DetailedMedicationLog({ mediDetails, petID }) {
           existingData={mediDetails}
           petID={petID}
         />
-        <Button
-          onClick={() => deleteHealthLog({ petID, id, logType: "medications" })}
-        >
-          Delete
-        </Button>
+        <DeleteData petID={petID} logType={"medications"} docID={id} />
       </CardHeader>
       <CardBody>
         <p>

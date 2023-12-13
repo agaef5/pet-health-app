@@ -22,6 +22,9 @@ export default async function addTask(formData) {
     if (date) {
       const [day, month, year] = date.split("/");
       taskData.date = Timestamp.fromDate(new Date(`${year}-${month}-${day}`));
+    } else {
+      // If date does not exist, add today's date
+      taskData.date = Timestamp.fromDate(new Date());
     }
 
     if (notes) {

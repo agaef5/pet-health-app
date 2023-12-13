@@ -21,6 +21,9 @@ export default async function addWeightData(formData) {
     if (date) {
       const [day, month, year] = date.split("/");
       petData.date = Timestamp.fromDate(new Date(`${year}-${month}-${day}`));
+    } else {
+      // If date does not exist, add today's date
+      petData.date = Timestamp.fromDate(new Date());
     }
 
     const weightRef = collection(

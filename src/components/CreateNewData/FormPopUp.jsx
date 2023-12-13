@@ -245,7 +245,7 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
                     </Button>
 
                     {!disableSaveButton ? (
-                      <Button onClick={handleSave} auto>
+                      <Button color={"success"} onClick={handleSave} auto>
                         Save
                       </Button>
                     ) : null}

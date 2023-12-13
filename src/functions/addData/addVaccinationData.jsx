@@ -23,6 +23,9 @@ export default async function addVaccinationData(formData) {
       petData.dosageDate = Timestamp.fromDate(
         new Date(`${year}-${month}-${day}`)
       );
+    } else {
+      // If date does not exist, add today's date
+      petData.dosageDate = Timestamp.fromDate(new Date());
     }
 
     if (veterinarian) {
