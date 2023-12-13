@@ -1,18 +1,41 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
-import { Card, CardBody, CardHeader, Divider, Modal } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 
 import FormPopup from "../../../CreateNewData/FormPopUp";
 import DeleteData from "../../../DeleteData/DeleteButtonAndModal";
+import { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 export default function DetailedAppointmentLog({ apptDetails, petID }) {
   console.log("PetID: ", petID);
   console.log("DetailedAppointmentLog: ", apptDetails);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [menuRef]);
+
   // Check if apptDetails is null or undefined
   if (!apptDetails || apptDetails.length === 0) {
     return (
       <Card>
         <CardBody>
-          <p>No data</p>
+          <p>It's empty here.</p>
+          <p>Add something!</p>
+          <FormPopup logType={"appointments"} petID={petID} />
         </CardBody>
       </Card>
     );
@@ -25,31 +48,55 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
 
   return (
     <>
-      <Card>
-        <CardHeader>
+      <Card className="p-0 pb-4">
+        <CardHeader className="flex flex-row justify-between items-center px-4 pb-0">
           <h2>{title}</h2>
 
-          <FormPopup
-            logType={"appointments"}
-            editMode={true}
-            existingData={apptDetails}
-            petID={petID}
-          />
-          <DeleteData petID={petID} logType={"appointments"} docID={id} />
+          <div className="relative" ref={menuRef}>
+            <Button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              // onBlur={() => setIsMenuOpen(false)}
+              variant="light"
+            >
+              <FontAwesomeIcon icon={faEllipsisVertical} />
+            </Button>
+
+            {isMenuOpen && (
+              <Card className=" flex flex-row items-baseline bg-background absolute right-0 px-5 py-5">
+                <DeleteData petID={petID} logType={"appointments"} docID={id} />
+                <FormPopup
+                  logType={"appointments"}
+                  editMode={true}
+                  existingData={apptDetails}
+                  petID={petID}
+                />
+              </Card>
+            )}
+          </div>
         </CardHeader>
         <CardBody>
-          <Divider />
-          <p>{formattedDate}</p>
-          {veterinarian ? <p>{veterinarian}</p> : null}
+          {!formattedDate && !veterinarian ? null : (
+            <div className="w-full p-0 m-0">
+              <Divider />
+              <div className="w-full flex flex-row justify-between py-4">
+                {" "}
+                {formattedDate ? <p>{formattedDate}</p> : null}
+                {veterinarian ? <p>{veterinarian}</p> : null}
+              </div>
+            </div>
+          )}
+
           {notes ? (
             <>
-              <Divider /> <p>Notes:{notes}</p>
+              <Divider />{" "}
+              <div>
+                <h3 className="px-0">Notes:</h3>
+                {notes}
+              </div>
             </>
           ) : null}
         </CardBody>
       </Card>
-
-      <Modal />
     </>
   );
 }

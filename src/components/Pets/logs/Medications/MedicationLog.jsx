@@ -15,13 +15,7 @@ export default function MedicationLog({ mediDetails, petID }) {
   console.log(mediDetails);
   // Check if apptDetails is null or undefined
   if (!mediDetails || mediDetails.length === 0) {
-    return (
-      <Card>
-        <CardBody>
-          <p>No data</p>
-        </CardBody>
-      </Card>
-    );
+    return <p className="text-center w-full p-4">No data</p>;
   }
 
   const {
