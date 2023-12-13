@@ -14,6 +14,8 @@ import deletePet from "../../functions/Delete Data/deletePet";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../../firebase-config";
 import deleteTask from "../../functions/Delete Data/DeleteTask";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default function DeleteData({ logType, petID, docID }) {
   const navigate = useNavigate();
@@ -56,7 +58,14 @@ export default function DeleteData({ logType, petID, docID }) {
 
   return (
     <>
-      <Button onClick={onOpen}>Delete</Button>
+      <Button
+        className={"p-0 min-w-min pt-1 w-10"}
+        variant="light"
+        color="danger"
+        onClick={onOpen}
+      >
+        <FontAwesomeIcon className="fa-xl" icon={faTrash} />
+      </Button>
 
       <Modal
         isOpen={isOpen}
@@ -93,7 +102,9 @@ export default function DeleteData({ logType, petID, docID }) {
                 <Button
                   onClick={() => {
                     onClose();
-                    navigate(`/${user.uid}`);
+                    if (selectedDeleteType === "confirm") {
+                      navigate(`/${user.uid}`);
+                    }
                   }}
                 >
                   Close

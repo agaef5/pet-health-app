@@ -15,6 +15,7 @@ import DeleteData from "../DeleteData/DeleteButtonAndModal";
 export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
   const { task, date, notes } = taskData;
   const [isDone, setIsDone] = useState(taskData.isDone);
+  const [isVisible, setIsVisible] = useState(true);
 
   // Convert timestamp to DD/MM/YYYY format
   const timestampInSeconds = date.seconds;
@@ -25,42 +26,63 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
   console.log("Task data:", taskID);
 
   async function handleDoneCheckboxChange() {
+    setIsVisible(false);
     const user = auth.currentUser;
-
     const tasksRef = doc(db, "users", user.uid, "tasks", taskID);
-    await updateDoc(tasksRef, { isDone: !isDone }); // Use !done to toggle the value
-    setIsDone(!isDone); // Update the state after the database update
-    if (onTaskUpdate) {
-      onTaskUpdate();
-    }
+
+    await updateDoc(tasksRef, { isDone: !isDone });
+    setTimeout(() => {
+      setIsDone(!isDone);
+      if (onTaskUpdate) {
+        onTaskUpdate();
+      }
+    }, 100);
+
+    // Use !done to toggle the value
+    // Update the state after the database update
   }
 
   return (
-    <Card className="grid grid-cols-6 justify-stretch">
-      <Accordion className="col-span-5">
-        <AccordionItem
-          title={task}
-          subtitle={formattedDate ? formattedDate : null}
-        >
-          {notes ? <p className="">{notes}</p> : null}
-          <Divider />
-          <FormPopup
-            logType="tasks"
-            editMode={true}
-            existingData={taskData}
-            setRefreshPage={onTaskUpdate}
-          />
-          <DeleteData docID={taskID} />
-        </AccordionItem>
-      </Accordion>
-      <Checkbox
-        className="self-start"
-        radius="full"
-        size="lg"
-        color="success"
-        isSelected={isDone}
-        onChange={() => handleDoneCheckboxChange()}
-      ></Checkbox>
-    </Card>
+    <div
+      className={` transition-opacity duration-1000 ease-in-out ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <Card className="p-1">
+        <Accordion disableIndicatorAnimation>
+          <AccordionItem
+            title={task}
+            subtitle={formattedDate ? formattedDate : null}
+            indicator={
+              <Checkbox
+                radius="full"
+                size="lg"
+                color="success"
+                isSelected={isDone}
+                onChange={() => handleDoneCheckboxChange()}
+              ></Checkbox>
+            }
+          >
+            {notes ? (
+              <div className="pb-4">
+                <Divider />
+                <h3 className="px-0">Notes:</h3>
+                <p>{notes}</p>
+              </div>
+            ) : null}
+            <Divider />
+            <div className="flex flex-row items-baseline justify-end">
+              <FormPopup
+                logType="tasks"
+                editMode={true}
+                existingData={taskData}
+                setRefreshPage={onTaskUpdate}
+              />
+              <DeleteData docID={taskID} />
+            </div>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+    </div>
   );
 }

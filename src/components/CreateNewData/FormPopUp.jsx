@@ -25,7 +25,7 @@ import updatePetData from "../../functions/updateData/updatePetData";
 import addTask from "../../functions/addData/addTask";
 import updateTask from "../../functions/updateData/updateTask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 // Use lazy to import the components lazily (only when needed)
 const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
@@ -188,13 +188,24 @@ const FormPopup = ({
   console.log("EditMode: ", editMode);
   return (
     <>
-      <Button
-        radius="full"
-        className={`${classButtonName} w-10 h-20 shadow-2xl`}
-        onClick={onOpen}
-      >
-        <FontAwesomeIcon className="fa-2xl" icon={faPlus} />
-      </Button>
+      {editMode ? (
+        <Button
+          // radius="full"
+          variant="light"
+          className={`${classButtonName} p-0 min-w-min w-10 pb-1`}
+          onClick={onOpen}
+        >
+          <FontAwesomeIcon className="fa-xl" icon={faPenToSquare} />
+        </Button>
+      ) : (
+        <Button
+          radius="full"
+          className={`${classButtonName} w-10 h-20 shadow-2xl`}
+          onClick={onOpen}
+        >
+          <FontAwesomeIcon className="fa-2xl" icon={faPlus} />
+        </Button>
+      )}
 
       <Suspense fallback={<Spinner color="default" />}>
         <Modal

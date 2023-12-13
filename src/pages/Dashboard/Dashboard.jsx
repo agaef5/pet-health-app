@@ -54,17 +54,19 @@ function Dashboard() {
     <section
       className={`transition-opacity duration-1000 ease-in-out ${
         isLoaded ? "opacity-100" : "opacity-0"
-      } relative h-[88vh] p-4`}
+      } relative h-[85vh] p-4 flex flex-col gap-4`}
     >
-      <h2>Your pets:</h2>
-
-      <ScrollShadow orientation="horizontal">
-        <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-3">
-          {pets.map((pet) => (
-            <PetsTileDetailed key={pet.id} petData={pet} minimal={true} />
-          ))}
-        </div>
-      </ScrollShadow>
+      <h1>Welcome!</h1>
+      <div>
+        <h2>Your pets:</h2>
+        <ScrollShadow orientation="horizontal">
+          <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-3">
+            {pets.map((pet) => (
+              <PetsTileDetailed key={pet.id} petData={pet} minimal={true} />
+            ))}
+          </div>
+        </ScrollShadow>
+      </div>
 
       <div>
         <h2>Your tasks due today:</h2>
@@ -82,7 +84,9 @@ function Dashboard() {
         )}
       </div>
 
-      <Button onClick={hangleLogOut}>Sign out</Button>
+      <Button className={"min-h-fit"} onClick={hangleLogOut}>
+        Sign out
+      </Button>
     </section>
   );
 }

@@ -86,7 +86,7 @@ function PetsTileDetailed({ petData, minimal }) {
             isBordered
             src={petPhotoUrl}
           />
-          <CardHeader className="flex justify-center items-center gap-3">
+          <CardHeader className="flex justify-center items-center gap-1">
             <h3>{petData.name}</h3>
             {petData.sex == "female" ? (
               <FontAwesomeIcon icon={faVenus} />

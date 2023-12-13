@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import FormPopup from "../../components/CreateNewData/FormPopUp";
 import getTasks from "../../functions/fetchData/getTasks";
 import TaskTile from "../../components/Dashboard/TaskTile";
-import { Skeleton } from "@nextui-org/react";
+import { ScrollShadow } from "@nextui-org/react";
 
 function YourTasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -33,33 +33,38 @@ function YourTasksPage() {
 
   return (
     <div
-      className={`transition-opacity duration-1000 ease-in-out ${
-        isLoaded ? "opacity-100" : "opacity-0"
-      }`}
+      className={`transition-opacity duration-500 ease-in-out ${
+        !isLoaded ? "opacity-0" : "opacity-100"
+      }  relative h-[88vh] p-4 flex flex-col gap-6 `}
     >
-      <h1>Your tasks</h1>
-      <Skeleton isLoaded={isLoaded} className="rounded-lg">
+      <ScrollShadow orientation="vertical" className="h-[88vh]">
+        <h1>Your tasks</h1>
         <h2>Incoming</h2>
-        {incomingTasks.map((task) => (
-          <TaskTile
-            key={task.id}
-            taskID={task.id}
-            taskData={task}
-            onTaskUpdate={() => setRefreshPage(true)}
-          />
-        ))}
-        <FormPopup logType="tasks" />
+        <div className="flex flex-col mx-auto gap-4">
+          {incomingTasks.map((task) => (
+            <TaskTile
+              key={task.id}
+              taskID={task.id}
+              taskData={task}
+              onTaskUpdate={() => setRefreshPage(true)}
+            />
+          ))}
+        </div>
 
         <h2>Done</h2>
-        {doneTasks.map((task) => (
-          <TaskTile
-            key={task.id}
-            taskID={task.id}
-            taskData={task}
-            onTaskUpdate={() => setRefreshPage(true)}
-          />
-        ))}
-      </Skeleton>
+        <div className="flex flex-col mx-auto gap-4 opacity-50">
+          {doneTasks.map((task) => (
+            <TaskTile
+              key={task.id}
+              taskID={task.id}
+              taskData={task}
+              onTaskUpdate={() => setRefreshPage(true)}
+            />
+          ))}
+        </div>
+      </ScrollShadow>
+
+      <FormPopup logType="tasks" classButtonName="absolute bottom-0 right-4" />
     </div>
   );
 }
