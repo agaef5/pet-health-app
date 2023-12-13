@@ -1,24 +1,8 @@
 /* eslint-disable react/prop-types */
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Divider,
-  Modal,
-} from "@nextui-org/react";
-import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../../../../../firebase-config";
+import { Card, CardBody, CardHeader, Divider, Modal } from "@nextui-org/react";
+
 import FormPopup from "../../../CreateNewData/FormPopUp";
-
-async function handleDelete(petID, id) {
-  console.log("handleDelete: ", id);
-  console.log("handleDelete: ", petID);
-
-  const userID = localStorage.getItem("currentUserUID");
-  await deleteDoc(doc(db, "users", userID, "pets", petID, "appointments", id));
-  return console.log("appointment deleted");
-}
+import DeleteData from "../../../DeleteData/DeleteButtonAndModal";
 
 export default function DetailedAppointmentLog({ apptDetails, petID }) {
   console.log("PetID: ", petID);
@@ -51,7 +35,7 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
             existingData={apptDetails}
             petID={petID}
           />
-          <Button onClick={() => handleDelete(petID, id)}>Delete</Button>
+          <DeleteData petID={petID} logType={"appointments"} docID={id} />
         </CardHeader>
         <CardBody>
           <Divider />

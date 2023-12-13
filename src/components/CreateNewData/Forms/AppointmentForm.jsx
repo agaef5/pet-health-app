@@ -26,7 +26,6 @@ export default function AppointmentForm({
   console.log("existingData", existingData);
 
   const [formData, setFormData] = useState({
-    docID: "",
     petID: selectedPet,
     purpose: "",
     title: "",

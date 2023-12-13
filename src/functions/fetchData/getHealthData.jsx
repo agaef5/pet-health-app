@@ -1,11 +1,11 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { auth, db } from "../../../firebase-config";
+import { db } from "../../../firebase-config";
 
 export default async function getHealthData(petID, logType) {
-  let user = auth.currentUser;
+  let userID = localStorage.getItem("currentUserUID");
 
   // If there is no current user, check local storage
-  if (!user) {
+  if (!userID) {
     console.log("No user found. Redirecting to /");
     window.location.href = "/";
     return null;
@@ -20,9 +20,9 @@ export default async function getHealthData(petID, logType) {
     date = "date";
   }
 
-  console.log(user.uid, petID, logType);
+  console.log(userID, petID, logType);
 
-  const petsRef = collection(db, "users", user.uid, "pets", petID, logType);
+  const petsRef = collection(db, "users", userID, "pets", petID, logType);
   const q = query(petsRef, orderBy(date, "desc"));
   const dataSnapshot = await getDocs(q);
 

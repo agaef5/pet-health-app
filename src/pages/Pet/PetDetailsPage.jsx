@@ -6,6 +6,7 @@ import getPetByID from "../../functions/fetchData/getPetByID";
 import FormPopup from "../../components/CreateNewData/FormPopUp";
 import { auth } from "../../../firebase-config";
 import { getPhoto } from "../../functions/fetchData/getPetPhoto";
+import DeleteData from "../../components/DeleteData/DeleteButtonAndModal";
 
 export const PetDataContext = createContext();
 
@@ -37,16 +38,18 @@ export default function PetDetailsPage() {
 
   return (
     <section>
+      <FormPopup
+        logType={"Pet"}
+        editMode={true}
+        existingData={petData}
+        petID={petID}
+      />
+      <DeleteData petID={petID} />
       <Skeleton isLoaded={isLoaded} className="rounded-lg">
         {petPhotoUrl && <img src={petPhotoUrl} alt="pet image" />}
 
         <h2>{petData.name}</h2>
-        <FormPopup
-          logType={"Pet"}
-          editMode={true}
-          existingData={petData}
-          petID={petID}
-        />
+
         <Card>
           <p>birth date</p>
           <p>fgd</p>
