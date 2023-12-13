@@ -47,15 +47,18 @@ export default function MedicationLog({ mediDetails, petID }) {
   }, [petID]);
 
   return (
-    <Card>
+    <Card className="bg-background my-4 p-2 w-full">
       <CardHeader>
-        <h2>{name}</h2>
+        <h2>
+          {name} {dosage && `, ${dosage}`}
+        </h2>
       </CardHeader>
-      <CardBody>
-        {logData.length > 0 ? (
-          <>
+      <Divider />
+      {logData.length > 0 ? (
+        <CardBody>
+          <div className="flex flex-row justify-between">
             <p>
-              Dosage Date:{" "}
+              Next dosage date:{" "}
               {new Date(
                 logData[0].dosageDate.seconds * 1000
               ).toLocaleDateString()}
@@ -64,11 +67,13 @@ export default function MedicationLog({ mediDetails, petID }) {
               color="success"
               isSelected={logData[0].isDosed === true ? true : false}
             />
-          </>
-        ) : (
+          </div>
+        </CardBody>
+      ) : (
+        <CardBody>
           <p>No dosage log available</p>
-        )}
-      </CardBody>
+        </CardBody>
+      )}
     </Card>
   );
 }

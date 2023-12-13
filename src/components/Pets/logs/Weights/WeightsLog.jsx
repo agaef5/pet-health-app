@@ -12,13 +12,7 @@ export default function WeightsLog({ kgDetails }) {
   console.log(kgDetails);
   // Check if apptDetails is null or undefined
   if (!kgDetails || kgDetails.length === 0) {
-    return (
-      <Card>
-        <CardBody>
-          <p>No data</p>
-        </CardBody>
-      </Card>
-    );
+    return <p className="text-center w-full p-4">No data</p>;
   }
 
   const { date, weight } = kgDetails[0];
@@ -26,11 +20,13 @@ export default function WeightsLog({ kgDetails }) {
   const weightDate = new Date(date.seconds * 1000).toLocaleDateString();
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="flex flex-row justify-between max-h-fit items-center bg-background my-4 p-2 w-full">
+      <CardHeader className="max-w-fit">
         <h2>{weight} kg</h2>
       </CardHeader>
-      <CardBody>{weightDate ? <p>weightDate</p> : null}</CardBody>
+      <CardBody className="max-w-fit">
+        {weightDate ? <p>{weightDate}</p> : null}
+      </CardBody>
     </Card>
   );
 }

@@ -28,11 +28,6 @@ p {
   font-weight: 400;
 }
 
-/* Add this CSS to your stylesheet for smooth transitions */
-.TaskTile {
-  transition: opacity 0.5s ease-in-out;
-}
-
-.TaskTile.invisible {
-  opacity: 0;
+.mini-log {
+  background-color: var(--nextui-background);
 }

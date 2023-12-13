@@ -15,13 +15,7 @@ export default function VaccinationLog({ vaccDetails }) {
   console.log(vaccDetails);
   // Check if apptDetails is null or undefined
   if (!vaccDetails || vaccDetails.length === 0) {
-    return (
-      <Card>
-        <CardBody>
-          <p>No data</p>
-        </CardBody>
-      </Card>
-    );
+    return <p className="text-center w-full p-4">No data</p>;
   }
 
   const { name, dosageDate, veterinarian, notes } = vaccDetails[0];
@@ -33,14 +27,19 @@ export default function VaccinationLog({ vaccDetails }) {
   console.log(date);
 
   return (
-    <Card>
+    <Card className="bg-background my-4 p-2 w-full">
       <CardHeader>
         <h2>{name}</h2>
       </CardHeader>
-      <CardBody>
-        <p>{date}</p>
-        <p>{veterinarian ? veterinarian : null}</p>
-      </CardBody>
+      {!date && !veterinarian ? null : (
+        <>
+          <Divider />
+          <CardBody className="flex flex-row justify-between">
+            {date ? <p>{date}</p> : null}
+            {veterinarian ? <p>{veterinarian}</p> : null}
+          </CardBody>
+        </>
+      )}
     </Card>
   );
 }

@@ -8,6 +8,8 @@ import getNewestHealthLog from "../../../functions/fetchData/getNewestHealthLog"
 import MedicationLog from "./Medications/MedicationLog";
 import VaccinationLog from "./Vaccinations/VaccinationLog";
 import WeightsLog from "./Weights/WeightsLog";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function LogOverviewTile({ logType }) {
   const navigate = useNavigate();
@@ -43,10 +45,13 @@ export default function LogOverviewTile({ logType }) {
 
   console.log(newestLog);
   return (
-    <Card isPressable onClick={handleOverviewClick}>
-      <CardHeader>
+    <Card className="w-full px-4" isPressable onClick={handleOverviewClick}>
+      <CardHeader className="flex flex-row justify-between items-baseline">
         <h2 className="capitalize">{logType}</h2>
-        <p>see all</p>
+        <div className="flex flex-row items-center gap-2">
+          <p>see all</p>
+          <FontAwesomeIcon icon={faAngleRight} />
+        </div>
       </CardHeader>
       <Divider />
       {logType === "appointments" ? (

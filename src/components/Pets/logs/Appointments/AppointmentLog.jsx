@@ -4,13 +4,7 @@ import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 export default function AppointmentLog({ apptDetails }) {
   // Check if apptDetails is null or undefined
   if (!apptDetails || apptDetails.length === 0) {
-    return (
-      <Card>
-        <CardBody>
-          <p>No data</p>
-        </CardBody>
-      </Card>
-    );
+    return <p className="text-center w-full p-4">No data</p>;
   }
 
   const { title, date, veterinarian } = apptDetails[0];
@@ -19,12 +13,12 @@ export default function AppointmentLog({ apptDetails }) {
     : "";
 
   return (
-    <Card>
+    <Card className="bg-background my-4 p-2 w-full">
       <CardHeader>
         <h2>{title}</h2>
       </CardHeader>
       <Divider />
-      <CardBody>
+      <CardBody className="flex flex-row justify-between">
         {formattedDate ? <p>{formattedDate}</p> : null}
         {veterinarian ? <p>{veterinarian}</p> : null}
       </CardBody>
