@@ -27,8 +27,6 @@ export default function PetForm({
     photo: null,
   });
 
-  const [profilePicture, setProfilePicture] = useState(null);
-
   useEffect(() => {
     if (existingData) {
       // If there is existing data, populate the form fields
@@ -56,10 +54,6 @@ export default function PetForm({
   useEffect(() => {
     onFormChange(formData);
   }, [formData, onFormChange]);
-
-  const handleImageChange = (file) => {
-    setProfilePicture(file);
-  };
 
   const handleSelectionChange = (name, value) => {
     let selectedValue;

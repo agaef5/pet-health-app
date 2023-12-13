@@ -15,23 +15,29 @@ export default function PetDetailsPage() {
   const [petData, setPetData] = useState(null);
   const [petPhotoUrl, setPetPhotoUrl] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [refreshPage, setRefreshPage] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoaded(false);
-      const data = await getPetByID(petID);
-      setPetData(data);
-      let user = auth.currentUser;
-      // Set the pet photo URL
-      const photoUrl = await getPhoto(`users/${user.uid}/${petID}.jpg`);
-      setPetPhotoUrl(photoUrl);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 250);
-    };
-
     fetchData();
   }, [petID]);
+
+  useEffect(() => {
+    fetchData();
+    setRefreshPage(false);
+  }, [refreshPage === true]);
+
+  const fetchData = async () => {
+    setIsLoaded(false);
+    const data = await getPetByID(petID);
+    setPetData(data);
+    let user = auth.currentUser;
+    // Set the pet photo URL
+    const photoUrl = await getPhoto(`users/${user.uid}/${petID}.jpg`);
+    setPetPhotoUrl(photoUrl);
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 250);
+  };
 
   // Check if petData is still loading
   if (!petData) {
@@ -49,6 +55,7 @@ export default function PetDetailsPage() {
         editMode={true}
         existingData={petData}
         petID={petID}
+        setRefreshPage={setRefreshPage}
       />
       <DeleteData petID={petID} />
       <Skeleton isLoaded={isLoaded} className="rounded-lg">
@@ -81,7 +88,6 @@ export default function PetDetailsPage() {
           <LogOverviewTile logType="medications" />
           <LogOverviewTile logType="vaccinations" />
           <LogOverviewTile logType="weights" />
-          <FormPopup logType={null} noPet={true} />
         </PetDataContext.Provider>
       </Skeleton>
     </section>

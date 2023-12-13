@@ -7,23 +7,25 @@ import { Skeleton } from "@nextui-org/react";
 function YourTasksPage() {
   const [tasks, setTasks] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [refreshPage, setRefreshPage] = useState(false);
+
+  const fetchData = async () => {
+    setIsLoaded(false);
+    const fetchedTasks = await getTasks();
+    setTasks(fetchedTasks);
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 250);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoaded(false);
-      const fetchedTasks = await getTasks();
-      setTasks(fetchedTasks);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 250);
-    };
     fetchData();
   }, []);
 
-  const handleTaskUpdate = async () => {
-    const updatedTasks = await getTasks();
-    setTasks(updatedTasks);
-  };
+  useEffect(() => {
+    fetchData();
+    setRefreshPage(false);
+  }, [refreshPage === true]);
 
   // Separate tasks into incoming and done
   const incomingTasks = tasks.filter((task) => !task.isDone);
@@ -43,7 +45,7 @@ function YourTasksPage() {
             key={task.id}
             taskID={task.id}
             taskData={task}
-            onTaskUpdate={handleTaskUpdate}
+            onTaskUpdate={() => setRefreshPage(true)}
           />
         ))}
         <FormPopup logType="tasks" />
@@ -54,7 +56,7 @@ function YourTasksPage() {
             key={task.id}
             taskID={task.id}
             taskData={task}
-            onTaskUpdate={handleTaskUpdate}
+            onTaskUpdate={() => setRefreshPage(true)}
           />
         ))}
       </Skeleton>

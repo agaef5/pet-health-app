@@ -1,23 +1,31 @@
 import { useEffect, useState } from "react";
 import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
-import AddNewPetTile from "../../components/CreateNewData/AddNewPet/AddNewPetTile";
 import getPets from "../../functions/fetchData/getPets";
 import { Skeleton } from "@nextui-org/react";
+import FormPopup from "../../components/CreateNewData/FormPopUp";
 
 function YourPetsPage() {
   const [pets, setPets] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [refreshPage, setRefreshPage] = useState(false);
+
+  const fetchData = async () => {
+    setIsLoaded(false);
+    const petsData = await getPets();
+    setPets(petsData);
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 250);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoaded(false);
-      const petsData = await getPets();
-      setPets(petsData);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 250);
-    };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchData();
+    setRefreshPage(false);
+  }, [refreshPage === true]);
 
   return (
     <div
@@ -31,7 +39,7 @@ function YourPetsPage() {
           <PetsTileDetailed key={pet.id} petData={pet} />
         ))}
       </Skeleton>
-      <AddNewPetTile />
+      <FormPopup logType={"Pet"} setRefreshPage={setRefreshPage} />
     </div>
   );
 }

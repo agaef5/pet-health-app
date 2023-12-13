@@ -17,30 +17,38 @@ export default function PetHealthDetailsdPage() {
   const [petData, setPetData] = useState(null);
   const [petHealthData, setPetHealthData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [refreshPage, setRefreshPage] = useState(false);
 
   console.log(petHealthData);
 
   useEffect(() => {
-    async function fetchPetData() {
-      const data = await getPetByID(petID);
-      setPetData(data);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 250);
-    }
     fetchPetData();
   }, [petID]);
 
   useEffect(() => {
-    async function fetchHealthData() {
-      const fetchedData = await getHealthData(petID, logType);
-      setPetHealthData(fetchedData);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 250);
-    }
     fetchHealthData();
   }, [logType, petID]);
+
+  useEffect(() => {
+    fetchPetData();
+    fetchHealthData();
+  }, [refreshPage === true]);
+
+  async function fetchPetData() {
+    const data = await getPetByID(petID);
+    setPetData(data);
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 250);
+  }
+
+  async function fetchHealthData() {
+    const fetchedData = await getHealthData(petID, logType);
+    setPetHealthData(fetchedData);
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 250);
+  }
 
   console.log(petHealthData);
   // Check if petData is still loading
@@ -96,7 +104,12 @@ export default function PetHealthDetailsdPage() {
         }
       })}
 
-      <FormPopup logType={logType} noPet={true} petID={petID} />
+      <FormPopup
+        logType={logType}
+        noPet={true}
+        petID={petID}
+        setRefreshPage={setRefreshPage}
+      />
     </section>
   );
 }

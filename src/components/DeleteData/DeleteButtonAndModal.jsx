@@ -26,7 +26,6 @@ export default function DeleteData({ logType, petID, docID }) {
     try {
       let confirm = false;
 
-      console.log("Delete data:", logType, petID, docID);
       if (logType && petID && docID) {
         confirm = await deleteHealthLog({ logType, petID, id: docID });
       } else if (petID && !docID && !logType) {

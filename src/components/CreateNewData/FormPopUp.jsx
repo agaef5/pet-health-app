@@ -43,7 +43,14 @@ const logComponents = {
   Confirm: Spinner,
 };
 
-const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
+const FormPopup = ({
+  logType,
+  noPet,
+  editMode,
+  existingData,
+  petID,
+  setRefreshPage,
+}) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState(null);
   const [selectedLogType, setSelectedLogType] = useState(logType || "");
@@ -238,7 +245,10 @@ const FormPopup = ({ logType, noPet, editMode, existingData, petID }) => {
                         onClose();
                         setIsFormSubmitted(false);
                         setDisableSaveButton(false);
-                        setSelectedLogType("");
+                        if (selectedLogType === "Confirm") {
+                          setSelectedLogType("");
+                          setRefreshPage(true);
+                        }
                       }}
                     >
                       Close

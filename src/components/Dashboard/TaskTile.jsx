@@ -44,7 +44,12 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
         >
           {notes ? <p className="">{notes}</p> : null}
           <Divider />
-          <FormPopup logType="tasks" editMode={true} existingData={taskData} />
+          <FormPopup
+            logType="tasks"
+            editMode={true}
+            existingData={taskData}
+            setRefreshPage={onTaskUpdate}
+          />
           <DeleteData docID={taskID} />
         </AccordionItem>
       </Accordion>
@@ -54,7 +59,7 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
         size="lg"
         color="success"
         isSelected={isDone}
-        onChange={handleDoneCheckboxChange}
+        onChange={() => handleDoneCheckboxChange()}
       ></Checkbox>
     </Card>
   );
