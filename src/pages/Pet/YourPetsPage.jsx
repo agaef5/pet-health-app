@@ -31,19 +31,19 @@ function YourPetsPage() {
     <div
       className={`transition-opacity duration-1000 ease-in-out ${
         isLoaded ? "opacity-100" : "opacity-0"
-      } relative h-[88vh] p-4`}
+      } relative max-h-[88vh] py-10 p-4`}
     >
       <h1>Your Pets</h1>
 
-      <ScrollShadow orientation="vertical" size={100} className="h-[88vh]">
-        <div className="grid w-full items-center justify-center gap-4 pt-4 pb-32">
+      <ScrollShadow size={150} className="h-[82vh]">
+        <div className="flex flex-col min-h-fit items-center justify-center gap-4 pt-4 pb-32">
           {pets.map((pet) => (
             <PetsTileDetailed key={pet.id} petData={pet} />
           ))}
         </div>
       </ScrollShadow>
       <FormPopup
-        classButtonName={"absolute bottom-0 right-8"}
+        classButtonName={"absolute bottom-0 right-4"}
         logType={"Pet"}
         setRefreshPage={setRefreshPage}
       />

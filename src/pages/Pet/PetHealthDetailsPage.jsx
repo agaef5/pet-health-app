@@ -9,6 +9,7 @@ import DetailedMedicationLog from "../../components/Pets/logs/Medications/Detail
 import DetailedVaccinationLog from "../../components/Pets/logs/Vaccinations/DetailedVaccinationLog";
 import DetailedWeightsLog from "../../components/Pets/logs/Weights/DetailedWeightsLog";
 import FormPopup from "../../components/CreateNewData/FormPopUp";
+import { ScrollShadow } from "@nextui-org/react";
 
 export default function PetHealthDetailsdPage() {
   const { logType } = useParams();
@@ -60,55 +61,61 @@ export default function PetHealthDetailsdPage() {
     <section
       className={`transition-opacity duration-1000 ease-in-out ${
         isLoaded ? "opacity-100" : "opacity-0"
-      }`}
+      } flex flex-col gap-6 relative max-h-[88vh] py-10 p-4`}
     >
       <h1>
         {petData.name}'s {logType}
       </h1>
-      {petHealthData.map((document) => {
-        switch (logType) {
-          case "appointments":
-            return (
-              <DetailedAppointmentLog
-                key={document.id}
-                apptDetails={document}
-                petID={petID}
-              />
-            );
-          case "medications":
-            return (
-              <DetailedMedicationLog
-                key={document.id}
-                mediDetails={document}
-                petID={petID}
-              />
-            );
-          case "vaccinations":
-            return (
-              <DetailedVaccinationLog
-                key={document.id}
-                vaccDetails={document}
-                petID={petID}
-              />
-            );
-          case "weights":
-            return (
-              <DetailedWeightsLog
-                key={document.id}
-                kgDetails={document}
-                petID={petID}
-              />
-            );
-          default:
-            return null;
-        }
-      })}
+
+      <ScrollShadow className="h-[82vh] ">
+        <div className="flex flex-col gap-6">
+          {petHealthData.map((document) => {
+            switch (logType) {
+              case "appointments":
+                return (
+                  <DetailedAppointmentLog
+                    key={document.id}
+                    apptDetails={document}
+                    petID={petID}
+                  />
+                );
+              case "medications":
+                return (
+                  <DetailedMedicationLog
+                    key={document.id}
+                    mediDetails={document}
+                    petID={petID}
+                  />
+                );
+              case "vaccinations":
+                return (
+                  <DetailedVaccinationLog
+                    key={document.id}
+                    vaccDetails={document}
+                    petID={petID}
+                  />
+                );
+              case "weights":
+                return (
+                  <DetailedWeightsLog
+                    key={document.id}
+                    kgDetails={document}
+                    petID={petID}
+                  />
+                );
+              default:
+                return null;
+            }
+          })}
+        </div>
+      </ScrollShadow>
 
       <FormPopup
         logType={logType}
         noPet={true}
         petID={petID}
         setRefreshPage={setRefreshPage}
+        classButtonName={"absolute bottom-0 right-4"}
       />
     </section>
   );

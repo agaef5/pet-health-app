@@ -54,39 +54,41 @@ function Dashboard() {
     <section
       className={`transition-opacity duration-1000 ease-in-out ${
         isLoaded ? "opacity-100" : "opacity-0"
-      } relative h-[85vh] p-4 flex flex-col gap-4`}
+      } relative h-[85vh] p-4 py-10 flex flex-col gap-4`}
     >
       <h1>Welcome!</h1>
-      <div>
-        <h2>Your pets:</h2>
-        <ScrollShadow orientation="horizontal">
-          <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-3">
-            {pets.map((pet) => (
-              <PetsTileDetailed key={pet.id} petData={pet} minimal={true} />
-            ))}
-          </div>
-        </ScrollShadow>
-      </div>
+      <ScrollShadow>
+        <div>
+          <h2>Your pets:</h2>
+          <ScrollShadow orientation="horizontal">
+            <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-3">
+              {pets.map((pet) => (
+                <PetsTileDetailed key={pet.id} petData={pet} minimal={true} />
+              ))}
+            </div>
+          </ScrollShadow>
+        </div>
 
-      <div>
-        <h2>Your tasks due today:</h2>
-        {todayTasks.length > 0 ? (
-          todayTasks.map((task) => (
-            <TaskTile
-              key={task.id}
-              taskID={task.id}
-              taskData={task}
-              onTaskUpdate={() => setRefreshPage(true)}
-            />
-          ))
-        ) : (
-          <h2>You're all good!</h2>
-        )}
-      </div>
+        <div>
+          <h2>Your tasks due today:</h2>
+          {todayTasks.length > 0 ? (
+            todayTasks.map((task) => (
+              <TaskTile
+                key={task.id}
+                taskID={task.id}
+                taskData={task}
+                onTaskUpdate={() => setRefreshPage(true)}
+              />
+            ))
+          ) : (
+            <h2>You're all good!</h2>
+          )}
+        </div>
 
-      <Button className={"min-h-fit"} onClick={hangleLogOut}>
-        Sign out
-      </Button>
+        <Button className={"min-h-fit"} onClick={hangleLogOut}>
+          Sign out
+        </Button>
+      </ScrollShadow>
     </section>
   );
 }

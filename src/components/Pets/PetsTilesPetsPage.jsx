@@ -77,7 +77,7 @@ function PetsTileDetailed({ petData, minimal }) {
         </Card>
       ) : (
         <Card
-          className="w-80 flex justify-center items-center p-5"
+          className="w-full flex justify-center items-center p-5"
           isPressable
           onClick={handlePetDetailsClick}
         >
