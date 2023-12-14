@@ -27,14 +27,16 @@ export default function Weight({
       const { id, weight, date } = existingData;
 
       // Convert Firebase Timestamp to Date object
-      const formattedDate = date ? new Date(date.seconds * 1000) : null;
+      const formattedDate = date
+        ? new Date(date.seconds * 1000).toISOString().split("T")[0]
+        : null;
 
       setSelectedPet(propPetID);
       setFormData({
         docID: id,
         petID: propPetID,
         weight: weight,
-        date: formattedDate ? formattedDate.toLocaleDateString() : "",
+        date: formattedDate ? formattedDate : "",
       });
     }
   }, [existingData, propPetID]);

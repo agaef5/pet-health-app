@@ -20,7 +20,9 @@ export default function Weight({
       const { id, task, date, notes, isDone } = existingData;
 
       // Convert Firebase Timestamp to Date object
-      const formattedDate = date ? new Date(date.seconds * 1000) : null;
+      const formattedDate = date
+        ? new Date(date.seconds * 1000).toISOString().split("T")[0]
+        : null;
 
       setFormData({
         taskID: id,

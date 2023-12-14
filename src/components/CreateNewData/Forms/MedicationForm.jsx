@@ -52,7 +52,7 @@ export default function MedicationForm({
 
       // Convert Firebase Timestamp to Date object
       const formattedDate = prescribed
-        ? new Date(prescribed.seconds * 1000)
+        ? new Date(prescribed.seconds * 1000).toISOString().split("T")[0]
         : null;
 
       setSelectedPet(propPetID);
@@ -64,7 +64,7 @@ export default function MedicationForm({
         dosagesAmount: dosagesAmount || "",
         frequencyCount: frequencyCount || "",
         frequencyPeriod: frequencyPeriod || "",
-        prescribed: formattedDate ? formattedDate.toLocaleDateString() : "",
+        prescribed: formattedDate ? formattedDate : "",
         veterinarian: veterinarian || "",
         notes: notes || "",
       });

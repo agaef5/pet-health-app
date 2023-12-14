@@ -36,7 +36,7 @@ export default function VaccineForm({
 
       // Convert Firebase Timestamp to Date object
       const formattedDate = dosageDate
-        ? new Date(dosageDate.seconds * 1000)
+        ? new Date(dosageDate.seconds * 1000).toISOString().split("T")[0]
         : null;
 
       setSelectedPet(propPetID);

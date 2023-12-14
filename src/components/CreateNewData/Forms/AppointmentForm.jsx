@@ -41,7 +41,9 @@ export default function AppointmentForm({
       const { id, purpose, title, date, veterinarian, notes } = existingData;
 
       // Convert Firebase Timestamp to Date object
-      const formattedDate = date ? new Date(date.seconds * 1000) : null;
+      const formattedDate = date
+        ? new Date(date.seconds * 1000).toISOString().split("T")[0]
+        : null;
 
       setSelectedPet(propPetID);
       setFormData({
@@ -49,7 +51,7 @@ export default function AppointmentForm({
         petID: propPetID,
         purpose: purpose || "",
         title: title || "",
-        date: formattedDate ? formattedDate.toLocaleDateString() : "",
+        date: formattedDate ? formattedDate : "",
         veterinarian: veterinarian || "",
         notes: notes || "",
       });

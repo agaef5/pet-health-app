@@ -53,13 +53,15 @@ export default function PetForm({
         existingData;
 
       // Convert Firebase Timestamp to Date object
-      const formattedDate = birthday ? new Date(birthday.seconds * 1000) : null;
+      const formattedDate = birthday
+        ? new Date(birthday.seconds * 1000).toISOString().split("T")[0]
+        : null;
 
       setSelectedPet(propPetID);
       setFormData({
         petID: propPetID,
         name: name,
-        birthday: formattedDate ? formattedDate.toLocaleDateString() : "",
+        birthday: formattedDate ? formattedDate : "",
         sex: sex || "",
         neutered: neutered === true ? "yes" : "no",
         species: species || "",
@@ -92,9 +94,11 @@ export default function PetForm({
         [name]: formattedDate,
       }));
     } else {
+      const file = value.length > 0 ? value[0] : null;
+
       setFormData((prevData) => ({
         ...prevData,
-        [name]: value,
+        [name]: file,
       }));
     }
   };

@@ -42,6 +42,7 @@ export default function PetDetailsPage() {
     }
     setPetData(data);
     let user = auth.currentUser;
+
     // Set the pet photo URL
     const photoUrl = await getPhoto(`users/${user.uid}/${petID}.jpg`);
     setPetPhotoUrl(photoUrl);
@@ -55,6 +56,8 @@ export default function PetDetailsPage() {
   if (!petData) {
     return <p>Loading...</p>;
   }
+
+  console.log("petData", petPhotoUrl);
 
   return (
     <ScrollShadow orientation="vertical" className="h-[88vh] pb-24">
