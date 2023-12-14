@@ -28,7 +28,7 @@ export default function Weight({
         taskID: id,
         task: task,
         notes: notes,
-        date: formattedDate ? formattedDate.toLocaleDateString() : "",
+        date: formattedDate ? formattedDate : "",
         isDone: isDone,
       });
     }

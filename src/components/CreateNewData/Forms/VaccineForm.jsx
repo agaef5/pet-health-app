@@ -44,7 +44,7 @@ export default function VaccineForm({
         docID: id,
         petID: propPetID,
         name: name,
-        dosageDate: formattedDate ? formattedDate.toLocaleDateString() : "",
+        dosageDate: formattedDate ? formattedDate : "",
         veterinarian: veterinarian || "",
         notes: notes || "",
       });
