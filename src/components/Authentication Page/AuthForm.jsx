@@ -123,8 +123,14 @@ const AuthForm = () => {
             setSelected(key);
           }}
         >
-          <Tab key={"login"} title="Login" aria-label="show login form"></Tab>
           <Tab
+            key={"login"}
+            title="Login"
+            aria-label="show login form"
+            role="button"
+          ></Tab>
+          <Tab
+            role="button"
             key={"createaccount"}
             title="Create Account"
             aria-label="show create account form"
