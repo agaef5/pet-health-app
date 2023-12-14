@@ -3,8 +3,9 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import FormPopup from "../CreateNewData/FormPopUp";
 
-export default function EmptyState({ logType, setRefreshPage }) {
+export default function EmptyState({ logType, petID, setRefreshPage }) {
   console.log(logType);
+  console.log(petID);
   return (
     <div className="flex flex-col gap-4 items-center">
       <Card className=" w-[80vw] flex flex-col gap-4 items-center p-4">
@@ -24,7 +25,11 @@ export default function EmptyState({ logType, setRefreshPage }) {
             Add one by clicking <br />
             the button below:
           </p>
-          <FormPopup logType={logType} setRefreshPage={setRefreshPage} />
+          <FormPopup
+            logType={logType}
+            petID={petID}
+            setRefreshPage={setRefreshPage}
+          />
         </CardBody>
       </Card>
     </div>

@@ -49,14 +49,14 @@ function Dashboard() {
       } relative h-[85vh] p-4 py-10 flex flex-col gap-4`}
     >
       <h1>Welcome!</h1>
-      <ScrollShadow>
-        <div className="flex flex-col gap-10">
+      <ScrollShadow className="pb-5">
+        <div className="flex flex-col gap-10 pb-24">
           <div>
             <h2>Your pets:</h2>
 
             {pets.length > 0 ? (
               <ScrollShadow orientation="horizontal">
-                <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-3">
+                <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-5 px-2">
                   {pets.map((pet) => (
                     <PetsTileDetailed
                       key={pet.id}

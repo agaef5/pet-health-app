@@ -21,7 +21,7 @@ export default function PetHealthDetailsdPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [refreshPage, setRefreshPage] = useState(false);
 
-  console.log(petHealthData);
+  console.log(petID);
 
   useEffect(() => {
     fetchPetData();
@@ -52,7 +52,7 @@ export default function PetHealthDetailsdPage() {
     }, 250);
   }
 
-  console.log(petHealthData);
+  console.log(petID);
   // Check if petData is still loading
   if (!petData) {
     return <p>Loading...</p>;
@@ -112,7 +112,11 @@ export default function PetHealthDetailsdPage() {
           </div>
         </ScrollShadow>
       ) : (
-        <EmptyState logType={logType} setRefreshPage={setRefreshPage} />
+        <EmptyState
+          logType={logType}
+          petID={petID}
+          setRefreshPage={setRefreshPage}
+        />
       )}
 
       <FormPopup

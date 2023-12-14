@@ -41,10 +41,10 @@ function YourTasksPage() {
       <h1>Your tasks</h1>
 
       <ScrollShadow orientation="vertical">
-        <div className="h-[90vh] flex flex-col gap-4 pb-24">
+        <div className="h-[90vh] flex flex-col gap-4 mb-24">
           <h2>Incoming</h2>
           {incomingTasks.length > 0 ? (
-            <div className="flex flex-col mx-auto gap-4 ">
+            <div className="flex flex-col mx-auto gap-4 w-full">
               {incomingTasks.map((task) => (
                 <TaskTile
                   key={task.id}
@@ -61,7 +61,7 @@ function YourTasksPage() {
           <Divider className="mt-4" />
           <h2>Done</h2>
           {doneTasks.length > 0 ? (
-            <div className="flex flex-col mx-auto gap-4 opacity-50">
+            <div className="flex flex-col mx-auto gap-4 opacity-50 pb-10 w-full">
               {doneTasks.map((task) => (
                 <TaskTile
                   key={task.id}
@@ -80,7 +80,11 @@ function YourTasksPage() {
           )}
         </div>
       </ScrollShadow>
-      <FormPopup logType="tasks" classButtonName="fixed bottom-24 right-4" />
+      <FormPopup
+        logType="tasks"
+        classButtonName="fixed bottom-24 right-4"
+        setRefreshPage={setRefreshPage}
+      />
     </div>
   );
 }

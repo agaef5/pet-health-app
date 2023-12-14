@@ -25,7 +25,7 @@ export default function Container() {
   }, []);
 
   return (
-    <section>
+    <section className="w-screen">
       {isWideScreen ? (
         // mockup for wide screens from https://github.com/themesberg/flowbite/blob/main/content/components/device-mockups.md?plain=1
         <div className="flex items-center justify-center min-h-screen">

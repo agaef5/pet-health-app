@@ -43,14 +43,6 @@ export default function Weight({
     }));
   };
 
-  const isValidDate = (dateString) => {
-    if (dateString.trim() === "") {
-      return true;
-    }
-    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-    return regex.test(dateString);
-  };
-
   const isRequiredFieldValid = (value) => {
     return value.trim() !== "";
   };
@@ -75,12 +67,7 @@ export default function Weight({
       <Input
         label="Task due date"
         placeholder="DD/MM/YYYY"
-        isInvalid={isFormSubmitted && !isValidDate(formData.date)}
-        errorMessage={
-          isFormSubmitted && !isValidDate(formData.date)
-            ? "Please enter a valid date"
-            : null
-        }
+        type="date"
         value={formData.date}
         onChange={(e) => handleInputChange("date", e.target.value)}
       />

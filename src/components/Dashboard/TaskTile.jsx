@@ -40,7 +40,7 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
 
   return (
     <div
-      className={` transition-opacity duration-1000 ease-in-out ${
+      className={`w-full transition-opacity duration-1000 ease-in-out ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >

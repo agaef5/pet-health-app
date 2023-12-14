@@ -1,57 +1,57 @@
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
 
-function calculateDosageDates({
-  dosagesAmount,
-  frequencyCount,
-  frequencyPeriod,
-  prescribed,
-}) {
-  const formatDate = (date) => {
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString();
+// function calculateDosageDates({
+//   dosagesAmount,
+//   frequencyCount,
+//   frequencyPeriod,
+//   prescribed,
+// }) {
+//   const formatDate = (date) => {
+//     const day = date.getDate().toString().padStart(2, "0");
+//     const month = (date.getMonth() + 1).toString().padStart(2, "0");
+//     const year = date.getFullYear().toString();
 
-    return `${day}/${month}/${year}`;
-  };
+//     return `${day}/${month}/${year}`;
+//   };
 
-  console.log(dosagesAmount, frequencyCount, frequencyPeriod, prescribed);
+//   console.log(dosagesAmount, frequencyCount, frequencyPeriod, prescribed);
 
-  const periodsInDays = {
-    day: 1,
-    week: 7,
-    month: 30,
-    year: 365,
-  };
+//   const periodsInDays = {
+//     day: 1,
+//     week: 7,
+//     month: 30,
+//     year: 365,
+//   };
 
-  const prescribedDate = prescribed ? new Date(prescribed) : new Date();
-  console.log(prescribedDate.getTime());
-  const periodInDays = periodsInDays[frequencyPeriod];
-  console.log(prescribedDate.getTime(), periodInDays);
+//   const prescribedDate = prescribed ? new Date(prescribed) : new Date();
+//   console.log(prescribedDate.getTime());
+//   const periodInDays = periodsInDays[frequencyPeriod];
+//   console.log(prescribedDate.getTime(), periodInDays);
 
-  if (
-    !prescribedDate ||
-    isNaN(prescribedDate.getTime()) ||
-    dosagesAmount <= 0 ||
-    frequencyCount <= 0 ||
-    !periodInDays
-  ) {
-    console.error("Invalid input data");
-    return [];
-  }
+//   if (
+//     !prescribedDate ||
+//     isNaN(prescribedDate.getTime()) ||
+//     dosagesAmount <= 0 ||
+//     frequencyCount <= 0 ||
+//     !periodInDays
+//   ) {
+//     console.error("Invalid input data");
+//     return [];
+//   }
 
-  const dosageDates = [];
-  let currentDate = new Date(prescribedDate);
+//   const dosageDates = [];
+//   let currentDate = new Date(prescribedDate);
 
-  for (let i = 0; i < dosagesAmount; i++) {
-    dosageDates.push(formatDate(currentDate));
+//   for (let i = 0; i < dosagesAmount; i++) {
+//     dosageDates.push(formatDate(currentDate));
 
-    // Move to the next dosage date based on frequency
-    currentDate.setDate(currentDate.getDate() + periodInDays / frequencyCount);
-  }
+//     // Move to the next dosage date based on frequency
+//     currentDate.setDate(currentDate.getDate() + periodInDays / frequencyCount);
+//   }
 
-  return dosageDates;
-}
+//   return dosageDates;
+// }
 
 export default async function addMedicationData(formData) {
   console.log(formData);
@@ -75,13 +75,13 @@ export default async function addMedicationData(formData) {
       notes,
     } = formData;
 
-    const result = calculateDosageDates({
-      dosagesAmount,
-      frequencyCount,
-      frequencyPeriod,
-      prescribed,
-    });
-    console.log(result);
+    // const result = calculateDosageDates({
+    //   dosagesAmount,
+    //   frequencyCount,
+    //   frequencyPeriod,
+    //   prescribed,
+    // });
+    // console.log(result);
 
     const petData = {
       name: name,

@@ -75,43 +75,17 @@ export default function PetForm({
   }, [formData, onFormChange]);
 
   const handleSelectionChange = (name, value) => {
-    let selectedValue;
-    // Map selected value to boolean if applicable
-    if (name === "neutered") {
-      selectedValue = value === "yes";
-    } else {
-      selectedValue = value;
-    }
-
     setFormData((prevData) => ({
       ...prevData,
-      [name]: selectedValue,
+      [name]: value,
     }));
   };
 
   const handleInputChange = (name, value) => {
-    let file;
-
-    // Check if the input value is a FileList
-    if (value instanceof FileList && value.length > 0) {
-      file = value[0];
-    }
-    // Check if the input value is a File
-    else if (value instanceof File) {
-      file = value;
-    }
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "photo" ? file : value,
+      [name]: value,
     }));
-  };
-
-  const isValidDate = (dateString) => {
-    if (dateString.trim() === "") {
-      return true;
-    }
-    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-    return regex.test(dateString);
   };
 
   const isRequiredFieldValid = (value) => {
@@ -146,12 +120,7 @@ export default function PetForm({
       <Input
         label="Birth date"
         placeholder="DD/MM/YYYY"
-        isInvalid={isFormSubmitted && !isValidDate(formData.birthday)}
-        errorMessage={
-          isFormSubmitted && !isValidDate(formData.birthday)
-            ? "Please enter a valid date"
-            : null
-        }
+        type="date"
         value={formData.birthday}
         onChange={(e) => handleInputChange("birthday", e.target.value)}
       />
@@ -185,7 +154,10 @@ export default function PetForm({
         label="Species"
         placeholder="e.g. Cat"
         value={formData.species}
-        onChange={(e) => handleInputChange("species", e.target.value)}
+        onSelectionChange={(selectedValue) =>
+          handleSelectionChange("species", selectedValue)
+        }
+        onInputChange={(inputValue) => handleInputChange("species", inputValue)}
       >
         {popularSpeciesList.map((species) => (
           <AutocompleteItem key={species} value={species}>

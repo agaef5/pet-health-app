@@ -19,7 +19,7 @@ export default function VaccineForm({
   const petDataContext = useContext(PetDataContext);
   const petID = petDataContext ? petDataContext.petID : "";
   const [pets, setPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(petID || propPetID || "");
+  const [selectedPet, setSelectedPet] = useState(propPetID || petID || "");
 
   const [formData, setFormData] = useState({
     petID: selectedPet,
@@ -63,8 +63,7 @@ export default function VaccineForm({
     onFormChange(formData);
   }, [formData, onFormChange]);
 
-  const handlePetSelectionChange = (e) => {
-    const selectedPetValue = e.target.value;
+  const handlePetSelectionChange = (selectedPetValue) => {
     setSelectedPet(selectedPetValue);
     setFormData((prevData) => ({
       ...prevData,
@@ -77,14 +76,6 @@ export default function VaccineForm({
       ...prevData,
       [name]: value,
     }));
-  };
-
-  const isValidDate = (dateString) => {
-    if (dateString.trim() === "") {
-      return true;
-    }
-    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-    return regex.test(dateString);
   };
 
   const isRequiredFieldValid = (value) => {
@@ -104,9 +95,11 @@ export default function VaccineForm({
             ? "This field is required"
             : null
         }
-        defaultSelectedKeys={[selectedPet]}
+        defaultSelectedKey={selectedPet}
         value={selectedPet}
-        onChange={handlePetSelectionChange}
+        onSelectionChange={(selectedValue) =>
+          handlePetSelectionChange(selectedValue)
+        }
       >
         {pets.map((pet) => (
           <AutocompleteItem key={pet.id} value={pet.id}>
@@ -132,12 +125,7 @@ export default function VaccineForm({
       <Input
         label="Vaccine dosage date"
         placeholder="DD/MM/YYYY"
-        isInvalid={isFormSubmitted && !isValidDate(formData.dosageDate)}
-        errorMessage={
-          isFormSubmitted && !isValidDate(formData.dosageDate)
-            ? "Please enter a valid date"
-            : null
-        }
+        type="date"
         value={formData.dosageDate}
         onChange={(e) => handleInputChange("dosageDate", e.target.value)}
       />
