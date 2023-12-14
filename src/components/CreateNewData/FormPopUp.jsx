@@ -27,6 +27,7 @@ import addTask from "../../functions/addData/addTask";
 import updateTask from "../../functions/updateData/updateTask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
+import Confirmation from "../Confirmation/Confirmation";
 
 // Use lazy to import the components lazily (only when needed)
 const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
@@ -43,7 +44,7 @@ const logComponents = {
   weights: LazyWeightForm,
   tasks: LazyTaskForm,
   Pet: LazyPetForm,
-  Confirm: Spinner,
+  Confirm: Confirmation,
 };
 
 const FormPopup = ({
