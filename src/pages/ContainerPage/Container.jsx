@@ -49,7 +49,7 @@ export default function Container() {
         </div>
       ) : (
         // Render the Outlet and NavigationBar for narrow screens
-        <div className="relative bg-black">
+        <div className="relative">
           <Outlet />
           <NavigationBar />
           <Button

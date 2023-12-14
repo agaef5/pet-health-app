@@ -17,7 +17,13 @@ import deleteTask from "../../functions/Delete Data/DeleteTask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-export default function DeleteData({ logType, petID, docID }) {
+export default function DeleteData({
+  userID,
+  logType,
+  petID,
+  docID,
+  deleteAccount,
+}) {
   const navigate = useNavigate();
   const user = auth.currentUser;
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -33,8 +39,9 @@ export default function DeleteData({ logType, petID, docID }) {
       } else if (petID && !docID && !logType) {
         confirm = await deletePet({ petID });
       } else if (docID && !petID && !logType) {
-        console.log("Delete task");
         confirm = await deleteTask({ id: docID });
+      } else if (userID && !docID && !petID && !logType) {
+        confirm = await deleteAccount({ id: docID });
       } else {
         console.log("Delete failed");
       }
@@ -58,14 +65,20 @@ export default function DeleteData({ logType, petID, docID }) {
 
   return (
     <>
-      <Button
-        className={"p-0 min-w-min pt-1 w-10"}
-        variant="light"
-        color="danger"
-        onClick={onOpen}
-      >
-        <FontAwesomeIcon className="fa-xl" icon={faTrash} />
-      </Button>
+      {deleteAccount ? (
+        <Button size="lg" color="danger" onClick={onOpen}>
+          Delete Account
+        </Button>
+      ) : (
+        <Button
+          className={"p-0 min-w-min pt-1 w-10"}
+          variant="light"
+          color="danger"
+          onClick={onOpen}
+        >
+          <FontAwesomeIcon className="fa-xl" icon={faTrash} />
+        </Button>
+      )}
 
       <Modal
         isOpen={isOpen}
@@ -95,7 +108,14 @@ export default function DeleteData({ logType, petID, docID }) {
               <ModalFooter>
                 {!disableDeleteButton ? (
                   <Button color="danger" onClick={() => handleDelete()}>
-                    Delete {logType ? logType : petID ? "pet" : "task"}
+                    Delete{" "}
+                    {userID
+                      ? "Your account once and forever"
+                      : logType
+                        ? logType
+                        : petID
+                          ? "pet"
+                          : "task"}
                   </Button>
                 ) : null}
 
@@ -103,7 +123,12 @@ export default function DeleteData({ logType, petID, docID }) {
                   onClick={() => {
                     onClose();
                     if (selectedDeleteType === "confirm") {
-                      navigate(`/${user.uid}`);
+                      if (userID && !docID && !petID && !logType) {
+                        localStorage.removeItem("currentUserUID");
+                        window.location.href = "/";
+                      } else {
+                        navigate(`/${user.uid}`);
+                      }
                     }
                   }}
                 >
@@ -118,11 +143,18 @@ export default function DeleteData({ logType, petID, docID }) {
   );
 }
 
-function DeleteAsk({ petID, logType }) {
+function DeleteAsk({ userID, petID, logType }) {
   return (
     <p>
       Are you sure you want to delete{" "}
-      {logType ? "these data" : petID ? "these pet data" : "this task"}?
+      {userID
+        ? "Your account"
+        : logType
+          ? "these health data"
+          : petID
+            ? "these pet data"
+            : "this task"}
+      ?
     </p>
   );
 }

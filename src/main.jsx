@@ -14,6 +14,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config.js";
 import Container from "./pages/ContainerPage/Container.jsx";
 import Settings from "./pages/Settings/Settings.jsx";
+import { ThemeProvider } from "./functions/Theme Provider/ThemeProvider.tsx";
 
 const AuthenticatedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -34,7 +35,8 @@ const AuthenticatedRoute = ({ children }) => {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <NextUIProvider>
-      <main className="dark text-foreground bg-background">
+      {/* <main className="dark text-foreground bg-background"> */}
+      <ThemeProvider storeageKey="theme" defaultTheme="dark">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<AuthenticationPage />} />
@@ -97,7 +99,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             </Route>
           </Routes>
         </BrowserRouter>
-      </main>
+      </ThemeProvider>
+      {/* </main> */}
     </NextUIProvider>
   </React.StrictMode>
 );
