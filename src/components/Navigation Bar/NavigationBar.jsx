@@ -12,6 +12,10 @@ const NavigationBar = () => {
     pathname = `/${userID}/pets`;
   }
 
+  if (pathname.startsWith(`/${userID}/settings`)) {
+    pathname = `/${userID}`;
+  }
+
   function handleNavigation(path) {
     navigate(path);
   }
@@ -32,7 +36,7 @@ const NavigationBar = () => {
           tab: "h-full w-full",
         }}
       >
-        <Tab key={`/${userID}/`} path={""} title="Home" />
+        <Tab key={`/${userID}`} path={""} title="Home" />
         <Tab key={`/${userID}/pets`} path={"pets"} title="Pets" />
         <Tab key={`/${userID}/tasks`} path={"tasks"} title="Tasks" />
       </Tabs>

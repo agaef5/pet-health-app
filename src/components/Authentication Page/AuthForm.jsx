@@ -1,4 +1,4 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button, Card, Input, Tab, Tabs } from "@nextui-org/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db, provider } from "../../../firebase-config";
@@ -8,10 +8,12 @@ import {
   signInWithEmailAndPassword,
   signInWithRedirect,
 } from "firebase/auth";
-import PropTypes from "prop-types";
 import { doc, setDoc } from "firebase/firestore";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const AuthForm = ({ isLogin }) => {
+const AuthForm = () => {
+  const [selected, setSelected] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +24,7 @@ const AuthForm = ({ isLogin }) => {
   const handleAuth = (e) => {
     e.preventDefault();
 
-    if (isLogin) {
+    if (selected === "login") {
       signInWithEmailAndPassword(auth, email, password).then(
         (userCredential) => {
           localStorage.setItem("currentUserUID", userCredential.user.uid);
@@ -63,9 +65,20 @@ const AuthForm = ({ isLogin }) => {
 
   return (
     <section>
-      <div>
-        <h2>{isLogin ? "Log In" : "Create Account"}</h2>
-        <form>
+      <Card className="flex flex-col gap-4 justify-center items-center p-5 max-w-xs mx-auto">
+        <Tabs
+          fullWidth
+          size="lg"
+          selectedKey={selected}
+          onSelectionChange={(key) => {
+            setSelected(key);
+          }}
+        >
+          <Tab key={"login"} title="Login"></Tab>
+          <Tab key={"createaccount"} title="Create Account"></Tab>
+        </Tabs>
+        <h2>{selected === "login" ? "Log In" : "Create Account"}</h2>
+        <form className="flex flex-col gap-4 w-full">
           <Input
             type="email"
             label="Email"
@@ -84,28 +97,37 @@ const AuthForm = ({ isLogin }) => {
                 type="button"
                 onClick={toggleVisibility}
               >
-                {/* Toggle visibility icon */}
+                {isVisible ? (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                ) : (
+                  <FontAwesomeIcon icon={faEye} />
+                )}
               </button>
             }
             type={isVisible ? "text" : "password"}
-            className="max-w-xs"
           />
-          <Button onClick={handleAuth}>
-            {isLogin ? "Log In" : "Create Account"}
+          <Button
+            size="lg"
+            color="primary"
+            className="font-semibold"
+            onClick={handleAuth}
+          >
+            {selected === "login" ? "Log In" : "Create Account"}
           </Button>
         </form>
-        <>
-          <p>or</p>
-          <p>{isLogin ? "Log In with" : "Create Account with"}</p>
-        </>
-        <Button onClick={handleProviderSignIn}>Google</Button>
-      </div>
+
+        <p>or</p>
+
+        <Button
+          size="lg"
+          className="w-full bg-slate-100 text-zinc-800 font-semibold"
+          onClick={handleProviderSignIn}
+        >
+          Continue with Google
+        </Button>
+      </Card>
     </section>
   );
-};
-
-AuthForm.propTypes = {
-  isLogin: PropTypes.bool.isRequired,
 };
 
 export default AuthForm;

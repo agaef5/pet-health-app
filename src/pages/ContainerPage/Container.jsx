@@ -1,8 +1,14 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
 import NavigationBar from "../../components/Navigation Bar/NavigationBar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { Button } from "@nextui-org/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGears } from "@fortawesome/free-solid-svg-icons";
 
 export default function Container() {
+  const navigate = useNavigate();
+  const userID = localStorage.getItem("currentUserUID");
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 500);
 
   useEffect(() => {
@@ -36,8 +42,8 @@ export default function Container() {
               Reduce screen's width to less than 500px to see the project
             </h1>
             <p>
-              highly recommend to check it with devTools in Chrome (Inspect >
-              CTRL + SHIFT + M > iPhone 12 Pro)
+              highly recommend to check it with devTools in Chrome (Inspect &gt;
+              CTRL + SHIFT + M &gt; iPhone 12 Pro)
             </p>
           </div>
         </div>
@@ -46,6 +52,15 @@ export default function Container() {
         <div className="relative bg-black">
           <Outlet />
           <NavigationBar />
+          <Button
+            className={"absolute right-0 top-5 min-h-fit"}
+            variant="light"
+            onClick={() => {
+              navigate(`/${userID}/settings`);
+            }}
+          >
+            <FontAwesomeIcon className="fa-xl opacity-50" icon={faGears} />
+          </Button>
         </div>
       )}
     </section>

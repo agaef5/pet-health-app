@@ -13,6 +13,7 @@ import PetHealthDetailsdPage from "./pages/Pet/PetHealthDetailsPage.jsx";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config.js";
 import Container from "./pages/ContainerPage/Container.jsx";
+import Settings from "./pages/Settings/Settings.jsx";
 
 const AuthenticatedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -82,6 +83,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 element={
                   <AuthenticatedRoute>
                     <YourTasksPage />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="settings"
+                element={
+                  <AuthenticatedRoute>
+                    <Settings />
                   </AuthenticatedRoute>
                 }
               />
