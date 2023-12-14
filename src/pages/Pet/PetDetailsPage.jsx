@@ -57,7 +57,7 @@ export default function PetDetailsPage() {
   }
 
   return (
-    <ScrollShadow orientation="vertical" className="h-[88vh]">
+    <ScrollShadow orientation="vertical" className="h-[88vh] pb-24">
       <section
         className={`transition-opacity duration-1000 ease-in-out ${
           isLoaded ? "opacity-100" : "opacity-0"

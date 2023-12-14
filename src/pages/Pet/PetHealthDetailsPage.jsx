@@ -67,7 +67,7 @@ export default function PetHealthDetailsdPage() {
         {petData.name}'s {logType}
       </h1>
 
-      <ScrollShadow className="h-[82vh] ">
+      <ScrollShadow className="h-[82vh] pb-24">
         <div className="flex flex-col gap-6">
           {petHealthData.map((document) => {
             switch (logType) {

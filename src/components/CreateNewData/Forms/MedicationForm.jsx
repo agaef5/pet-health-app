@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import {
+  Autocomplete,
+  AutocompleteItem,
   Divider,
   Input,
   Select,
@@ -20,8 +22,6 @@ export default function MedicationForm({
   const petID = petDataContext ? petDataContext.petID : "";
   const [pets, setPets] = useState([]);
   const [selectedPet, setSelectedPet] = useState(petID || propPetID || "");
-
-  console.log(selectedPet);
 
   const [formData, setFormData] = useState({
     petID: selectedPet,
@@ -122,11 +122,9 @@ export default function MedicationForm({
     return value.trim() !== ""; // Check if the trimmed value is not empty
   };
 
-  console.log(formData);
-
   return (
-    <div>
-      <Select
+    <div className="flex flex-col gap-6">
+      <Autocomplete
         isDisabled={existingData && Object.keys(existingData).length > 0}
         isRequired
         label="Pet"
@@ -142,12 +140,12 @@ export default function MedicationForm({
         onChange={handlePetSelectionChange}
       >
         {pets.map((pet) => (
-          <SelectItem key={pet.id} value={pet.id}>
+          <AutocompleteItem key={pet.id} value={pet.id}>
             {pet.name}
-          </SelectItem>
+          </AutocompleteItem>
         ))}
-      </Select>
-      <p>Basic medication info</p>
+      </Autocomplete>
+      <h3>Medication basic information</h3>
       <Input
         isRequired
         label="Medication Name"
@@ -176,17 +174,18 @@ export default function MedicationForm({
         onChange={(e) => handleInputChange("dosagesAmount", e.target.value)}
       />
 
-      <p>How often do you have to dose the medicine? E.g. 3 times per week</p>
-      <div>
+      <h3>How often do you have to dose the medicine? E.g. 3 times per week</h3>
+      <div className="flex flex-row gap-6 items-baseline">
         <Input
-          label="Frequency (amount)"
+          label="Frequency"
           placeholder="e.g. 3"
           type="number"
           value={formData.frequencyCount}
           onChange={(e) => handleInputChange("frequencyCount", e.target.value)}
         />
+        <p className=" min-w-fit">times per</p>
         <Select
-          label="Frequency (time)"
+          label="Period"
           value={formData.frequencyPeriod}
           onChange={handleSelectionChange}
         >
@@ -197,7 +196,7 @@ export default function MedicationForm({
           ))}
         </Select>
       </div>
-      <p>When and who prescribed medicine?</p>
+      <h3>When and who prescribed medicine?</h3>
       <Input
         label="Prescribed (date)"
         placeholder="DD/MM/YYYY"

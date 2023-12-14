@@ -35,13 +35,13 @@ function YourTasksPage() {
     <div
       className={`transition-opacity duration-500 ease-in-out ${
         !isLoaded ? "opacity-0" : "opacity-100"
-      }  relative h-[88vh] p-4 py-10 flex flex-col gap-6 `}
+      }  relative h-[88vh] p-4 pt-10  flex flex-col gap-6 `}
     >
       <h1>Your tasks</h1>
 
-      <ScrollShadow orientation="vertical" className="h-[90vh]">
+      <ScrollShadow orientation="vertical" className="h-[90vh] pb-24">
         <h2>Incoming</h2>
-        <div className="flex flex-col mx-auto gap-4">
+        <div className="flex flex-col mx-auto gap-4 ">
           {incomingTasks.map((task) => (
             <TaskTile
               key={task.id}
@@ -64,7 +64,7 @@ function YourTasksPage() {
           ))}
         </div>
       </ScrollShadow>
-      <FormPopup logType="tasks" classButtonName="absolute bottom-0 right-4" />
+      <FormPopup logType="tasks" classButtonName="fixed bottom-24 right-4" />
     </div>
   );
 }

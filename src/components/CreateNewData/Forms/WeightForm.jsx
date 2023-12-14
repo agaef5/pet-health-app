@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
 import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
@@ -76,15 +76,12 @@ export default function Weight({
   };
 
   const isRequiredFieldValid = (value) => {
-    console.log("Checking validity:", value.trim() !== "");
     return value.trim() !== "";
   };
-  console.log("isFormSubmitted:", isFormSubmitted);
-  console.log(formData);
 
   return (
-    <div>
-      <Select
+    <div className="flex flex-col gap-6">
+      <Autocomplete
         isDisabled={existingData && Object.keys(existingData).length > 0}
         isRequired
         label="Pet"
@@ -100,12 +97,12 @@ export default function Weight({
         onChange={handlePetSelectionChange}
       >
         {pets.map((pet) => (
-          <SelectItem key={pet.id} value={pet.id}>
+          <AutocompleteItem key={pet.id} value={pet.id}>
             {pet.name}
-          </SelectItem>
+          </AutocompleteItem>
         ))}
-      </Select>
-      <p>Vaccination basic information</p>
+      </Autocomplete>
+      <h3>Weight log information</h3>
       <Input
         isRequired
         label="Weight"

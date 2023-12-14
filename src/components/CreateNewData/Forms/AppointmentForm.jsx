@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import {
+  Autocomplete,
+  AutocompleteItem,
   Divider,
   Input,
   Select,
@@ -21,9 +23,6 @@ export default function AppointmentForm({
   const [pets, setPets] = useState([]);
   const [selectedPet, setSelectedPet] = useState(petID || propPetID || "");
   const purposeTypes = ["routine", "non-routine"];
-
-  console.log("propPetID", propPetID);
-  console.log("existingData", existingData);
 
   const [formData, setFormData] = useState({
     petID: selectedPet,
@@ -104,11 +103,9 @@ export default function AppointmentForm({
     return value.trim() !== ""; // Check if the trimmed value is not empty
   };
 
-  console.log(formData);
-
   return (
-    <div>
-      <Select
+    <div className="flex flex-col gap-6">
+      <Autocomplete
         isDisabled={existingData && Object.keys(existingData).length > 0}
         isRequired
         label="Pet"
@@ -124,12 +121,12 @@ export default function AppointmentForm({
         onChange={handlePetSelectionChange}
       >
         {pets.map((pet) => (
-          <SelectItem key={pet.id} value={pet.id}>
+          <AutocompleteItem key={pet.id} value={pet.id}>
             {pet.name}
-          </SelectItem>
+          </AutocompleteItem>
         ))}
-      </Select>
-      <p>Appointment basic information</p>
+      </Autocomplete>
+      <h3>Appointment basic information</h3>
       <Input
         isRequired
         label="Appointment purpose"

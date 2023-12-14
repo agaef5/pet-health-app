@@ -1,5 +1,11 @@
 /* eslint-disable react/prop-types */
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Input,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
 
@@ -24,8 +30,21 @@ export default function PetForm({
     species: "",
     breed: "",
     color: "",
-    photo: null,
   });
+
+  const popularSpeciesList = [
+    "Cat",
+    "Dog",
+    "Horse",
+    "Rabbit",
+    "Bird",
+    "Fish",
+    "Hamster",
+    "Guinea Pig",
+    "Snake",
+    "Turtle",
+    "Ferret",
+  ];
 
   useEffect(() => {
     if (existingData) {
@@ -71,9 +90,19 @@ export default function PetForm({
   };
 
   const handleInputChange = (name, value) => {
+    let file;
+
+    // Check if the input value is a FileList
+    if (value instanceof FileList && value.length > 0) {
+      file = value[0];
+    }
+    // Check if the input value is a File
+    else if (value instanceof File) {
+      file = value;
+    }
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "photo" ? file : value,
     }));
   };
 
@@ -86,15 +115,12 @@ export default function PetForm({
   };
 
   const isRequiredFieldValid = (value) => {
-    console.log("Checking validity:", value.trim() !== "");
     return value.trim() !== "";
   };
-  console.log("isFormSubmitted:", isFormSubmitted);
-  console.log(formData);
 
   return (
-    <div>
-      <p>Pet basic information</p>
+    <div className="flex flex-col gap-6">
+      <h3>Pet basic information</h3>
       <Input
         isRequired
         label="Name"
@@ -111,9 +137,10 @@ export default function PetForm({
 
       <Input
         label="Profile picture"
+        placeholder="Upload a photo of your pet"
         type="file"
         accept="image/*"
-        onChange={(e) => handleInputChange("photo", e.target.files[0])}
+        onChange={(e) => handleInputChange("photo", e.target.files)}
       />
 
       <Input
@@ -153,12 +180,19 @@ export default function PetForm({
         ))}
       </Select>
 
-      <Input
+      <Autocomplete
+        allowsCustomValue
         label="Species"
         placeholder="e.g. Cat"
         value={formData.species}
         onChange={(e) => handleInputChange("species", e.target.value)}
-      />
+      >
+        {popularSpeciesList.map((species) => (
+          <AutocompleteItem key={species} value={species}>
+            {species}
+          </AutocompleteItem>
+        ))}
+      </Autocomplete>
 
       <Input
         label="Breed"

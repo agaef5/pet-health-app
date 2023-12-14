@@ -7,6 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  ScrollShadow,
   Select,
   SelectItem,
   Spinner,
@@ -60,8 +61,6 @@ const FormPopup = ({
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
-  console.log("FormPopup: ", logType);
-
   useEffect(() => {
     if (editMode && existingData) {
       setFormData(existingData);
@@ -101,7 +100,6 @@ const FormPopup = ({
 
     if (formData) {
       let confirm = false;
-      console.log(isValidDate(formData.birthday));
 
       if (
         (isValidDate(formData.prescribed) ||
@@ -185,7 +183,6 @@ const FormPopup = ({
     ...(noPet == true ? [] : [{ value: "Pet", label: "Pet" }]), // Conditionally include "Pet" option
   ];
 
-  console.log("EditMode: ", editMode);
   return (
     <>
       {editMode ? (
@@ -209,6 +206,8 @@ const FormPopup = ({
 
       <Suspense fallback={<Spinner color="default" />}>
         <Modal
+          scrollBehavior="inside"
+          className="max-h-[80vh]"
           isOpen={isOpen}
           onClose={() => {
             onOpenChange();
@@ -226,6 +225,7 @@ const FormPopup = ({
                     {editMode !== true ? (
                       !disableSaveButton ? (
                         <Select
+                          variant="faded"
                           label="Add new..."
                           value={selectedLogType}
                           defaultSelectedKeys={
@@ -246,17 +246,20 @@ const FormPopup = ({
                   </ModalHeader>
 
                   <ModalBody>
-                    <Suspense fallback={<Spinner color="default" />}>
-                      {selectedLogType &&
-                        logComponents[selectedLogType] &&
-                        createElement(logComponents[selectedLogType], {
-                          onFormChange: setFormData,
-                          isFormSubmitted: isFormSubmitted,
-                          existingData: existingData,
-                          propPetID: petID ? petID : null,
-                          handleImageChange: handleImageChange,
-                        })}
-                    </Suspense>
+                    <ScrollShadow>
+                      {" "}
+                      <Suspense fallback={<Spinner color="default" />}>
+                        {selectedLogType &&
+                          logComponents[selectedLogType] &&
+                          createElement(logComponents[selectedLogType], {
+                            onFormChange: setFormData,
+                            isFormSubmitted: isFormSubmitted,
+                            existingData: existingData,
+                            propPetID: petID ? petID : null,
+                            handleImageChange: handleImageChange,
+                          })}
+                      </Suspense>
+                    </ScrollShadow>
                   </ModalBody>
 
                   <ModalFooter>

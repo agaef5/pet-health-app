@@ -52,15 +52,12 @@ export default function Weight({
   };
 
   const isRequiredFieldValid = (value) => {
-    console.log("Checking validity:", value.trim() !== "");
     return value.trim() !== "";
   };
-  console.log("isFormSubmitted:", isFormSubmitted);
-  console.log(formData);
 
   return (
-    <div>
-      {existingData ? null : <h2>Create new task</h2>}
+    <div className="flex flex-col gap-6">
+      {existingData ? null : <h3>Create new task</h3>}
       <Input
         isRequired
         label="Task"
