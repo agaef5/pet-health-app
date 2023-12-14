@@ -123,8 +123,12 @@ const AuthForm = () => {
             setSelected(key);
           }}
         >
-          <Tab key={"login"} title="Login"></Tab>
-          <Tab key={"createaccount"} title="Create Account"></Tab>
+          <Tab key={"login"} title="Login" aria-label="show login form"></Tab>
+          <Tab
+            key={"createaccount"}
+            title="Create Account"
+            aria-label="show create account form"
+          ></Tab>
         </Tabs>
         <h2>{selected === "login" ? "Log In" : "Create Account"}</h2>
         <form className="flex flex-col gap-4 w-full">
@@ -148,7 +152,7 @@ const AuthForm = () => {
             onChange={(e) => setPassword(e.target.value)}
             endContent={
               <button
-                className="focus:outline-none"
+                aria-label="Toggle password visibility"
                 type="button"
                 onClick={toggleVisibility}
               >
