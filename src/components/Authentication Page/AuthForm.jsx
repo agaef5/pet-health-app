@@ -17,31 +17,49 @@ const AuthForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [isMailInvalid, setMailInvalid] = useState(false);
+  const [isPasswordInvalid, setPasswordInvalid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
+  const handleInputFocus = () => {
+    // Clear error states and messages when the user starts typing
+    setMailInvalid(false);
+    setPasswordInvalid(false);
+    setErrorMessage("");
+  };
+
   const handleAuth = (e) => {
     e.preventDefault();
 
+    setMailInvalid(false);
+    setPasswordInvalid(false);
+    setErrorMessage("");
+
     if (selected === "login") {
-      signInWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
           localStorage.setItem("currentUserUID", userCredential.user.uid);
           const userID = userCredential.user.uid;
           navigate(`/${userID}`);
-        }
-      );
+        })
+        .catch((error) => {
+          handleAuthError(error);
+        });
     } else {
-      createUserWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
           saveUser(userCredential.user.uid, email);
 
           localStorage.setItem("currentUserUID", userCredential.user.uid);
           const userID = userCredential.user.uid;
           navigate(`/${userID}`);
-        }
-      );
+        })
+        .catch((error) => {
+          handleAuthError(error);
+        });
     }
   };
 
@@ -53,6 +71,37 @@ const AuthForm = () => {
       localStorage.setItem("currentUserUID", userID);
       navigate(`/${userID}`);
     });
+  };
+
+  const handleAuthError = (error) => {
+    switch (error.code) {
+      case "auth/email-already-exists":
+        setMailInvalid(true);
+        setErrorMessage("Email is already in use. Please choose another.");
+        break;
+      case "auth/invalid-email":
+        setMailInvalid(true);
+        setErrorMessage(
+          "Invalid email format. Please enter a valid email address."
+        );
+        break;
+      case "auth/invalid-password":
+        setPasswordInvalid(true);
+        setErrorMessage(
+          "Invalid password. Password must have at least six characters."
+        );
+        break;
+      case "auth/too-many-requests":
+        setErrorMessage("Too many login attempts. Please try again later.");
+        break;
+      case "auth/user-not-found":
+        setErrorMessage("User not found. Please check your credentials.");
+        break;
+      default:
+        setErrorMessage(
+          "User does not exist. Please create an account to continue."
+        );
+    }
   };
 
   async function saveUser(userID, email) {
@@ -83,6 +132,9 @@ const AuthForm = () => {
             type="email"
             label="Email"
             id="email"
+            onFocus={handleInputFocus}
+            isInvalid={isMailInvalid}
+            errorMessage={isMailInvalid && errorMessage}
             required
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -90,6 +142,9 @@ const AuthForm = () => {
             label="Password"
             id="password"
             required
+            onFocus={handleInputFocus}
+            isInvalid={isPasswordInvalid}
+            errorMessage={isPasswordInvalid && errorMessage}
             onChange={(e) => setPassword(e.target.value)}
             endContent={
               <button
@@ -106,6 +161,10 @@ const AuthForm = () => {
             }
             type={isVisible ? "text" : "password"}
           />
+
+          {errorMessage && !isMailInvalid && !isPasswordInvalid ? (
+            <h3 className="text-danger-500">{errorMessage}</h3>
+          ) : null}
           <Button
             size="lg"
             color="primary"

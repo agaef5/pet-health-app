@@ -1,6 +1,6 @@
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar, Divider } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 
 export default function Confirmation() {
   return (
