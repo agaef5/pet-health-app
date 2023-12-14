@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,7 +7,27 @@
       rel="stylesheet"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-touch-icon-Zn8rcI9z.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAA1pJREFUWEfFl1lsTFEYgL/pLO1MKdogKZWgSvsyVUIIorHW9KEaSmsrmvRNiEpE4gXxQCwxdkGGWqqxJAheRlG0ookXNEWFNhLUoEzVMjPyNzNj7iwRt9PxP917z/n/853/nn85GuAmcA44DXwmNqIBJgIL5aERGAl0ANXAUaAW8PQAy0BgCbACyASaBMAO5AYtJlDHgBPA226CaIE876L5gD7Anl0ATgElERb5AVwGzgDtKkBkY8uA1Ai6NgHYDlSoMB4NlS0CsBrYFQ1rKmyUC0ARUKVCORoqFgGYDNyOhjUVNswCkA48U6EcDZVkATABXwF5jqV8AZJ8i0oGTIrl6pKEJAEKgCSGTiAuxgDvgQEC0AsQdyhEo9Hg8UQnG0ew5f8FRm8d8AOMz80gK2cwx3dIlg4VS/FYbl97zJdP37oGtdo45pVNoOrQ3bDzZ88fjdFk4KKtPnDcD2AAvgeOTMnLYuW66SyfYcXtCvXC5sMlXDpRT0Ptiy611CHJbDpcTFnevrAlbNvJpTTUNlN1SGqcX/wAUix+BY4YEw2cvbuWC7Y6bLukWv8Ry8IxrNpkoXjSThzvJHhAp9dyrq6CK2cecnynHY/7D/TMQjMV2woonWblzStHWAD56A4Ow5mF2azfUch9eyMNd5pJTIpn/NQMMkencXDrdaqP3FOAidc2WotoaW6j9sZTHG1fGWUexPQCMyf31GDbrdyI99z5w1A8IJ5QyJwFOZRvmEXvPkbcbg+Nj1qp3HuLOrtEUKhk5aRRuiaX7AnD0Oni+N75k9P771BprSHMeVbkATkDchZCRG/QkjKwN58dHXxzSnWGQamp6PU6/1yBe93S4n83xOtI7t+LTw4nnR0/w8IGe0COc0KkmcHfTSYTozJGoNfrcblcND1/Tnt7SCT/zZzCA3KaEv+mETieEB9P+vBhvHz1GqfT+S+qvrn/PRUrACQ++qnZRjd0FABtQEo3jKlRVQBI5ztAjZVu6CgApCGRxiSW0gqk+fqB80BhLFcHrgL5PoD/0ZgukuugD0DSsCT3cTHywgPv3dAV2AcOAWqAoT0MITVcbkxduTu4EZVIOADM7YEmVWq0XPFWAR98m4zUCWcDi4Ep3ujoqwJISvxHb/Mpnq0EngR79zc9hOtcmmR/1gAAAABJRU5ErkJggg=="
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAYVJREFUOE+d001IVFEUAOBvpnQ0ZsoKhVbVIoJ2tWsjiC5yURCRi4wW0q5VZkKSkUZBBEFF28SIIOh3k1AQ0SJqVato1Y9FSPQPvqmmmYnzrAhSsHfgLe5993z3cc55OdzFJVzEZ/OLRmxGTw5PsRYJLmMMk3M4S7EDO9EWuQHcQcf8Lv7n1O0ALqA3I3AugBMYyAiMBDCM0YxAfwBHMbS4pdmiUpOpVx9Ta3lbyacP02rVmtYVS7x9M9OgZa1F+QV576a+xHIogLh9OF707ml35vDN9GDfvk7Xxh9Kpr/Zvb/L2dGJmf2BTreuPPb6+fs/wCGMxGpb30bt3evU63X3Jp64OvYgTeru2WDT9vVqtbpH9585fypGJ430Cw7iyO+dQnODyvcfCo1NVq9aKUkSL15OyuVzCoWFvpYrf5crBQ7g2GxFLBWLknJZtVqdq8YpMIjjGbuQAntxMiMwGECMcYxzlugKIJ7r2PKfwg1sjeSIBvRjF9b8Ws/mRQvi7x3HaVR+An1OZ2joRa0rAAAAAElFTkSuQmCC"
+    />
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiIiwic2hvcnRfbmFtZSI6IiIsImljb25zIjpbeyJzcmMiOiIvYW5kcm9pZC1jaHJvbWUtMTkyeDE5Mi5wbmciLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn0seyJzcmMiOiIvYW5kcm9pZC1jaHJvbWUtNTEyeDUxMi5wbmciLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dLCJ0aGVtZV9jb2xvciI6IiNmZmZmZmYiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIn0=" />
+
+    <title>PetHealthApp</title>
     <script type="module" crossorigin src="/assets/index-KRBmd_Fs.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-w8waiy9c.css">
   </head>
