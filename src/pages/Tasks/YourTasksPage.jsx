@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import FormPopup from "../../components/CreateNewData/FormPopUp";
 import getTasks from "../../functions/fetchData/getTasks";
 import TaskTile from "../../components/Dashboard/TaskTile";
-import { ScrollShadow } from "@nextui-org/react";
+import { Card, Divider, ScrollShadow } from "@nextui-org/react";
+import EmptyState from "../../components/Empty States/EmptyState";
 
 function YourTasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -39,29 +40,44 @@ function YourTasksPage() {
     >
       <h1>Your tasks</h1>
 
-      <ScrollShadow orientation="vertical" className="h-[90vh] pb-24">
-        <h2>Incoming</h2>
-        <div className="flex flex-col mx-auto gap-4 ">
-          {incomingTasks.map((task) => (
-            <TaskTile
-              key={task.id}
-              taskID={task.id}
-              taskData={task}
-              onTaskUpdate={() => setRefreshPage(true)}
-            />
-          ))}
-        </div>
+      <ScrollShadow orientation="vertical">
+        <div className="h-[90vh] flex flex-col gap-4 pb-24">
+          <h2>Incoming</h2>
+          {incomingTasks.length > 0 ? (
+            <div className="flex flex-col mx-auto gap-4 ">
+              {incomingTasks.map((task) => (
+                <TaskTile
+                  key={task.id}
+                  taskID={task.id}
+                  taskData={task}
+                  onTaskUpdate={() => setRefreshPage(true)}
+                />
+              ))}
+            </div>
+          ) : (
+            <EmptyState logType={"tasks"} setRefreshPage={setRefreshPage} />
+          )}
 
-        <h2>Done</h2>
-        <div className="flex flex-col mx-auto gap-4 opacity-50">
-          {doneTasks.map((task) => (
-            <TaskTile
-              key={task.id}
-              taskID={task.id}
-              taskData={task}
-              onTaskUpdate={() => setRefreshPage(true)}
-            />
-          ))}
+          <Divider className="mt-4" />
+          <h2>Done</h2>
+          {doneTasks.length > 0 ? (
+            <div className="flex flex-col mx-auto gap-4 opacity-50">
+              {doneTasks.map((task) => (
+                <TaskTile
+                  key={task.id}
+                  taskID={task.id}
+                  taskData={task}
+                  onTaskUpdate={() => setRefreshPage(true)}
+                />
+              ))}
+            </div>
+          ) : (
+            <Card className="w-[80vw] flex flex-col gap-4 items-center p-4 mx-auto">
+              <h3 className="text-center">
+                Uncheck one task and get the job done!
+              </h3>
+            </Card>
+          )}
         </div>
       </ScrollShadow>
       <FormPopup logType="tasks" classButtonName="fixed bottom-24 right-4" />

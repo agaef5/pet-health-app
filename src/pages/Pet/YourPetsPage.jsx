@@ -3,6 +3,7 @@ import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
 import getPets from "../../functions/fetchData/getPets";
 import { ScrollShadow } from "@nextui-org/react";
 import FormPopup from "../../components/CreateNewData/FormPopUp";
+import EmptyState from "../../components/Empty States/EmptyState";
 
 function YourPetsPage() {
   const [pets, setPets] = useState([]);
@@ -31,17 +32,22 @@ function YourPetsPage() {
     <div
       className={`transition-opacity duration-1000 ease-in-out ${
         isLoaded ? "opacity-100" : "opacity-0"
-      } relative max-h-[88vh] pt-10 p-4`}
+      } flex flex-col relative max-h-[88vh] pt-10 p-4 gap-6`}
     >
       <h1>Your Pets</h1>
 
-      <ScrollShadow size={150} className="h-[82vh] pb-24">
-        <div className="flex flex-col min-h-fit items-center justify-center gap-4 pt-4 pb-32">
-          {pets.map((pet) => (
-            <PetsTileDetailed key={pet.id} petData={pet} />
-          ))}
-        </div>
-      </ScrollShadow>
+      {pets.length > 0 ? (
+        <ScrollShadow size={150} className="h-[82vh] pb-24">
+          <div className="flex flex-col min-h-fit items-center justify-center gap-4 pt-4 pb-32">
+            {pets.map((pet) => (
+              <PetsTileDetailed key={pet.id} petData={pet} />
+            ))}
+          </div>
+        </ScrollShadow>
+      ) : (
+        <EmptyState logType={"Pet"} setRefreshPage={setRefreshPage} />
+      )}
+
       <FormPopup
         classButtonName={"fixed bottom-24 right-4"}
         logType={"Pet"}

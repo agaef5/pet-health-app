@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Divider, ScrollShadow } from "@nextui-org/react";
+import { Card, Divider, ScrollShadow } from "@nextui-org/react";
 
 import TaskTile from "../../components/Dashboard/TaskTile";
 import getPets from "../../functions/fetchData/getPets";
 import { useEffect, useState } from "react";
 import getTodayTasks from "../../functions/fetchData/getOnlyTodayTasks";
 import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
+import EmptyState from "../../components/Empty States/EmptyState";
 
 function Dashboard() {
   const [pets, setPets] = useState([]);
@@ -52,13 +53,22 @@ function Dashboard() {
         <div className="flex flex-col gap-10">
           <div>
             <h2>Your pets:</h2>
-            <ScrollShadow orientation="horizontal">
-              <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-3">
-                {pets.map((pet) => (
-                  <PetsTileDetailed key={pet.id} petData={pet} minimal={true} />
-                ))}
-              </div>
-            </ScrollShadow>
+
+            {pets.length > 0 ? (
+              <ScrollShadow orientation="horizontal">
+                <div className="flex flex-row overflow-x-auto min-w-fit gap-3 py-3">
+                  {pets.map((pet) => (
+                    <PetsTileDetailed
+                      key={pet.id}
+                      petData={pet}
+                      minimal={true}
+                    />
+                  ))}
+                </div>
+              </ScrollShadow>
+            ) : (
+              <EmptyState logType={"Pet"} setRefreshPage={setRefreshPage} />
+            )}
           </div>
           <Divider />
           <div>
@@ -74,7 +84,9 @@ function Dashboard() {
                   />
                 ))
               ) : (
-                <h3>You're all good!</h3>
+                <Card className="w-[80vw] flex flex-col gap-4 items-center p-4">
+                  <h3>You don't have anything today!</h3>
+                </Card>
               )}
             </div>
           </div>

@@ -10,6 +10,7 @@ import DetailedVaccinationLog from "../../components/Pets/logs/Vaccinations/Deta
 import DetailedWeightsLog from "../../components/Pets/logs/Weights/DetailedWeightsLog";
 import FormPopup from "../../components/CreateNewData/FormPopUp";
 import { ScrollShadow } from "@nextui-org/react";
+import EmptyState from "../../components/Empty States/EmptyState";
 
 export default function PetHealthDetailsdPage() {
   const { logType } = useParams();
@@ -67,55 +68,59 @@ export default function PetHealthDetailsdPage() {
         {petData.name}'s {logType}
       </h1>
 
-      <ScrollShadow className="h-[82vh] pb-24">
-        <div className="flex flex-col gap-6">
-          {petHealthData.map((document) => {
-            switch (logType) {
-              case "appointments":
-                return (
-                  <DetailedAppointmentLog
-                    key={document.id}
-                    apptDetails={document}
-                    petID={petID}
-                  />
-                );
-              case "medications":
-                return (
-                  <DetailedMedicationLog
-                    key={document.id}
-                    mediDetails={document}
-                    petID={petID}
-                  />
-                );
-              case "vaccinations":
-                return (
-                  <DetailedVaccinationLog
-                    key={document.id}
-                    vaccDetails={document}
-                    petID={petID}
-                  />
-                );
-              case "weights":
-                return (
-                  <DetailedWeightsLog
-                    key={document.id}
-                    kgDetails={document}
-                    petID={petID}
-                  />
-                );
-              default:
-                return null;
-            }
-          })}
-        </div>
-      </ScrollShadow>
+      {petHealthData.length > 0 ? (
+        <ScrollShadow className="h-[82vh] pb-24">
+          <div className="flex flex-col gap-6">
+            {petHealthData.map((document) => {
+              switch (logType) {
+                case "appointments":
+                  return (
+                    <DetailedAppointmentLog
+                      key={document.id}
+                      apptDetails={document}
+                      petID={petID}
+                    />
+                  );
+                case "medications":
+                  return (
+                    <DetailedMedicationLog
+                      key={document.id}
+                      mediDetails={document}
+                      petID={petID}
+                    />
+                  );
+                case "vaccinations":
+                  return (
+                    <DetailedVaccinationLog
+                      key={document.id}
+                      vaccDetails={document}
+                      petID={petID}
+                    />
+                  );
+                case "weights":
+                  return (
+                    <DetailedWeightsLog
+                      key={document.id}
+                      kgDetails={document}
+                      petID={petID}
+                    />
+                  );
+                default:
+                  return null;
+              }
+            })}
+          </div>
+        </ScrollShadow>
+      ) : (
+        <EmptyState logType={logType} setRefreshPage={setRefreshPage} />
+      )}
 
       <FormPopup
         logType={logType}
         noPet={true}
         petID={petID}
         setRefreshPage={setRefreshPage}
-        classButtonName={"absolute bottom-0 right-4"}
+        classButtonName={"fixed bottom-24 right-4"}
       />
     </section>
   );

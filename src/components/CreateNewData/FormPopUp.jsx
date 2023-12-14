@@ -214,7 +214,7 @@ const FormPopup = ({
             onOpenChange();
             setIsFormSubmitted(false);
             setDisableSaveButton(false);
-            setSelectedLogType("");
+            setSelectedLogType(logType);
           }}
           classNames={{ closeButton: "hidden" }}
         >
@@ -270,7 +270,7 @@ const FormPopup = ({
                         setIsFormSubmitted(false);
                         setDisableSaveButton(false);
                         if (selectedLogType === "Confirm") {
-                          setSelectedLogType("");
+                          setSelectedLogType(logType);
                           setRefreshPage(true);
                         }
                       }}
