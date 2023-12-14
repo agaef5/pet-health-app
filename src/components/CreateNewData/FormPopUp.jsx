@@ -198,7 +198,7 @@ const FormPopup = ({
       <Suspense fallback={<Spinner color="default" />}>
         <Modal
           scrollBehavior="inside"
-          className="max-h-[80vh]"
+          className="max-h-[80vh] z-50"
           isOpen={isOpen}
           onClose={() => {
             onOpenChange();

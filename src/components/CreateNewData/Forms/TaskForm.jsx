@@ -37,10 +37,21 @@ export default function Weight({
   }, [formData, onFormChange]);
 
   const handleInputChange = (name, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name === "date" && value.length > 0) {
+      // Convert the input date format to "YYYY-MM-DD"
+      const [day, month, year] = value.split("/");
+      const formattedDate = `${year}-${month}-${day}`;
+
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: formattedDate,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const isRequiredFieldValid = (value) => {

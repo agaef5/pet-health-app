@@ -82,6 +82,7 @@ export default function DeleteData({
 
       <Modal
         isOpen={isOpen}
+        className="z-50"
         onClose={() => {
           onOpenChange();
           setDisableDeleteButton(false);
@@ -131,6 +132,7 @@ export default function DeleteData({
                       }
                     }
                   }}
+                  onPress
                 >
                   Close
                 </Button>
