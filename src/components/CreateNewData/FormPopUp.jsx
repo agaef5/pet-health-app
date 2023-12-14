@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createElement, lazy, Suspense, useEffect, useState } from "react";
+import { createElement, Suspense, useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -28,22 +28,20 @@ import updateTask from "../../functions/updateData/updateTask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Confirmation from "../Confirmation/Confirmation";
-
-// Use lazy to import the components lazily (only when needed)
-const LazyMedicationForm = lazy(() => import("./Forms/MedicationForm"));
-const LazyAppointmentForm = lazy(() => import("./Forms/AppointmentForm"));
-const LazyVaccineForm = lazy(() => import("./Forms/VaccineForm"));
-const LazyWeightForm = lazy(() => import("./Forms/WeightForm"));
-const LazyPetForm = lazy(() => import("./Forms/PetForm"));
-const LazyTaskForm = lazy(() => import("./Forms/TaskForm"));
+import MedicationForm from "./Forms/MedicationForm";
+import AppointmentForm from "./Forms/AppointmentForm";
+import VaccineForm from "./Forms/VaccineForm";
+import WeightForm from "./Forms/WeightForm";
+import TaskForm from "./Forms/TaskForm";
+import PetForm from "./Forms/PetForm";
 
 const logComponents = {
-  medications: LazyMedicationForm,
-  appointments: LazyAppointmentForm,
-  vaccinations: LazyVaccineForm,
-  weights: LazyWeightForm,
-  tasks: LazyTaskForm,
-  Pet: LazyPetForm,
+  medications: MedicationForm,
+  appointments: AppointmentForm,
+  vaccinations: VaccineForm,
+  weights: WeightForm,
+  tasks: TaskForm,
+  Pet: PetForm,
   Confirm: Confirmation,
 };
 

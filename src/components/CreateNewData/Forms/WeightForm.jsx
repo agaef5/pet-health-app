@@ -3,6 +3,7 @@ import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
 import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
+import { format, parseISO } from "date-fns";
 
 export default function Weight({
   onFormChange,
@@ -64,8 +65,7 @@ export default function Weight({
   const handleInputChange = (name, value) => {
     if (name === "date" && value.length > 0) {
       // Convert the input date format to "YYYY-MM-DD"
-      const [day, month, year] = value.split("/");
-      const formattedDate = `${year}-${month}-${day}`;
+      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
 
       setFormData((prevData) => ({
         ...prevData,

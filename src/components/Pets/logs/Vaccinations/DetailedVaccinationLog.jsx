@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
@@ -17,10 +18,16 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 export default function VaccinationLog({ vaccDetails, petID }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const formPopupRef = useRef();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+      // Check if the clicked element is not within the menuRef and not within the FormPopup
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        !formPopupRef.current.contains(event.target)
+      ) {
         setIsMenuOpen(false);
       }
     };
@@ -30,7 +37,7 @@ export default function VaccinationLog({ vaccDetails, petID }) {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [menuRef]);
+  }, [menuRef, formPopupRef]);
 
   console.log(vaccDetails);
   // Check if apptDetails is null or undefined
@@ -68,7 +75,9 @@ export default function VaccinationLog({ vaccDetails, petID }) {
           {isMenuOpen && (
             <Card className=" flex flex-row items-baseline bg-background absolute right-0 px-5 py-5">
               <DeleteData petID={petID} logType={"vaccinations"} docID={id} />
+
               <FormPopup
+                ref={formPopupRef}
                 logType={"vaccinations"}
                 editMode={true}
                 existingData={vaccDetails}

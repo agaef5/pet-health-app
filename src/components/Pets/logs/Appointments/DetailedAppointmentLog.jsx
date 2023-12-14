@@ -13,10 +13,16 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
   console.log("DetailedAppointmentLog: ", apptDetails);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const formPopupRef = useRef();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+      // Check if the clicked element is not within the menuRef and not within the FormPopup
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        !formPopupRef.current.contains(event.target)
+      ) {
         setIsMenuOpen(false);
       }
     };
@@ -26,7 +32,7 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [menuRef]);
+  }, [menuRef, formPopupRef]);
 
   // Check if apptDetails is null or undefined
   if (!apptDetails || apptDetails.length === 0) {
@@ -65,6 +71,7 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
               <Card className=" flex flex-row items-baseline bg-background absolute right-0 px-5 py-5">
                 <DeleteData petID={petID} logType={"appointments"} docID={id} />
                 <FormPopup
+                  ref={formPopupRef}
                   logType={"appointments"}
                   editMode={true}
                   existingData={apptDetails}

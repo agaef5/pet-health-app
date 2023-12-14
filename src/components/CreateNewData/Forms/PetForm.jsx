@@ -8,6 +8,7 @@ import {
 } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
+import { format, parseISO } from "date-fns";
 
 export default function PetForm({
   onFormChange,
@@ -86,19 +87,23 @@ export default function PetForm({
   const handleInputChange = (name, value) => {
     if (name === "birthday" && value.length > 0) {
       // Convert the input date format to "YYYY-MM-DD"
-      const [day, month, year] = value.split("/");
-      const formattedDate = `${year}-${month}-${day}`;
+      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
 
       setFormData((prevData) => ({
         ...prevData,
         [name]: formattedDate,
       }));
-    } else {
+    } else if (name === "photo") {
       const file = value.length > 0 ? value[0] : null;
 
       setFormData((prevData) => ({
         ...prevData,
         [name]: file,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
       }));
     }
   };

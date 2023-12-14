@@ -31,12 +31,17 @@ export default function DetailedMedicationLog({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDosed, setIsDosed] = useState(logData.isDosed);
 
-  const [isVisible, setIsVisible] = useState(true);
   const menuRef = useRef(null);
+  const formPopupRef = useRef();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+      // Check if the clicked element is not within the menuRef and not within the FormPopup
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        !formPopupRef.current.contains(event.target)
+      ) {
         setIsMenuOpen(false);
       }
     };
@@ -46,7 +51,7 @@ export default function DetailedMedicationLog({
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [menuRef]);
+  }, [menuRef, formPopupRef]);
 
   console.log(mediDetails);
   if (!mediDetails || mediDetails.length === 0) {
@@ -116,14 +121,20 @@ export default function DetailedMedicationLog({
         <h2>{name}</h2>
 
         <div className="relative" ref={menuRef}>
-          <Button onClick={() => setIsMenuOpen(!isMenuOpen)} variant="light">
+          <Button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            // onBlur={() => setIsMenuOpen(false)}
+            variant="light"
+          >
             <FontAwesomeIcon icon={faEllipsisVertical} />
           </Button>
 
           {isMenuOpen && (
             <Card className=" flex flex-row items-baseline bg-background absolute right-0 px-5 py-5">
               <DeleteData petID={petID} logType={"medications"} docID={id} />
+
               <FormPopup
+                ref={formPopupRef}
                 logType={"medications"}
                 editMode={true}
                 existingData={mediDetails}

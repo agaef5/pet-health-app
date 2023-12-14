@@ -9,6 +9,7 @@ import {
 import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
+import { format, parseISO } from "date-fns";
 
 export default function VaccineForm({
   onFormChange,
@@ -74,8 +75,7 @@ export default function VaccineForm({
   const handleInputChange = (name, value) => {
     if (name === "dosageDate" && value.length > 0) {
       // Convert the input date format to "YYYY-MM-DD"
-      const [day, month, year] = value.split("/");
-      const formattedDate = `${year}-${month}-${day}`;
+      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
 
       setFormData((prevData) => ({
         ...prevData,

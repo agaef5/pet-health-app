@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Input, Textarea } from "@nextui-org/react";
+import { format, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 
 export default function Weight({
@@ -41,8 +42,7 @@ export default function Weight({
   const handleInputChange = (name, value) => {
     if (name === "date" && value.length > 0) {
       // Convert the input date format to "YYYY-MM-DD"
-      const [day, month, year] = value.split("/");
-      const formattedDate = `${year}-${month}-${day}`;
+      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
 
       setFormData((prevData) => ({
         ...prevData,
