@@ -114,6 +114,19 @@ export default function PetForm({
         ...prevData,
         [name]: formattedDate,
       }));
+    } else if (name === "photo") {
+      const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+      const selectedFile = value[0]; // Assuming you're allowing only one file
+
+      if (selectedFile && allowedFileTypes.includes(selectedFile.type)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      } else {
+        // Handle invalid file type (e.g., show an error message)
+        console.error("Invalid file type. Please upload a valid image file.");
+      }
     } else {
       setFormData((prevData) => ({
         ...prevData,

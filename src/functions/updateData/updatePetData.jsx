@@ -61,10 +61,36 @@ export default async function updatePetData(formData) {
 
     await updateDoc(petRef, petData);
 
+    // ... (other code remains unchanged)
+
     if (photo) {
-      const storageRef = ref(storage, `users/${user.uid}/${petID}.jpg`);
-      await uploadBytes(storageRef, photo);
+      const fileExtension =
+        photo[0].type === "image/png"
+          ? "png"
+          : photo[0].type === "image/jpeg" || photo[0].type === "image/jpg"
+            ? "jpg"
+            : null;
+
+      if (fileExtension) {
+        const storageRef = ref(storage, `users/${user.uid}/${petID}.jpg`);
+
+        // Ensure that the uploaded file is an image
+        if (photo[0].type.startsWith("image/")) {
+          await uploadBytes(storageRef, photo[0]);
+          console.log("Image uploaded successfully!");
+        } else {
+          console.error("Invalid file type. Please upload a valid image file.");
+          // Handle the error as needed
+        }
+      } else {
+        console.error(
+          "Unsupported file type. Please upload a valid image file."
+        );
+        // Handle the error as needed
+      }
     }
+
+    // ... (other code remains unchanged)
 
     console.log("Appointment data updated successfully!");
     return true;

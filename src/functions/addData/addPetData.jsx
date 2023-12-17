@@ -50,10 +50,34 @@ export default async function addPetData(formData) {
     const petRef = collection(db, "users", user.uid, "pets");
     const docRef = await addDoc(petRef, petData);
     console.log(docRef.id);
+    console.log(photo);
 
     if (photo) {
-      const storageRef = ref(storage, `users/${user.uid}/${docRef.id}.jpg`);
-      await uploadBytes(storageRef, photo);
+      const fileExtension =
+        photo[0].type === "image/png"
+          ? "png"
+          : photo[0].type === "image/jpeg" || photo[0].type === "image/jpg"
+            ? "jpg"
+            : null;
+
+      if (fileExtension) {
+        const storageRef = ref(storage, `users/${user.uid}/${docRef.id}.jpg`);
+
+        // Ensure that the uploaded file is an image
+        if (photo[0].type.startsWith("image/")) {
+          // Upload the Blob to Firebase Storage
+          await uploadBytes(storageRef, photo[0]);
+          console.log("Image uploaded successfully!");
+        } else {
+          console.error("Invalid file type. Please upload a valid image file.");
+          // Handle the error as needed
+        }
+      } else {
+        console.error(
+          "Unsupported file type. Please upload a valid image file."
+        );
+        // Handle the error as needed
+      }
     }
 
     console.log("Pet data added successfully!");
