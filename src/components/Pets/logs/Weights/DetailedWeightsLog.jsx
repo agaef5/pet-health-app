@@ -45,8 +45,12 @@ export default function WeightsLog({ kgDetails, petID }) {
   const { id, date, weight } = kgDetails;
 
   const weightDate = date
-    ? new Date(date.seconds * 1000).toLocaleDateString()
-    : null;
+    ? new Date(date.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "";
 
   return (
     <Card className="p-2">

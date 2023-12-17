@@ -18,10 +18,13 @@ export default function TaskTile({ taskID, taskData, onTaskUpdate }) {
   const [isVisible, setIsVisible] = useState(true);
 
   // Convert timestamp to DD/MM/YYYY format
-  const timestampInSeconds = date.seconds;
-  const formattedDate = new Date(timestampInSeconds * 1000).toLocaleDateString(
-    "en-GB"
-  );
+  const formattedDate = date
+    ? new Date(date.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "";
 
   async function handleDoneCheckboxChange() {
     setIsVisible(false);

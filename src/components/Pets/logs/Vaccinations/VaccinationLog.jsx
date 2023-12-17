@@ -20,11 +20,13 @@ export default function VaccinationLog({ vaccDetails }) {
 
   const { name, dosageDate, veterinarian, notes } = vaccDetails[0];
 
-  console.log(dosageDate);
   const date = dosageDate
-    ? new Date(dosageDate.seconds * 1000).toLocaleDateString()
-    : null;
-  console.log(date);
+    ? new Date(dosageDate.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "";
 
   return (
     <Card className="bg-background my-4 p-2 w-full">

@@ -17,7 +17,13 @@ export default function WeightsLog({ kgDetails }) {
 
   const { date, weight } = kgDetails[0];
 
-  const weightDate = new Date(date.seconds * 1000).toLocaleDateString();
+  const weightDate = date
+    ? new Date(date.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "";
 
   return (
     <Card className="flex flex-row justify-between max-h-fit items-center bg-background my-4 p-2 w-full">

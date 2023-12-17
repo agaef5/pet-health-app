@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Input, Textarea } from "@nextui-org/react";
-import { format, parseISO } from "date-fns";
+import { isValid, parse } from "date-fns";
 import { useEffect, useState } from "react";
 
 export default function Weight({
@@ -14,6 +14,16 @@ export default function Weight({
     notes: "",
     isDone: false,
   });
+
+  const isDateValid = () => {
+    const { date } = formData;
+
+    // Check if the date is empty or valid
+    return (
+      date.length === 0 ||
+      (date.length === 10 && isValid(parse(date, "dd/MM/yyyy", new Date())))
+    );
+  };
 
   useEffect(() => {
     if (existingData) {
@@ -40,9 +50,19 @@ export default function Weight({
   }, [formData, onFormChange]);
 
   const handleInputChange = (name, value) => {
-    if (name === "date" && value.length > 0) {
-      // Convert the input date format to "YYYY-MM-DD"
-      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
+    if (name === "date") {
+      // Remove non-digit characters
+      const cleanedValue = value.replace(/\D/g, "");
+
+      // Format the date input as DD/MM/YYYY
+      let formattedDate = "";
+
+      for (let i = 0; i < cleanedValue.length && i < 8; i++) {
+        if (i === 2 || i === 4) {
+          formattedDate += "/";
+        }
+        formattedDate += cleanedValue[i];
+      }
 
       setFormData((prevData) => ({
         ...prevData,
@@ -80,7 +100,12 @@ export default function Weight({
       <Input
         label="Task due date"
         placeholder="DD/MM/YYYY"
-        type="date"
+        isInvalid={!isDateValid() && formData.date.length === 10}
+        errorMessage={
+          !isDateValid() && formData.date.length === 10
+            ? "Invalid date format"
+            : null
+        }
         value={formData.date}
         onChange={(e) => handleInputChange("date", e.target.value)}
       />

@@ -9,7 +9,11 @@ export default function AppointmentLog({ apptDetails }) {
 
   const { title, date, veterinarian } = apptDetails[0];
   const formattedDate = date
-    ? new Date(date.seconds * 1000).toLocaleDateString()
+    ? new Date(date.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
     : "";
 
   return (

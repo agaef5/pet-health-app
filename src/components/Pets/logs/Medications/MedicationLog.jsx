@@ -28,9 +28,14 @@ export default function MedicationLog({ mediDetails, petID }) {
     veterinarian,
     notes,
   } = mediDetails[0];
-  const prescribedDate = new Date(
-    prescribed.seconds * 1000
-  ).toLocaleDateString();
+
+  const prescribedDate = prescribed
+    ? new Date(prescribed.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "";
 
   useEffect(() => {
     async function fetchData() {
@@ -65,7 +70,7 @@ export default function MedicationLog({ mediDetails, petID }) {
         </CardBody>
       ) : (
         <CardBody>
-          <p>No dosage log available</p>
+          <p>No dosage log available yet</p>
         </CardBody>
       )}
     </Card>

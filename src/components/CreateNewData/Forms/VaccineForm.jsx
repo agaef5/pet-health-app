@@ -9,7 +9,7 @@ import {
 import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
-import { format, parseISO } from "date-fns";
+import { isValid, parse } from "date-fns";
 
 export default function VaccineForm({
   onFormChange,
@@ -29,6 +29,17 @@ export default function VaccineForm({
     veterinarian: "",
     notes: "",
   });
+
+  const isDateValid = () => {
+    const { dosageDate } = formData;
+
+    // Check if the date is empty or valid
+    return (
+      dosageDate.length === 0 ||
+      (dosageDate.length === 10 &&
+        isValid(parse(dosageDate, "dd/MM/yyyy", new Date())))
+    );
+  };
 
   useEffect(() => {
     if (existingData) {
@@ -73,9 +84,19 @@ export default function VaccineForm({
   };
 
   const handleInputChange = (name, value) => {
-    if (name === "dosageDate" && value.length > 0) {
-      // Convert the input date format to "YYYY-MM-DD"
-      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
+    if (name === "dosageDate") {
+      // Remove non-digit characters
+      const cleanedValue = value.replace(/\D/g, "");
+
+      // Format the date input as DD/MM/YYYY
+      let formattedDate = "";
+
+      for (let i = 0; i < cleanedValue.length && i < 8; i++) {
+        if (i === 2 || i === 4) {
+          formattedDate += "/";
+        }
+        formattedDate += cleanedValue[i];
+      }
 
       setFormData((prevData) => ({
         ...prevData,
@@ -136,7 +157,12 @@ export default function VaccineForm({
       <Input
         label="Vaccine dosage date"
         placeholder="DD/MM/YYYY"
-        type="date"
+        isInvalid={!isDateValid() && formData.dosageDate.length === 10}
+        errorMessage={
+          !isDateValid() && formData.dosageDate.length === 10
+            ? "Invalid date format"
+            : null
+        }
         value={formData.dosageDate}
         onChange={(e) => handleInputChange("dosageDate", e.target.value)}
       />

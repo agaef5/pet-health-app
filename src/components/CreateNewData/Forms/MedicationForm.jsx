@@ -11,7 +11,7 @@ import {
 import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
-import { format, parseISO } from "date-fns";
+import { isValid, parse } from "date-fns";
 
 export default function MedicationForm({
   onFormChange,
@@ -72,6 +72,17 @@ export default function MedicationForm({
     }
   }, [existingData, propPetID]);
 
+  const isDateValid = () => {
+    const { prescribed } = formData;
+
+    // Check if the date is empty or valid
+    return (
+      prescribed.length === 0 ||
+      (prescribed.length === 10 &&
+        isValid(parse(prescribed, "dd/MM/yyyy", new Date())))
+    );
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const petsData = await getPets();
@@ -103,9 +114,19 @@ export default function MedicationForm({
   };
 
   const handleInputChange = (name, value) => {
-    if (name === "prescribed" && value.length > 0) {
-      // Convert the input date format to "YYYY-MM-DD"
-      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
+    if (name === "prescribed") {
+      // Remove non-digit characters
+      const cleanedValue = value.replace(/\D/g, "");
+
+      // Format the date input as DD/MM/YYYY
+      let formattedDate = "";
+
+      for (let i = 0; i < cleanedValue.length && i < 8; i++) {
+        if (i === 2 || i === 4) {
+          formattedDate += "/";
+        }
+        formattedDate += cleanedValue[i];
+      }
 
       setFormData((prevData) => ({
         ...prevData,
@@ -205,7 +226,12 @@ export default function MedicationForm({
       <h3>When and who prescribed medicine?</h3>
       <Input
         label="Prescribed (date)"
-        type="date"
+        isInvalid={!isDateValid() && formData.prescribed.length === 10}
+        errorMessage={
+          !isDateValid() && formData.prescribed.length === 10
+            ? "Invalid date format"
+            : null
+        }
         value={formData.prescribed}
         onChange={(e) => handleInputChange("prescribed", e.target.value)}
       />

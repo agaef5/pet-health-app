@@ -11,7 +11,7 @@ import {
 import getPets from "../../../functions/fetchData/getPets";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
-import { format, parseISO } from "date-fns";
+import { isValid, parse } from "date-fns";
 
 export default function AppointmentForm({
   onFormChange,
@@ -35,6 +35,16 @@ export default function AppointmentForm({
     veterinarian: "",
     notes: "",
   });
+
+  const isDateValid = () => {
+    const { date } = formData;
+
+    // Check if the date is empty or valid
+    return (
+      date.length === 0 ||
+      (date.length === 10 && isValid(parse(date, "dd/MM/yyyy", new Date())))
+    );
+  };
 
   useEffect(() => {
     if (existingData) {
@@ -88,9 +98,19 @@ export default function AppointmentForm({
   };
 
   const handleInputChange = (name, value) => {
-    if (name === "date" && value.length > 0) {
-      // Convert the input date format to "YYYY-MM-DD"
-      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
+    if (name === "date") {
+      // Remove non-digit characters
+      const cleanedValue = value.replace(/\D/g, "");
+
+      // Format the date input as DD/MM/YYYY
+      let formattedDate = "";
+
+      for (let i = 0; i < cleanedValue.length && i < 8; i++) {
+        if (i === 2 || i === 4) {
+          formattedDate += "/";
+        }
+        formattedDate += cleanedValue[i];
+      }
 
       setFormData((prevData) => ({
         ...prevData,
@@ -160,7 +180,12 @@ export default function AppointmentForm({
       <Input
         label="Appointment date"
         placeholder="DD/MM/YYYY"
-        type="date"
+        isInvalid={!isDateValid() && formData.date.length === 10}
+        errorMessage={
+          !isDateValid() && formData.date.length === 10
+            ? "Invalid date format"
+            : null
+        }
         value={formData.date}
         onChange={(e) => handleInputChange("date", e.target.value)}
       />

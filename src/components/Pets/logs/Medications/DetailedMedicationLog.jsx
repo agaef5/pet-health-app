@@ -76,8 +76,13 @@ export default function DetailedMedicationLog({
     veterinarian,
     notes,
   } = mediDetails;
+
   const prescribedDate = prescribed
-    ? new Date(prescribed.seconds * 1000).toLocaleDateString()
+    ? new Date(prescribed.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
     : "";
 
   useEffect(() => {

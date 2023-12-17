@@ -55,7 +55,11 @@ export default function VaccinationLog({ vaccDetails, petID }) {
 
   const { id, name, dosageDate, veterinarian, notes } = vaccDetails;
   const date = dosageDate
-    ? new Date(dosageDate.seconds * 1000).toLocaleDateString()
+    ? new Date(dosageDate.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
     : "";
 
   return (

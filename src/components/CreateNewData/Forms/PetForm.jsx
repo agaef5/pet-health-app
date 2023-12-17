@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
 import { PetDataContext } from "../../../pages/Pet/PetDetailsPage";
-import { format, parseISO } from "date-fns";
+import { isValid, parse } from "date-fns";
 
 export default function PetForm({
   onFormChange,
@@ -32,6 +32,17 @@ export default function PetForm({
     breed: "",
     color: "",
   });
+
+  const isDateValid = () => {
+    const { birthday } = formData;
+
+    // Check if the date is empty or valid
+    return (
+      birthday.length === 0 ||
+      (birthday.length === 10 &&
+        isValid(parse(birthday, "dd/MM/yyyy", new Date())))
+    );
+  };
 
   const popularSpeciesList = [
     "Cat",
@@ -85,20 +96,23 @@ export default function PetForm({
   };
 
   const handleInputChange = (name, value) => {
-    if (name === "birthday" && value.length > 0) {
-      // Convert the input date format to "YYYY-MM-DD"
-      const formattedDate = format(parseISO(value), "yyyy-MM-dd");
+    if (name === "birthday") {
+      // Remove non-digit characters
+      const cleanedValue = value.replace(/\D/g, "");
+
+      // Format the date input as DD/MM/YYYY
+      let formattedDate = "";
+
+      for (let i = 0; i < cleanedValue.length && i < 8; i++) {
+        if (i === 2 || i === 4) {
+          formattedDate += "/";
+        }
+        formattedDate += cleanedValue[i];
+      }
 
       setFormData((prevData) => ({
         ...prevData,
         [name]: formattedDate,
-      }));
-    } else if (name === "photo") {
-      const file = value.length > 0 ? value[0] : null;
-
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: file,
       }));
     } else {
       setFormData((prevData) => ({
@@ -140,7 +154,12 @@ export default function PetForm({
       <Input
         label="Birth date"
         placeholder="DD/MM/YYYY"
-        type="date"
+        isInvalid={!isDateValid() && formData.birthday.length === 10}
+        errorMessage={
+          !isDateValid() && formData.birthday.length === 10
+            ? "Invalid date format"
+            : null
+        }
         value={formData.birthday}
         onChange={(e) => handleInputChange("birthday", e.target.value)}
       />

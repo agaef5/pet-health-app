@@ -49,7 +49,11 @@ export default function DetailedAppointmentLog({ apptDetails, petID }) {
 
   const { id, title, date, veterinarian, notes } = apptDetails;
   const formattedDate = date
-    ? new Date(date.seconds * 1000).toLocaleDateString()
+    ? new Date(date.seconds * 1000).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
     : "";
 
   return (

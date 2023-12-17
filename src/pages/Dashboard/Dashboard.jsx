@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import getTodayTasks from "../../functions/fetchData/getOnlyTodayTasks";
 import PetsTileDetailed from "../../components/Pets/PetsTilesPetsPage";
 import EmptyState from "../../components/Empty States/EmptyState";
+import FormPopup from "../../components/CreateNewData/FormPopUp";
 
 function Dashboard() {
   const [pets, setPets] = useState([]);
@@ -92,6 +93,11 @@ function Dashboard() {
           </div>
         </div>
       </ScrollShadow>
+
+      <FormPopup
+        classButtonName={"fixed bottom-24 right-4"}
+        setRefreshPage={setRefreshPage}
+      />
     </section>
   );
 }
