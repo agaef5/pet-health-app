@@ -35,6 +35,7 @@ export default function Container() {
           <Outlet />
           <NavigationBar />
           <Button
+            aria-label="Go to Settings"
             className={"absolute right-0 top-5 min-h-fit"}
             variant="light"
             onClick={() => {

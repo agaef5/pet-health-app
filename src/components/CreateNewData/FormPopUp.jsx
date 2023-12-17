@@ -176,7 +176,7 @@ const FormPopup = ({
     <>
       {editMode ? (
         <Button
-          // radius="full"
+          aria-label="Edit data"
           variant="light"
           className={`${classButtonName} p-0 min-w-min w-10 pb-1`}
           onClick={onOpen}
@@ -185,6 +185,7 @@ const FormPopup = ({
         </Button>
       ) : (
         <Button
+          aria-label="Add new data"
           radius="full"
           className={`${classButtonName} w-10 h-20 shadow-md dark:shadow-large`}
           onClick={onOpen}

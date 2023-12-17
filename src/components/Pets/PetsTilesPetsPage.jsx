@@ -6,7 +6,7 @@ import { auth } from "../../../firebase-config";
 import { getPhoto } from "../../functions/fetchData/getPetPhoto";
 import { differenceInYears } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVenus, faMars } from "@fortawesome/free-solid-svg-icons";
+import { faVenus, faMars, faPaw } from "@fortawesome/free-solid-svg-icons";
 
 export const PetDataContext = createContext();
 
@@ -64,6 +64,7 @@ function PetsTileDetailed({ petData, minimal }) {
               className="w-20 h-20 text-large"
               isBordered
               src={petPhotoUrl}
+              fallback={<FontAwesomeIcon className="p-5 h-8" icon={faPaw} />}
             />
           </CardBody>
           <CardHeader className="flex justify-center items-center gap-3 p-0">
@@ -77,32 +78,35 @@ function PetsTileDetailed({ petData, minimal }) {
         </Card>
       ) : (
         <Card
-          className="w-full flex justify-center items-center p-5"
+          className="w-full grid grid-cols-4 justify-center items-center p-5"
           isPressable
           onClick={handlePetDetailsClick}
         >
           <Avatar
-            className="w-40 h-40 text-large"
+            className="w-36 h-36"
             isBordered
             src={petPhotoUrl}
+            fallback={<FontAwesomeIcon className="p-5 h-16" icon={faPaw} />}
           />
-          <CardHeader className="flex justify-center items-center gap-1">
-            <h3>{petData.name}</h3>
-            {petData.sex == "female" ? (
-              <FontAwesomeIcon icon={faVenus} />
-            ) : petData.sex == "male" ? (
-              <FontAwesomeIcon icon={faMars} />
-            ) : null}
-          </CardHeader>
-          {!petAge && !petData.species ? null : (
-            <>
-              <Divider />
-              <CardBody className="flex justify-center items-center pb-0">
-                {petAge && <p>{petAge} years old</p>}
-                {petData.species && <p>{petData.species}</p>}
-              </CardBody>
-            </>
-          )}
+          <div className="col-start-3 col-end-5 mx-5">
+            <CardHeader className="flex justify-center items-center gap-1">
+              <h3>{petData.name}</h3>
+              {petData.sex == "female" ? (
+                <FontAwesomeIcon icon={faVenus} />
+              ) : petData.sex == "male" ? (
+                <FontAwesomeIcon icon={faMars} />
+              ) : null}
+            </CardHeader>
+            {!petAge && !petData.species ? null : (
+              <>
+                <Divider />
+                <CardBody className="flex justify-center items-center pb-0">
+                  {petAge && <p>{petAge} years old</p>}
+                  {petData.species && <p>{petData.species}</p>}
+                </CardBody>
+              </>
+            )}
+          </div>
         </Card>
       )}
     </>

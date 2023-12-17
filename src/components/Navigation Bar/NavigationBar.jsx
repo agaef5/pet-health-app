@@ -36,9 +36,24 @@ const NavigationBar = () => {
           tab: "h-full w-full",
         }}
       >
-        <Tab key={`/${userID}`} path={""} title="Home" />
-        <Tab key={`/${userID}/pets`} path={"pets"} title="Pets" />
-        <Tab key={`/${userID}/tasks`} path={"tasks"} title="Tasks" />
+        <Tab
+          aria-label="Navigate to Home Page"
+          key={`/${userID}`}
+          path={""}
+          title="Home"
+        />
+        <Tab
+          aria-label="Navigate to Pets Page"
+          key={`/${userID}/pets`}
+          path={"pets"}
+          title="Pets"
+        />
+        <Tab
+          aria-label="Navigate to Tasks Page"
+          key={`/${userID}/tasks`}
+          path={"tasks"}
+          title="Tasks"
+        />
       </Tabs>
     </nav>
   );
