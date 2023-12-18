@@ -38,7 +38,6 @@ export default function MedicationForm({
 
   useEffect(() => {
     if (existingData) {
-      // If there is existing data, populate the form fields
       const {
         id,
         name,
@@ -51,9 +50,12 @@ export default function MedicationForm({
         notes,
       } = existingData;
 
-      // Convert Firebase Timestamp to Date object
       const formattedDate = prescribed
-        ? new Date(prescribed.seconds * 1000).toISOString().split("T")[0]
+        ? new Date(prescribed.seconds * 1000).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })
         : null;
 
       setSelectedPet(propPetID);
@@ -75,7 +77,6 @@ export default function MedicationForm({
   const isDateValid = () => {
     const { prescribed } = formData;
 
-    // Check if the date is empty or valid
     return (
       prescribed.length === 0 ||
       (prescribed.length === 10 &&

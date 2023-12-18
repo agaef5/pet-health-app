@@ -7,6 +7,8 @@ import FormPopup from "../../components/CreateNewData/FormPopUp";
 import { auth } from "../../../firebase-config";
 import { getPhoto } from "../../functions/fetchData/getPetPhoto";
 import DeleteData from "../../components/DeleteData/DeleteButtonAndModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaw } from "@fortawesome/free-solid-svg-icons";
 
 export const PetDataContext = createContext();
 
@@ -71,6 +73,7 @@ export default function PetDetailsPage() {
             className="w-40 h-40 text-large"
             isBordered
             src={petPhotoUrl}
+            fallback={<FontAwesomeIcon className="p-5 h-16" icon={faPaw} />}
           />
           <FormPopup
             logType={"Pet"}

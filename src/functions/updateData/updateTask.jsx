@@ -12,11 +12,11 @@ export default async function updateTask(formData) {
       throw new Error("No user found.");
     }
 
-    const { taskID, task, date, notes } = formData;
+    const { taskID, task, date, notes, isDone } = formData;
 
     const taskData = {
       task: task,
-      isDone: false,
+      isDone: isDone,
     };
 
     // Add birthday if it exists

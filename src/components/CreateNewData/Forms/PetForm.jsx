@@ -60,13 +60,15 @@ export default function PetForm({
 
   useEffect(() => {
     if (existingData) {
-      // If there is existing data, populate the form fields
       const { name, birthday, sex, neutered, species, breed, color, photo } =
         existingData;
 
-      // Convert Firebase Timestamp to Date object
       const formattedDate = birthday
-        ? new Date(birthday.seconds * 1000).toISOString().split("T")[0]
+        ? new Date(birthday.seconds * 1000).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })
         : null;
 
       setSelectedPet(propPetID);

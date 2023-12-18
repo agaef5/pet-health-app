@@ -86,10 +86,10 @@ function PetsTileDetailed({ petData, minimal }) {
             className="w-36 h-36"
             isBordered
             src={petPhotoUrl}
-            fallback={<FontAwesomeIcon className="p-5 h-16" icon={faPaw} />}
+            fallback={<FontAwesomeIcon className="p-5 h-12" icon={faPaw} />}
           />
-          <div className="col-start-3 col-end-5 mx-5">
-            <CardHeader className="flex justify-center items-center gap-1">
+          <div className="col-start-3 col-end-5 mx-5 flex flex-col">
+            <CardHeader className="flex flex-col justify-center items-center gap-1">
               <h3>{petData.name}</h3>
               {petData.sex == "female" ? (
                 <FontAwesomeIcon icon={faVenus} />

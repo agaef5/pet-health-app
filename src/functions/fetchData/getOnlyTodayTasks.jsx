@@ -31,11 +31,13 @@ export default async function getTodayTasks() {
     const endOfToday = endOfDay(today);
 
     const date = "date";
+    const isDone = "isDone"; // Add the field for 'isDone'
+
     const tasksRef = collection(db, "users", user.uid, "tasks");
     const q = query(
       tasksRef,
-      where(date, ">=", startOfToday), // Filter tasks where the date is greater than or equal to the start of today
-      where(date, "<=", endOfToday), // Filter tasks where the date is less than or equal to the end of today
+      where(date, ">=", startOfToday),
+      where(date, "<=", endOfToday), // Filter tasks where 'isDone' is false
       orderBy(date, "desc")
     );
 
@@ -44,7 +46,9 @@ export default async function getTodayTasks() {
     const tasksArray = [];
 
     tasksSnapshot.forEach((task) => {
-      tasksArray.push({ id: task.id, ...task.data() });
+      if (!task.data()[isDone]) {
+        tasksArray.push({ id: task.id, ...task.data() });
+      }
     });
 
     return tasksArray;
