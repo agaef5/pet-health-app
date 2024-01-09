@@ -36,6 +36,7 @@ function Dashboard() {
 
   useEffect(() => {
     fetchData();
+    fetchTodayTasks();
   }, []);
 
   useEffect(() => {
