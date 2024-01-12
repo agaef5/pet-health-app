@@ -1,8 +1,13 @@
-# React + Vite
+# Pet Health App - become an organized pet owner!
+## Third-semester project | Multimedia Design at Business Academy Aarhus
+Pet Health App is a web-app for people who want to stay organized and keep up to date with their pets' data, documents and tasks related to their health. 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features:
+ - Adding pets and their basic info (age, species, breed)
+ - Pets' health data (appointments, medications, weight, vaccinations)
+ - Creating tasks related to your pets
+   
+## Technologies used:
+ - React
+ - Vite
+ - Firebase (Realtime Database, Authentication)
